@@ -672,7 +672,7 @@
           <div class="header-view">
             <div>
               <h1>Prontuário Digital do Cliente</h1>
-              <p>Cadastro centralizado, organização de pastas jurídicas e controle de pendências.</p>
+              <p>Cadastro centralizado na nuvem (Firestore), organização de pastas e pendências.</p>
             </div>
           </div>
 
@@ -740,7 +740,7 @@
           </div>
 
           <div class="card">
-            <h3>Clientes & Pastas Registradas</h3>
+            <h3>Clientes & Pastas Registradas na Nuvem</h3>
             <div class="table-container">
               <table>
                 <thead>
@@ -764,7 +764,7 @@
           <div class="header-view">
             <div>
               <h1>Gestão Financeira & Custas do Escritório</h1>
-              <p>Controle de honorários fixos/êxito, custos de operação e reembolsos.</p>
+              <p>Controle centralizado na nuvem de honorários e despesas.</p>
             </div>
           </div>
 
@@ -811,7 +811,7 @@
           </div>
 
           <div class="card">
-            <h3>Extrato de Lançamentos e Custas</h3>
+            <h3>Extrato de Lançamentos e Custas (Nuvem)</h3>
             <div class="table-container">
               <table>
                 <thead>
@@ -864,16 +864,14 @@
     </div>
   </div>
 
-  <!-- FIREBASE + SUPABASE CONFIGURATION & SCRIPTS -->
+  <!-- FIREBASE (AUTH + FIRESTORE) + SUPABASE (STORAGE) -->
   <script type="module">
-    // Importações do Firebase (Auth)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-
-    // Importações do Supabase (Storage para anexos)
+    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-    // 1. Configuração do Firebase (Autenticação)
+    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyCuMkOKT4vfc6LWA82Rx2QeyDrZSp46pAY",
       authDomain: "juris-admin-barros.firebaseapp.com",
@@ -885,14 +883,15 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // 2. Configuração do Supabase (Apenas Anexos)
+    // Configuração do Supabase (Apenas Anexos)
     const SUPABASE_URL = "https://wwdgopyvpouynjbbekm.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_mg-acgKJPEbc7rOa4sKHUg_aZyVjtHX";
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // ==========================================
-    // 3. AUTENTICAÇÃO COM FIREBASE
+    // 1. AUTENTICAÇÃO
     // ==========================================
     window.alternarTelaAuth = function(tipo) {
       if (tipo === 'cadastro') {
@@ -949,7 +948,7 @@
         document.getElementById('tela-sistema').style.display = 'block';
         document.getElementById('nome-advogada-logada').innerText = user.displayName || 'Advogada';
         
-        window.carregarDados();
+        window.carregarDadosNuvem();
         window.verificarPrazosUrgentes(false);
       } else {
         document.getElementById('tela-login').style.display = 'flex';
@@ -966,7 +965,7 @@
     };
 
     // ==========================================
-    // 4. PRONTUÁRIO DIGITAL
+    // 2. PRONTUÁRIO DIGITAL (Firestore)
     // ==========================================
     let listaClientes = [];
     let clienteSelecionadoIndex = null;
@@ -985,7 +984,7 @@
       return p;
     }
 
-    window.salvarCliente = function(e) {
+    window.salvarCliente = async function(e) {
       e.preventDefault();
       const idEdicao = document.getElementById('cli-id-edicao').value;
 
@@ -1000,19 +999,21 @@
         pastas: {}
       };
 
-      if (idEdicao !== '') {
-        const index = parseInt(idEdicao);
-        dados.pastas = listaClientes[index].pastas || inicializarPastas();
-        listaClientes[index] = dados;
-      } else {
-        dados.pastas = inicializarPastas();
-        listaClientes.push(dados);
-      }
+      try {
+        if (idEdicao !== '') {
+          const clienteAtual = listaClientes[idEdicao];
+          dados.pastas = clienteAtual.pastas || inicializarPastas();
+          await updateDoc(doc(db, "clientes", clienteAtual.id), dados);
+        } else {
+          dados.pastas = inicializarPastas();
+          await addDoc(collection(db, "clientes"), dados);
+        }
 
-      localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
-      window.cancelarEdicao();
-      window.renderizarClientes();
-      window.atualizarSelectClientesPrazos();
+        window.cancelarEdicao();
+        window.carregarDadosNuvem();
+      } catch (err) {
+        alert("Erro ao salvar cliente na nuvem: " + err.message);
+      }
     };
 
     window.prepararEdicao = function(index) {
@@ -1040,12 +1041,14 @@
       document.getElementById('btn-cancelar-edicao').style.display = 'none';
     };
 
-    window.excluirCliente = function(index) {
+    window.excluirCliente = async function(index) {
       if (confirm(`Deseja excluir o prontuário de "${listaClientes[index].nome}"?`)) {
-        listaClientes.splice(index, 1);
-        localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
-        window.renderizarClientes();
-        window.atualizarSelectClientesPrazos();
+        try {
+          await deleteDoc(doc(db, "clientes", listaClientes[index].id));
+          window.carregarDadosNuvem();
+        } catch (err) {
+          alert("Erro ao excluir: " + err.message);
+        }
       }
     };
 
@@ -1053,7 +1056,7 @@
       const corpo = document.getElementById('tabela-clientes-corpo');
       corpo.innerHTML = '';
       if (listaClientes.length === 0) {
-        corpo.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Nenhum cliente cadastrado.</td></tr>';
+        corpo.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Nenhum cliente cadastrado na nuvem.</td></tr>';
         return;
       }
       listaClientes.forEach((c, index) => {
@@ -1076,7 +1079,7 @@
       });
     };
 
-    // 5. ANEXOS DIRETO NO SUPABASE STORAGE
+    // 3. ANEXOS NO SUPABASE STORAGE
     window.abrirModalPastas = function(index) {
       clienteSelecionadoIndex = index;
       const c = listaClientes[index];
@@ -1160,21 +1163,21 @@
         url: publicUrlData.publicUrl
       });
 
-      localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
+      await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas });
       labelEl.innerText = "+ Anexar Arquivo";
       window.renderizarConteudoModalPastas();
     };
 
-    window.removerArquivo = function(pastaId, arqIdx) {
+    window.removerArquivo = async function(pastaId, arqIdx) {
       if (confirm('Deseja excluir este documento da pasta?')) {
         const c = listaClientes[clienteSelecionadoIndex];
         c.pastas[pastaId].splice(arqIdx, 1);
-        localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
+        await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas });
         window.renderizarConteudoModalPastas();
       }
     };
 
-    // 6. CALCULADORA & AGENDA DE PRAZOS
+    // 4. CALCULADORA & AGENDA DE PRAZOS (Firestore)
     let listaPrazosSalvos = [];
     let ultimoCalculoTemp = null;
     let prazosCriticosGlobais = [];
@@ -1223,27 +1226,34 @@
       btnSalvar.style.display = 'block';
     };
 
-    window.salvarPrazoNoHistorico = function() {
+    window.salvarPrazoNoHistorico = async function() {
       if (!ultimoCalculoTemp) return;
       const descricao = document.getElementById('prazo-descricao').value.trim() || 'Prazo Processual';
       const cliente = document.getElementById('prazo-cliente-vinculo').value || 'Avulso';
 
-      listaPrazosSalvos.push({
+      const novoPrazo = {
         descricao: descricao, cliente: cliente,
         lei: ultimoCalculoTemp.lei, dataFatalFormatada: ultimoCalculoTemp.dataFatalFormatada,
         dataFatalISO: ultimoCalculoTemp.dataFatalISO
-      });
+      };
 
-      localStorage.setItem('adv_prazos_salvos', JSON.stringify(listaPrazosSalvos));
-      document.getElementById('btn-salvar-prazo-agenda').style.display = 'none';
-      document.getElementById('prazo-descricao').value = '';
-      window.renderizarPrazosSalvos();
+      try {
+        await addDoc(collection(db, "prazos"), novoPrazo);
+        document.getElementById('btn-salvar-prazo-agenda').style.display = 'none';
+        document.getElementById('prazo-descricao').value = '';
+        window.carregarDadosNuvem();
+      } catch (err) {
+        alert("Erro ao salvar prazo: " + err.message);
+      }
     };
 
-    window.excluirPrazoSalvo = function(index) {
-      listaPrazosSalvos.splice(index, 1);
-      localStorage.setItem('adv_prazos_salvos', JSON.stringify(listaPrazosSalvos));
-      window.renderizarPrazosSalvos();
+    window.excluirPrazoSalvo = async function(index) {
+      try {
+        await deleteDoc(doc(db, "prazos", listaPrazosSalvos[index].id));
+        window.carregarDadosNuvem();
+      } catch (err) {
+        alert("Erro ao excluir prazo: " + err.message);
+      }
     };
 
     window.renderizarPrazosSalvos = function() {
@@ -1302,7 +1312,7 @@
       if (prazosCriticosGlobais.length > 0) {
         window.exibirModalAlerta();
       } else if (acionamentoManual) {
-        alert('Nenhum prazo com vencimento crítico (1 dia, hoje ou vencido) no momento.');
+        alert('Nenhum prazo com vencimento crítico no momento.');
       }
     };
 
@@ -1333,18 +1343,22 @@
 
     window.fecharModalAlerta = function() { document.getElementById('modal-alerta-urgente').style.display = 'none'; };
 
-    // 7. FINANCEIRO
+    // 5. FINANCEIRO (Firestore)
     let listaFin = [];
 
-    window.salvarLancamento = function(e) {
+    window.salvarLancamento = async function(e) {
       e.preventDefault();
       const categoria = document.getElementById('fin-categoria').value;
       const descricao = document.getElementById('fin-descricao').value;
       const valor = parseFloat(document.getElementById('fin-valor').value);
-      listaFin.push({ categoria, descricao, valor });
-      localStorage.setItem('adv_financeiro', JSON.stringify(listaFin));
-      window.renderizarFinanceiro();
-      e.target.reset();
+
+      try {
+        await addDoc(collection(db, "financeiro"), { categoria, descricao, valor });
+        window.carregarDadosNuvem();
+        e.target.reset();
+      } catch (err) {
+        alert("Erro ao salvar lançamento: " + err.message);
+      }
     };
 
     window.renderizarFinanceiro = function() {
@@ -1353,7 +1367,7 @@
       let totalEntradas = 0, totalSaidas = 0;
 
       if (listaFin.length === 0) {
-        corpo.innerHTML = '<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">Nenhum lançamento registrado.</td></tr>';
+        corpo.innerHTML = '<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">Nenhum lançamento registrado na nuvem.</td></tr>';
       }
 
       listaFin.forEach(item => {
@@ -1378,14 +1392,37 @@
       saldoEl.style.color = saldo >= 0 ? 'var(--primary)' : 'var(--danger)';
     };
 
-    window.carregarDados = function() {
-      listaClientes = JSON.parse(localStorage.getItem('adv_clientes')) || [];
-      listaPrazosSalvos = JSON.parse(localStorage.getItem('adv_prazos_salvos')) || [];
-      listaFin = JSON.parse(localStorage.getItem('adv_financeiro')) || [];
-      window.renderizarClientes();
-      window.atualizarSelectClientesPrazos();
-      window.renderizarPrazosSalvos();
-      window.renderizarFinanceiro();
+    // Função central para puxar todos os dados do Firestore
+    window.carregarDadosNuvem = async function() {
+      try {
+        // Clientes
+        const snapClientes = await getDocs(collection(db, "clientes"));
+        listaClientes = [];
+        snapClientes.forEach(docSnap => {
+          listaClientes.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        window.renderizarClientes();
+        window.atualizarSelectClientesPrazos();
+
+        // Prazos
+        const snapPrazos = await getDocs(collection(db, "prazos"));
+        listaPrazosSalvos = [];
+        snapPrazos.forEach(docSnap => {
+          listaPrazosSalvos.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        window.renderizarPrazosSalvos();
+
+        // Financeiro
+        const snapFin = await getDocs(collection(db, "financeiro"));
+        listaFin = [];
+        snapFin.forEach(docSnap => {
+          listaFin.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        window.renderizarFinanceiro();
+
+      } catch (err) {
+        console.error("Erro ao sincronizar com o Firestore:", err);
+      }
     };
 
   </script>
