@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
   
-  <!-- Biblioteca de Gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -22,19 +21,14 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background-color: var(--main-bg); color: var(--text-dark); }
 
-    /* Tela de Login */
+    /* Tela de Login Segurança Máxima */
     #tela-login { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #0a1128 0%, #1c2541 100%); padding: 20px; }
     .login-box { background: #ffffff; width: 100%; max-width: 440px; padding: 40px 32px; border-radius: 16px; box-shadow: 0 20px 35px rgba(0,0,0,0.4); text-align: center; }
     .brand-logo-container { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; }
     .brand-logo-circle { width: 68px; height: 68px; border-radius: 50%; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: rgba(197, 155, 39, 0.08); font-size: 28px; }
     .brand-title { font-family: 'Cinzel', serif; font-size: 19px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary); }
     .brand-subtitle { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-top: 2px; }
-    .form-auth { display: none; }
-    .form-auth.active { display: block; }
-    .toggle-form { margin-top: 20px; font-size: 13px; color: var(--accent); font-weight: 600; cursor: pointer; display: inline-block; }
-    .toggle-form:hover { text-decoration: underline; }
-
-    /* Layout e Responsividade */
+    
     #tela-sistema { display: none; min-height: 100vh; }
     .app-container { display: flex; min-height: 100vh; position: relative; }
     
@@ -78,7 +72,6 @@
     input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; background: #fff; transition: 0.2s; }
     input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.08); }
     
-    /* Botões & Spinner */
     .btn-action { background: var(--accent); color: #fff; font-weight: 600; padding: 12px 22px; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; }
     .btn-action:hover { background: var(--accent-hover); }
     .btn-action:disabled { opacity: 0.7; cursor: not-allowed; }
@@ -87,7 +80,6 @@
     .btn-action.loading .spinner { display: block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Tabelas e Ordenação */
     .table-container { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; white-space: nowrap; }
     table th { background: #f8fafc; color: #475569; font-weight: 700; padding: 14px 12px; border-bottom: 2px solid var(--border); transition: 0.2s; }
@@ -101,7 +93,6 @@
     .btn-folder { background: #fef3c7; color: #92400e; }
     .btn-del { background: #fee2e2; color: var(--danger); }
 
-    /* Modais */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
     .modal-box { background: #fff; width: 100%; max-width: 800px; max-height: 90vh; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
     .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; }
@@ -120,7 +111,6 @@
     .file-remove-btn { color: var(--danger); cursor: pointer; background: none; border: none; font-weight: bold; font-size: 16px; }
     .empty-files-msg { color: #94a3b8; font-size: 12px; font-style: italic; margin-top: 8px; }
 
-    /* Estilos de Badges e Alertas */
     .alert-res { margin-top: 16px; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; }
     .alert-success { background: #ecfdf5; border: 1px solid #6ee7b7; color: var(--success); }
     .badge-urgente { background: #fef2f2; color: var(--danger); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #fecaca; }
@@ -133,7 +123,6 @@
     .stat-val-expense { color: var(--danger); font-weight: 800; font-size: 22px; }
     .stat-val-balance { color: var(--primary); font-weight: 800; font-size: 22px; }
 
-    /* NOTIFICAÇÕES (TOASTS) */
     #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 10000; display: flex; flex-direction: column; gap: 12px; }
     .toast { padding: 14px 24px; border-radius: 8px; color: white; font-weight: 600; font-size: 14px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 10px; opacity: 0; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
     .toast.show { opacity: 1; transform: translateY(0); }
@@ -141,7 +130,6 @@
     .toast.error { background-color: var(--danger); }
     .toast.info { background-color: var(--info); }
 
-    /* RESPONSIVIDADE */
     @media (max-width: 992px) { .prazos-full-layout { grid-template-columns: 1fr; } }
     @media (max-width: 768px) {
       .app-container { flex-direction: column; } .mobile-header { display: flex; }
@@ -156,10 +144,9 @@
 </head>
 <body>
 
-  <!-- TOAST CONTAINER -->
   <div id="toast-container"></div>
 
-  <!-- 1. TELA DE LOGIN -->
+  <!-- 1. TELA DE LOGIN BLINDADA -->
   <section id="tela-login">
     <div class="login-box">
       <div class="brand-logo-container">
@@ -167,9 +154,9 @@
         <h2 class="brand-title">BARROS E CAVALCANTE</h2>
         <span class="brand-subtitle">ADVOCACIA</span>
       </div>
-      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Atuação jurídica com seriedade e proximidade</p>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Acesso restrito a colaboradores autorizados.</p>
       
-      <form id="form-login" class="form-auth active" onsubmit="window.realizarLogin(event)">
+      <form id="form-login" onsubmit="window.realizarLogin(event)">
         <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
           <label>E-mail Institucional</label>
           <input type="email" id="login-usuario" required>
@@ -182,34 +169,13 @@
           <span>Acessar Painel Jurídico</span>
           <div class="spinner"></div>
         </button>
-        <span class="toggle-form" onclick="window.alternarTelaAuth('cadastro')">Não tem uma conta? Cadastre-se</span>
-      </form>
-
-      <form id="form-cadastro" class="form-auth" onsubmit="window.realizarCadastro(event)">
-        <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
-          <label>Nome Completo (Advogada)</label>
-          <input type="text" id="cad-nome" required>
-        </div>
-        <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
-          <label>E-mail Institucional</label>
-          <input type="email" id="cad-usuario" required>
-        </div>
-        <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
-          <label>Crie uma Senha (Mín. 6 caracteres)</label>
-          <input type="password" id="cad-senha" required minlength="6">
-        </div>
-        <button type="submit" id="btn-submit-cad" class="btn-action" style="width: 100%; background: var(--primary);">
-          <span>Criar Conta Jurídica</span>
-          <div class="spinner"></div>
-        </button>
-        <span class="toggle-form" onclick="window.alternarTelaAuth('login')">Já possui conta? Faça o Login</span>
+        <p id="msg-erro-login" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;">Acesso negado. Credenciais inválidas ou usuário sem permissão.</p>
       </form>
     </div>
   </section>
 
   <!-- 2. SISTEMA INTERNO -->
   <div id="tela-sistema">
-    <!-- Header Mobile -->
     <div class="mobile-header">
       <div style="display: flex; align-items: center; gap: 10px;">
         <span style="font-size: 20px;">⚖️</span>
@@ -234,11 +200,11 @@
           </div>
 
           <nav class="menu-nav">
-            <!-- Novo botão Dashboard setado como ativo inicial -->
             <button class="menu-btn active" onclick="window.trocarModulo('dashboard', this)">📊 Visão Geral</button>
             <button class="menu-btn" onclick="window.trocarModulo('prontuario', this)">📂 Prontuário Digital</button>
             <button class="menu-btn" onclick="window.trocarModulo('prazos', this)">⏱️ Calculadora Prazos</button>
             <button class="menu-btn" onclick="window.trocarModulo('financeiro', this)">💰 Financeiro & Custas</button>
+            <button class="menu-btn" onclick="window.trocarModulo('equipe', this)">👥 Gestão de Equipe</button>
           </nav>
         </div>
         <button class="btn-logout" onclick="window.realizarLogout()">Encerrar Sessão</button>
@@ -246,7 +212,7 @@
 
       <main class="content-area">
 
-        <!-- NOVO MÓDULO: DASHBOARD (VISÃO GERAL) -->
+        <!-- DASHBOARD (VISÃO GERAL) -->
         <section id="modulo-dashboard" class="tab-view active">
           <div class="header-view">
             <div>
@@ -254,39 +220,24 @@
               <p>Resumo em tempo real de clientes, andamento processual e fluxo de caixa.</p>
             </div>
           </div>
-
           <div class="stats-prazos-row">
-            <div class="stat-mini-card">
-              <label>Clientes Ativos</label>
-              <span id="dash-clientes">0</span>
-            </div>
-            <div class="stat-mini-card">
-              <label>Total de Prazos Pendentes</label>
-              <span id="dash-prazos">0</span>
-            </div>
-            <div class="stat-mini-card">
-              <label>Saldo Financeiro</label>
-              <span id="dash-saldo">R$ 0,00</span>
-            </div>
+            <div class="stat-mini-card"><label>Clientes Ativos</label><span id="dash-clientes">0</span></div>
+            <div class="stat-mini-card"><label>Total de Prazos Pendentes</label><span id="dash-prazos">0</span></div>
+            <div class="stat-mini-card"><label>Saldo Financeiro</label><span id="dash-saldo">R$ 0,00</span></div>
           </div>
-
           <div class="form-grid-2">
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 15px; margin-bottom: 16px; color: var(--primary);">Distribuição Financeira</h3>
-              <div style="position: relative; height: 260px; width: 100%;">
-                <canvas id="chart-financeiro"></canvas>
-              </div>
+              <div style="position: relative; height: 260px; width: 100%;"><canvas id="chart-financeiro"></canvas></div>
             </div>
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 15px; margin-bottom: 16px; color: var(--primary);">Status da Agenda de Prazos</h3>
-              <div style="position: relative; height: 260px; width: 100%;">
-                <canvas id="chart-prazos"></canvas>
-              </div>
+              <div style="position: relative; height: 260px; width: 100%;"><canvas id="chart-prazos"></canvas></div>
             </div>
           </div>
         </section>
         
-        <!-- MÓDULO: CALCULADORA DE PRAZOS -->
+        <!-- CALCULADORA DE PRAZOS -->
         <section id="modulo-prazos" class="tab-view">
           <div class="header-view">
             <div>
@@ -295,55 +246,32 @@
             </div>
             <button class="btn-action" style="background: var(--primary);" onclick="window.verificarPrazosUrgentes(true)">🔔 Alertas de Prazos</button>
           </div>
-
           <div class="stats-prazos-row">
-            <div class="stat-mini-card">
-              <label>Prazos Calculados / Salvos</label>
-              <span id="stat-total-prazos">0</span>
-            </div>
-            <div class="stat-mini-card">
-              <label>Prazos Críticos</label>
-              <span id="stat-prazos-urgentes" style="color: var(--danger);">0</span>
-            </div>
-            <div class="stat-mini-card">
-              <label>Feriados Carregados (Brasil API)</label>
-              <span id="stat-feriados" style="font-size: 16px; color: var(--accent); margin-top: 8px;">Aguardando...</span>
-            </div>
+            <div class="stat-mini-card"><label>Prazos Calculados / Salvos</label><span id="stat-total-prazos">0</span></div>
+            <div class="stat-mini-card"><label>Prazos Críticos</label><span id="stat-prazos-urgentes" style="color: var(--danger);">0</span></div>
+            <div class="stat-mini-card"><label>Feriados Carregados (Brasil API)</label><span id="stat-feriados" style="font-size: 16px; color: var(--accent); margin-top: 8px;">Aguardando...</span></div>
           </div>
-
           <div class="prazos-full-layout">
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Simular e Salvar Prazo Processual</h3>
               <div class="input-wrap" style="margin-bottom: 14px;">
                 <label>Legislação / Código de Processo:</label>
-                <select id="prazo-lei">
-                  <option value="cpc">Novo CPC (Dias Úteis)</option>
-                  <option value="clt">CLT (Dias Úteis)</option>
-                  <option value="jec">JEC (Dias Úteis)</option>
-                  <option value="cpp">CPP (Dias Corridos)</option>
-                </select>
+                <select id="prazo-lei"><option value="cpc">Novo CPC (Dias Úteis)</option><option value="clt">CLT (Dias Úteis)</option><option value="jec">JEC (Dias Úteis)</option><option value="cpp">CPP (Dias Corridos)</option></select>
               </div>
               <div class="input-wrap" style="margin-bottom: 14px;">
-                <label>Vincular a um Cliente (Opcional):</label>
-                <select id="prazo-cliente-vinculo"><option value="">-- Selecione ou deixe avulso --</option></select>
+                <label>Vincular a um Cliente (Opcional):</label><select id="prazo-cliente-vinculo"><option value="">-- Selecione ou deixe avulso --</option></select>
               </div>
               <div class="form-grid-2">
                 <div class="input-wrap"><label>Data da Publicação:</label><input type="date" id="prazo-data-inicio" required></div>
                 <div class="input-wrap"><label>Quantidade de Dias:</label><input type="number" id="prazo-qtd-dias" placeholder="Ex: 15" min="1" required></div>
               </div>
-              <div class="input-wrap" style="margin-bottom: 16px;">
-                <label>Ato / Descrição do Prazo:</label>
-                <input type="text" id="prazo-descricao" placeholder="Ex: Apelação, Contestação">
-              </div>
+              <div class="input-wrap" style="margin-bottom: 16px;"><label>Ato / Descrição do Prazo:</label><input type="text" id="prazo-descricao" placeholder="Ex: Apelação, Contestação"></div>
               <button type="button" class="btn-action" style="width: 100%;" onclick="window.calcularDataFatal()">Calcular Prazo Fatal</button>
-              
               <div id="box-resultado-prazo" class="alert-res alert-success" style="display: none;"></div>
-              
               <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="window.salvarPrazoNoHistorico(this)">
                 <span>Salvar na Agenda</span><div class="spinner"></div>
               </button>
             </div>
-
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos</h3>
               <div class="table-container">
@@ -364,7 +292,7 @@
           </div>
         </section>
 
-        <!-- MÓDULO: PRONTUÁRIO DIGITAL -->
+        <!-- PRONTUÁRIO DIGITAL -->
         <section id="modulo-prontuario" class="tab-view">
           <div class="header-view">
             <div>
@@ -372,7 +300,6 @@
               <p>Cadastro centralizado na nuvem (Firestore), organização de pastas e pendências.</p>
             </div>
           </div>
-
           <div class="card">
             <h3 id="form-cliente-titulo">Novo Cadastro de Cliente</h3>
             <form id="form-cad-cliente" onsubmit="window.salvarCliente(event, this.querySelector('button[type=submit]'))">
@@ -394,13 +321,11 @@
               </div>
             </form>
           </div>
-
           <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
               <h3>Clientes Registrados na Nuvem</h3>
               <input type="text" id="busca-cliente" placeholder="🔍 Buscar Nome/CPF..." style="max-width: 300px; padding: 8px 12px;" onkeyup="window.filtrarClientes()">
             </div>
-            
             <div class="table-container">
               <table>
                 <thead>
@@ -419,7 +344,7 @@
           </div>
         </section>
 
-        <!-- MÓDULO: FINANCEIRO -->
+        <!-- FINANCEIRO -->
         <section id="modulo-financeiro" class="tab-view">
           <div class="header-view">
             <div>
@@ -427,13 +352,11 @@
               <p>Controle centralizado de honorários e despesas.</p>
             </div>
           </div>
-
           <div class="form-grid-3">
             <div class="card" style="margin-bottom: 0;"><label style="font-size: 12px; font-weight: 600;">Entradas</label><div id="stat-entradas" class="stat-val-income">R$ 0,00</div></div>
             <div class="card" style="margin-bottom: 0;"><label style="font-size: 12px; font-weight: 600;">Saídas</label><div id="stat-saidas" class="stat-val-expense">R$ 0,00</div></div>
             <div class="card" style="margin-bottom: 0;"><label style="font-size: 12px; font-weight: 600;">Saldo</label><div id="stat-saldo" class="stat-val-balance">R$ 0,00</div></div>
           </div>
-
           <div class="card" style="margin-top: 24px;">
             <h3>Novo Lançamento Financeiro</h3>
             <form id="form-cad-financeiro" onsubmit="window.salvarLancamento(event, this.querySelector('button[type=submit]'))">
@@ -454,7 +377,6 @@
               <button type="submit" class="btn-action" style="width: auto;"><span>Lançar no Fluxo</span><div class="spinner"></div></button>
             </form>
           </div>
-
           <div class="card">
             <h3>Extrato de Lançamentos</h3>
             <div class="table-container">
@@ -471,6 +393,37 @@
             </div>
           </div>
         </section>
+
+        <!-- NOVO: GESTÃO DE EQUIPE -->
+        <section id="modulo-equipe" class="tab-view">
+          <div class="header-view">
+            <div>
+              <h1>Gestão de Equipe</h1>
+              <p>Cadastre novos advogados e colaboradores para acessarem o sistema.</p>
+            </div>
+          </div>
+          <div class="card" style="max-width: 600px;">
+            <h3 style="margin-bottom: 16px; color: var(--primary);">Cadastrar Novo Usuário</h3>
+            <form onsubmit="window.cadastrarMembroEquipe(event, this.querySelector('button[type=submit]'))">
+              <div class="input-wrap" style="margin-bottom: 14px;">
+                <label>Nome Completo:</label>
+                <input type="text" id="novo-membro-nome" required>
+              </div>
+              <div class="input-wrap" style="margin-bottom: 14px;">
+                <label>E-mail Institucional:</label>
+                <input type="email" id="novo-membro-email" required>
+              </div>
+              <div class="input-wrap" style="margin-bottom: 20px;">
+                <label>Senha Provisória (Mín. 6 caracteres):</label>
+                <input type="password" id="novo-membro-senha" required minlength="6">
+              </div>
+              <button type="submit" class="btn-action" style="width: 100%;">
+                <span>Criar Acesso</span><div class="spinner"></div>
+              </button>
+            </form>
+          </div>
+        </section>
+
       </main>
     </div>
   </div>
@@ -516,21 +469,19 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    // INSTÂNCIA SECUNDÁRIA (Para cadastro de equipe sem deslogar o admin)
+    const adminApp = initializeApp(firebaseConfig, "AdminApp");
+    const adminAuth = getAuth(adminApp);
+
     const SUPABASE_URL = "https://wwdgopyvpovuynjbbekm.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_mg-acgKJPEbc7rOa4sKHUg_aZyVjtHX";
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ==========================================
-    // UTILITÁRIOS (TOASTS, LOADING, MOBILE MENU)
-    // ==========================================
+    // UTILITÁRIOS
     window.showToast = function(msg, tipo = 'success') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = `toast ${tipo}`;
-      let icone = tipo === 'success' ? '✅' : (tipo === 'error' ? '❌' : 'ℹ️');
-      toast.innerHTML = `<span>${icone}</span> <span>${msg}</span>`;
-      container.appendChild(toast);
-      setTimeout(() => toast.classList.add('show'), 10);
+      const container = document.getElementById('toast-container'); const toast = document.createElement('div');
+      toast.className = `toast ${tipo}`; toast.innerHTML = `<span>${tipo === 'success' ? '✅' : (tipo === 'error' ? '❌' : 'ℹ️')}</span> <span>${msg}</span>`;
+      container.appendChild(toast); setTimeout(() => toast.classList.add('show'), 10);
       setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
     };
 
@@ -539,101 +490,49 @@
       else { btnElement.classList.remove('loading'); btnElement.disabled = false; }
     };
 
-    window.toggleMobileMenu = function() {
-      document.getElementById('sidebar-menu').classList.toggle('open');
-      document.querySelector('.sidebar-overlay').classList.toggle('open');
-    };
+    window.toggleMobileMenu = function() { document.getElementById('sidebar-menu').classList.toggle('open'); document.querySelector('.sidebar-overlay').classList.toggle('open'); };
 
-    // ==========================================
-    // ORDENAÇÃO DE TABELAS
-    // ==========================================
+    // ORDENAÇÃO
     let sortConfig = { clientes: { col: null, dir: 'asc' }, prazos: { col: 'dataFatalISO', dir: 'asc' }, fin: { col: null, dir: 'asc' } };
     function resetarIcones(prefix) { document.querySelectorAll(`[id^="sort-${prefix}-"]`).forEach(el => el.innerText = ''); }
 
     window.ordenarTabelaClientes = function(coluna) {
-      let dir = (sortConfig.clientes.col === coluna && sortConfig.clientes.dir === 'asc') ? 'desc' : 'asc';
-      sortConfig.clientes = { col: coluna, dir: dir };
-      listaClientes.sort((a, b) => { let valA = a[coluna].toLowerCase(); let valB = b[coluna].toLowerCase();
-        if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0;
-      });
-      resetarIcones('cli'); document.getElementById(`sort-cli-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼';
-      window.renderizarClientes();
+      let dir = (sortConfig.clientes.col === coluna && sortConfig.clientes.dir === 'asc') ? 'desc' : 'asc'; sortConfig.clientes = { col: coluna, dir: dir };
+      listaClientes.sort((a, b) => { let valA = a[coluna].toLowerCase(); let valB = b[coluna].toLowerCase(); if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0; });
+      resetarIcones('cli'); document.getElementById(`sort-cli-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼'; window.renderizarClientes();
     };
 
     window.ordenarTabelaPrazos = function(coluna) {
-      let dir = (sortConfig.prazos.col === coluna && sortConfig.prazos.dir === 'asc') ? 'desc' : 'asc';
-      sortConfig.prazos = { col: coluna, dir: dir };
-      listaPrazosSalvos.sort((a, b) => { let valA = a[coluna]; let valB = b[coluna];
-        if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0;
-      });
-      resetarIcones('prazo'); document.getElementById(`sort-prazo-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼';
-      window.renderizarPrazosSalvos();
+      let dir = (sortConfig.prazos.col === coluna && sortConfig.prazos.dir === 'asc') ? 'desc' : 'asc'; sortConfig.prazos = { col: coluna, dir: dir };
+      listaPrazosSalvos.sort((a, b) => { let valA = a[coluna]; let valB = b[coluna]; if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0; });
+      resetarIcones('prazo'); document.getElementById(`sort-prazo-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼'; window.renderizarPrazosSalvos();
     };
 
     window.ordenarTabelaFinanceiro = function(coluna) {
-      let dir = (sortConfig.fin.col === coluna && sortConfig.fin.dir === 'asc') ? 'desc' : 'asc';
-      sortConfig.fin = { col: coluna, dir: dir };
-      listaFin.sort((a, b) => { let valA = a[coluna]; let valB = b[coluna];
-        if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); }
-        if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0;
-      });
-      resetarIcones('fin'); document.getElementById(`sort-fin-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼';
-      window.renderizarFinanceiro();
+      let dir = (sortConfig.fin.col === coluna && sortConfig.fin.dir === 'asc') ? 'desc' : 'asc'; sortConfig.fin = { col: coluna, dir: dir };
+      listaFin.sort((a, b) => { let valA = a[coluna]; let valB = b[coluna]; if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); } if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0; });
+      resetarIcones('fin'); document.getElementById(`sort-fin-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼'; window.renderizarFinanceiro();
     };
 
-    // ==========================================
-    // DASHBOARD & GRÁFICOS (CHART.JS)
-    // ==========================================
-    let chartFin = null;
-    let chartPrazos = null;
-
+    // DASHBOARD
+    let chartFin = null; let chartPrazos = null;
     window.renderizarDashboard = function() {
-      // 1. Mini-cards Superiores
       document.getElementById('dash-clientes').innerText = listaClientes.length;
       document.getElementById('dash-prazos').innerText = listaPrazosSalvos.length;
-      
-      let entradas = 0; let saidas = 0;
-      listaFin.forEach(i => i.categoria.startsWith('honorario') ? entradas += i.valor : saidas += i.valor);
-      const saldo = entradas - saidas;
-      const elSaldo = document.getElementById('dash-saldo');
-      elSaldo.innerText = `R$ ${saldo.toFixed(2)}`;
-      elSaldo.style.color = saldo >= 0 ? 'var(--primary)' : 'var(--danger)';
+      let entradas = 0; let saidas = 0; listaFin.forEach(i => i.categoria.startsWith('honorario') ? entradas += i.valor : saidas += i.valor);
+      const saldo = entradas - saidas; const elSaldo = document.getElementById('dash-saldo');
+      elSaldo.innerText = `R$ ${saldo.toFixed(2)}`; elSaldo.style.color = saldo >= 0 ? 'var(--primary)' : 'var(--danger)';
 
-      // 2. Gráfico Financeiro (Rosca)
-      const ctxFin = document.getElementById('chart-financeiro');
-      if (chartFin) chartFin.destroy();
-      chartFin = new Chart(ctxFin, {
-        type: 'doughnut',
-        data: {
-          labels: ['Entradas', 'Saídas'],
-          datasets: [{ data: [entradas, saidas], backgroundColor: ['#15803d', '#b91c1c'], borderWidth: 0 }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-      });
+      const ctxFin = document.getElementById('chart-financeiro'); if (chartFin) chartFin.destroy();
+      chartFin = new Chart(ctxFin, { type: 'doughnut', data: { labels: ['Entradas', 'Saídas'], datasets: [{ data: [entradas, saidas], backgroundColor: ['#15803d', '#b91c1c'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false } });
 
-      // 3. Gráfico de Prazos (Barras)
-      let urgentes = 0, noPrazo = 0;
-      const hoje = new Date(); hoje.setHours(0,0,0,0);
-      listaPrazosSalvos.forEach(p => {
-         const diff = Math.ceil((new Date(p.dataFatalISO + 'T00:00:00') - hoje) / (1000 * 60 * 60 * 24));
-         if(diff <= 1) urgentes++; else noPrazo++;
-      });
-      
-      const ctxPrazos = document.getElementById('chart-prazos');
-      if (chartPrazos) chartPrazos.destroy();
-      chartPrazos = new Chart(ctxPrazos, {
-        type: 'bar',
-        data: {
-          labels: ['Críticos (Hoje/Vencidos)', 'No Prazo (Seguros)'],
-          datasets: [{ label: 'Quantidade de Prazos', data: [urgentes, noPrazo], backgroundColor: ['#b91c1c', '#0284c7'], borderRadius: 4 }]
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-      });
+      let urgentes = 0, noPrazo = 0; const hoje = new Date(); hoje.setHours(0,0,0,0);
+      listaPrazosSalvos.forEach(p => { const diff = Math.ceil((new Date(p.dataFatalISO + 'T00:00:00') - hoje) / (1000 * 60 * 60 * 24)); if(diff <= 1) urgentes++; else noPrazo++; });
+      const ctxPrazos = document.getElementById('chart-prazos'); if (chartPrazos) chartPrazos.destroy();
+      chartPrazos = new Chart(ctxPrazos, { type: 'bar', data: { labels: ['Críticos (Hoje/Vencidos)', 'No Prazo (Seguros)'], datasets: [{ label: 'Quantidade de Prazos', data: [urgentes, noPrazo], backgroundColor: ['#b91c1c', '#0284c7'], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
     };
 
-    // ==========================================
     // FERIADOS DA API
-    // ==========================================
     let feriadosNacionais = [];
     async function carregarFeriadosDaAPI() {
       try {
@@ -645,22 +544,17 @@
       } catch (error) { document.getElementById('stat-feriados').innerText = "Erro na Brasil API"; }
     }
 
-    // ==========================================
     // AUTENTICAÇÃO E NAVEGAÇÃO
-    // ==========================================
-    window.alternarTelaAuth = function(tipo) { document.querySelectorAll('.form-auth').forEach(el => el.classList.remove('active')); document.getElementById(tipo === 'cadastro' ? 'form-cadastro' : 'form-login').classList.add('active'); };
-
-    window.realizarCadastro = async function(e) {
-      e.preventDefault(); const btn = document.getElementById('btn-submit-cad'); window.toggleLoading(btn, true);
-      const nome = document.getElementById('cad-nome').value.trim(); const email = document.getElementById('cad-usuario').value.trim(); const senha = document.getElementById('cad-senha').value.trim();
-      try { const userCred = await createUserWithEmailAndPassword(auth, email, senha); await updateProfile(userCred.user, { displayName: nome }); window.showToast('Cadastro realizado! Faça login.', 'success'); window.alternarTelaAuth('login'); } 
-      catch(err) { window.showToast("Erro: " + err.message, 'error'); } finally { window.toggleLoading(btn, false); }
-    };
-
     window.realizarLogin = async function(e) {
       e.preventDefault(); const btn = document.getElementById('btn-submit-login'); window.toggleLoading(btn, true);
-      try { await signInWithEmailAndPassword(auth, document.getElementById('login-usuario').value, document.getElementById('login-senha').value); } 
-      catch(err) { document.getElementById('msg-erro-login').style.display = 'block'; window.showToast('Credenciais inválidas.', 'error'); window.toggleLoading(btn, false); }
+      try { 
+        await signInWithEmailAndPassword(auth, document.getElementById('login-usuario').value, document.getElementById('login-senha').value); 
+      } 
+      catch(err) { 
+        document.getElementById('msg-erro-login').style.display = 'block'; 
+        window.showToast('Acesso Negado.', 'error'); 
+        window.toggleLoading(btn, false); 
+      }
     };
 
     window.realizarLogout = () => signOut(auth);
@@ -682,9 +576,26 @@
       if (window.innerWidth <= 768) window.toggleMobileMenu();
     };
 
-    // ==========================================
-    // PRONTUÁRIO (FIRESTORE + SUPABASE)
-    // ==========================================
+    // CADASTRO DE EQUIPE (Instância Secundária)
+    window.cadastrarMembroEquipe = async function(e, btnElement) {
+      e.preventDefault(); window.toggleLoading(btnElement, true);
+      const nome = document.getElementById('novo-membro-nome').value.trim(); 
+      const email = document.getElementById('novo-membro-email').value.trim(); 
+      const senha = document.getElementById('novo-membro-senha').value.trim();
+      try {
+        const userCred = await createUserWithEmailAndPassword(adminAuth, email, senha);
+        await updateProfile(userCred.user, { displayName: nome });
+        await signOut(adminAuth); // Limpa sessão secundária
+        window.showToast('Usuário criado com sucesso!', 'success');
+        e.target.reset();
+      } catch(err) { 
+        window.showToast("Erro: " + err.message, 'error'); 
+      } finally { 
+        window.toggleLoading(btnElement, false); 
+      }
+    };
+
+    // PRONTUÁRIO
     let listaClientes = []; let clienteSelecionadoIndex = null;
     const pastasConfig = [ { id: '01_Dados', icon: '🗂️', nome: '01. Dados Cadastrais', desc: 'Fichas' }, { id: '02_Contratos', icon: '⚖️', nome: '02. Contratos & Procura.', desc: 'Mandatos' }, { id: '03_Peticoes', icon: '📄', nome: '03. Petições', desc: 'Peças' }, { id: '04_Provas', icon: '🔍', nome: '04. Provas', desc: 'Evidências' } ];
     function inicializarPastas() { const p = {}; pastasConfig.forEach(i => p[i.id] = []); return p; }
@@ -747,9 +658,7 @@
 
     window.removerArquivo = async function(pastaId, arqIdx) { if (confirm('Excluir documento?')) { const c = listaClientes[clienteSelecionadoIndex]; c.pastas[pastaId].splice(arqIdx, 1); await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Documento removido.", 'info'); window.renderizarConteudoModalPastas(); } };
 
-    // ==========================================
     // PRAZOS E FINANCEIRO
-    // ==========================================
     let listaPrazosSalvos = []; let ultimoCalculoTemp = null;
     window.atualizarSelectClientesPrazos = function() { const select = document.getElementById('prazo-cliente-vinculo'); select.innerHTML = '<option value="">-- Selecione --</option>'; listaClientes.forEach(c => select.innerHTML += `<option value="${c.nome}">${c.nome}</option>`); };
 
@@ -813,13 +722,9 @@
         listaClientes = []; sClientes.forEach(d => listaClientes.push({ id: d.id, ...d.data() })); window.renderizarClientes(); window.atualizarSelectClientesPrazos();
         listaPrazosSalvos = []; sPrazos.forEach(d => listaPrazosSalvos.push({ id: d.id, ...d.data() })); window.renderizarPrazosSalvos();
         listaFin = []; sFin.forEach(d => listaFin.push({ id: d.id, ...d.data() })); window.renderizarFinanceiro();
-        
         if(listaPrazosSalvos.length > 0 && sortConfig.prazos.col === 'dataFatalISO') { window.ordenarTabelaPrazos('dataFatalISO'); }
-        
-        // Chamada da nova tela de Dashboard!
         window.renderizarDashboard();
-
-      } catch(e) { window.showToast("Erro ao buscar dados na nuvem", "error"); }
+      } catch(e) { window.showToast("Erro ao buscar dados", "error"); }
     };
   </script>
 </body>
