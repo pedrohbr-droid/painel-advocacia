@@ -514,7 +514,7 @@
       </div>
       <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Atuação jurídica com seriedade e proximidade</p>
       
-      <!-- Formulário de Login (Agora usa E-mail) -->
+      <!-- Formulário de Login (Firebase Auth) -->
       <form id="form-login" class="form-auth active" onsubmit="window.realizarLogin(event)">
         <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
           <label>E-mail Institucional</label>
@@ -864,15 +864,18 @@
     </div>
   </div>
 
-  <!-- FIREBASE CONFIGURATION & SCRIPTS -->
+  <!-- FIREBASE + SUPABASE CONFIGURATION & SCRIPTS -->
   <script type="module">
-    // Importando as bibliotecas do Firebase diretamente via CDN
+    // Importações do Firebase (Auth)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-    // Suas credenciais do Firebase
+    // Importações do Supabase (Storage para anexos)
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    // 1. Configuração do Firebase (Autenticação)
     const firebaseConfig = {
-      apiKey: "AIzaSyCuMkOKT4vfc6LWA82Rx2QeYDrZsP46pAY",
+      apiKey: "AIzaSyCuMkOKT4vfc6LWA82Rx2QeyDrZSp46pAY",
       authDomain: "juris-admin-barros.firebaseapp.com",
       projectId: "juris-admin-barros",
       storageBucket: "juris-admin-barros.firebasestorage.app",
@@ -880,12 +883,16 @@
       appId: "1:578478220830:web:e81dabf715444bdb7bf00f"
     };
 
-    // Inicializando os serviços
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // 2. Configuração do Supabase (Apenas Anexos)
+    const SUPABASE_URL = "https://wwdgopyvpouynjbbekm.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_mg-acgKJPEbc7rOa4sKHUg_aZyVjtHX";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     // ==========================================
-    // 1. SISTEMA DE AUTENTICAÇÃO COM FIREBASE
+    // 3. AUTENTICAÇÃO COM FIREBASE
     // ==========================================
     window.alternarTelaAuth = function(tipo) {
       if (tipo === 'cadastro') {
@@ -928,7 +935,7 @@
         erroEl.style.display = 'none';
       } catch(error) {
         erroEl.style.display = 'block';
-        erroEl.innerText = "E-mail ou senha inválidos. Verifique suas credenciais.";
+        erroEl.innerText = "E-mail ou senha incorretos.";
       }
     };
 
@@ -936,7 +943,6 @@
       signOut(auth);
     };
 
-    // Fica escutando as mudanças de estado (logado / deslogado)
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById('tela-login').style.display = 'none';
@@ -960,7 +966,7 @@
     };
 
     // ==========================================
-    // 2. PRONTUÁRIO DIGITAL (Temporariamente no LocalStorage até o passo do Firestore)
+    // 4. PRONTUÁRIO DIGITAL
     // ==========================================
     let listaClientes = [];
     let clienteSelecionadoIndex = null;
@@ -1070,7 +1076,7 @@
       });
     };
 
-    // 3. ANEXOS E PASTAS
+    // 5. ANEXOS DIRETO NO SUPABASE STORAGE
     window.abrirModalPastas = function(index) {
       clienteSelecionadoIndex = index;
       const c = listaClientes[index];
@@ -1100,7 +1106,7 @@
           arquivos.forEach((arq, arqIdx) => {
             arquivosHtml += `
               <li class="file-item">
-                <a href="${arq.dadosBase64}" download="${arq.nome}" class="file-link">📄 ${arq.nome}</a>
+                <a href="${arq.url}" target="_blank" class="file-link">📄 ${arq.nome}</a>
                 <button class="file-remove-btn" onclick="window.removerArquivo('${pasta.id}', ${arqIdx})">&times;</button>
               </li>`;
           });
@@ -1117,9 +1123,9 @@
                   <span class="folder-counter">${arquivos.length} ${arquivos.length === 1 ? 'documento' : 'documentos'} • ${pasta.desc}</span>
                 </div>
               </div>
-              <label class="btn-anexar">
+              <label class="btn-anexar" id="label-anexar-${pasta.id}">
                 + Anexar Arquivo
-                <input type="file" style="display: none;" onchange="window.anexarArquivo(event, '${pasta.id}')">
+                <input type="file" style="display: none;" onchange="window.anexarArquivoSupabase(event, '${pasta.id}')">
               </label>
             </div>
             ${arquivosHtml}
@@ -1128,18 +1134,35 @@
       });
     };
 
-    window.anexarArquivo = function(evento, pastaId) {
+    window.anexarArquivoSupabase = async function(evento, pastaId) {
       const file = evento.target.files[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const c = listaClientes[clienteSelecionadoIndex];
-        if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
-        c.pastas[pastaId].push({ nome: file.name, tipo: file.type, dadosBase64: e.target.result });
-        localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
-        window.renderizarConteudoModalPastas();
-      };
-      reader.readAsDataURL(file);
+
+      const labelEl = document.getElementById(`label-anexar-${pastaId}`);
+      labelEl.innerText = "Enviando...";
+
+      const fileName = `${Date.now()}_${file.name}`;
+      const { data, error } = await supabase.storage.from('prontuarios').upload(fileName, file);
+
+      if (error) {
+        alert("Erro ao enviar arquivo para o Supabase: " + error.message);
+        labelEl.innerText = "+ Anexar Arquivo";
+        return;
+      }
+
+      const { data: publicUrlData } = supabase.storage.from('prontuarios').getPublicUrl(fileName);
+
+      const c = listaClientes[clienteSelecionadoIndex];
+      if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
+
+      c.pastas[pastaId].push({
+        nome: file.name,
+        url: publicUrlData.publicUrl
+      });
+
+      localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
+      labelEl.innerText = "+ Anexar Arquivo";
+      window.renderizarConteudoModalPastas();
     };
 
     window.removerArquivo = function(pastaId, arqIdx) {
@@ -1151,7 +1174,7 @@
       }
     };
 
-    // 4. CALCULADORA & AGENDA DE PRAZOS
+    // 6. CALCULADORA & AGENDA DE PRAZOS
     let listaPrazosSalvos = [];
     let ultimoCalculoTemp = null;
     let prazosCriticosGlobais = [];
@@ -1310,7 +1333,7 @@
 
     window.fecharModalAlerta = function() { document.getElementById('modal-alerta-urgente').style.display = 'none'; };
 
-    // 5. FINANCEIRO
+    // 7. FINANCEIRO
     let listaFin = [];
 
     window.salvarLancamento = function(e) {
