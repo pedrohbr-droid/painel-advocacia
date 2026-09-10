@@ -511,7 +511,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // INSTÂNCIA SECUNDÁRIA (Para cadastro de equipe sem deslogar o admin)
     const adminApp = initializeApp(firebaseConfig, "AdminApp");
     const adminAuth = getAuth(adminApp);
 
@@ -648,7 +647,7 @@
       try {
         const userCred = await createUserWithEmailAndPassword(adminAuth, email, senha);
         await updateProfile(userCred.user, { displayName: nome });
-        await signOut(adminAuth); // Limpa sessão secundária
+        await signOut(adminAuth);
         window.showToast('Usuário criado com sucesso!', 'success');
         e.target.reset();
       } catch(err) { 
@@ -707,16 +706,89 @@
       });
     };
 
+    // ==========================================
+    // COMPRESSOR DE IMAGENS NO NAVEGADOR E UPLOAD
+    // ==========================================
+    function comprimirImagem(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = event => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            const MAX_WIDTH = 1200; 
+
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            canvas.toBlob((blob) => {
+              const novoArquivo = new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() });
+              resolve(novoArquivo);
+            }, 'image/jpeg', 0.7);
+          };
+          img.onerror = err => reject(err);
+        };
+      });
+    }
+
     window.anexarArquivoSupabase = async function(evento, pastaId) {
-      const file = evento.target.files[0]; if (!file) return;
-      const labelEl = document.getElementById(`label-anexar-${pastaId}`); labelEl.innerText = "⏳";
-      const extensao = file.name.split('.').pop(); const nomeSeguro = `${Date.now()}_${Math.random().toString(36).substring(2, 12)}.${extensao}`; 
-      const { error } = await supabase.storage.from('prontuarios').upload(nomeSeguro, file);
-      if (error) { window.showToast("Erro upload: " + error.message, 'error'); labelEl.innerText = "+ Anexar"; return; }
+      const fileOriginal = evento.target.files[0]; 
+      if (!fileOriginal) return;
+
+      const limiteMB = 5;
+      if (fileOriginal.size > limiteMB * 1024 * 1024) {
+        window.showToast(`Arquivo muito grande! O limite é de ${limiteMB}MB por vez.`, 'error');
+        evento.target.value = ''; 
+        return;
+      }
+
+      const labelEl = document.getElementById(`label-anexar-${pastaId}`); 
+      labelEl.innerText = "⏳";
+
+      let arquivoParaUpload = fileOriginal;
+      const extensaoOriginal = fileOriginal.name.split('.').pop().toLowerCase();
+      let extensaoFinal = extensaoOriginal;
+
+      if (fileOriginal.type.startsWith('image/')) {
+        try {
+          arquivoParaUpload = await comprimirImagem(fileOriginal);
+          extensaoFinal = 'jpg'; 
+        } catch (e) {
+          console.warn("Erro ao comprimir imagem, enviando original.", e);
+        }
+      }
+
+      const nomeSeguro = `${Date.now()}_${Math.random().toString(36).substring(2, 12)}.${extensaoFinal}`; 
+      
+      const { error } = await supabase.storage.from('prontuarios').upload(nomeSeguro, arquivoParaUpload);
+      
+      if (error) { 
+        window.showToast("Erro upload: " + error.message, 'error'); 
+        labelEl.innerText = "+ Anexar"; 
+        return; 
+      }
+      
       const { data: publicUrlData } = supabase.storage.from('prontuarios').getPublicUrl(nomeSeguro);
-      const c = listaClientes[clienteSelecionadoIndex]; if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
-      c.pastas[pastaId].push({ nomeVisual: file.name, url: publicUrlData.publicUrl });
-      await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Arquivo anexado!", 'success'); labelEl.innerText = "+ Anexar"; window.renderizarConteudoModalPastas();
+      
+      const c = listaClientes[clienteSelecionadoIndex]; 
+      if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
+      c.pastas[pastaId].push({ nomeVisual: fileOriginal.name, url: publicUrlData.publicUrl });
+      
+      await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); 
+      window.showToast("Arquivo anexado com sucesso!", 'success'); 
+      labelEl.innerText = "+ Anexar"; 
+      window.renderizarConteudoModalPastas();
     };
 
     window.removerArquivo = async function(pastaId, arqIdx) { if (confirm('Excluir documento?')) { const c = listaClientes[clienteSelecionadoIndex]; c.pastas[pastaId].splice(arqIdx, 1); await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Documento removido.", 'info'); window.renderizarConteudoModalPastas(); } };
