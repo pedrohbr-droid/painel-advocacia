@@ -227,7 +227,6 @@
       margin-bottom: 24px;
     }
 
-    /* Grid que aproveita a tela inteira na Calculadora */
     .prazos-full-layout {
       display: grid;
       grid-template-columns: 460px 1fr;
@@ -389,12 +388,12 @@
     .btn-folder { background: #fef3c7; color: #92400e; }
     .btn-del { background: #fee2e2; color: var(--danger); }
 
-    /* Modal Pastas */
+    /* Modais */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(4px);
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(5px);
       display: none;
       justify-content: center;
       align-items: center;
@@ -452,8 +451,30 @@
     .badge-urgente {
       background: #fef2f2; color: var(--danger); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #fecaca;
     }
+    .badge-alerta {
+      background: #fffbeb; color: #b45309; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #fde68a;
+    }
     .badge-ok {
       background: #f0fdf4; color: var(--success); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #bbf7d0;
+    }
+
+    /* Modal de Alerta de Prazos */
+    .alerta-item-box {
+      background: #fff;
+      border: 1px solid #fed7aa;
+      border-left: 4px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .alerta-item-urgente {
+      border-color: #fca5a5;
+      border-left: 4px solid var(--danger);
+      background: #fff5f5;
     }
 
     .stat-val-income { color: var(--success); font-weight: 800; font-size: 22px; }
@@ -467,7 +488,6 @@
   <section id="tela-login">
     <div class="login-box">
       <div class="brand-logo-container">
-        <!-- Tenta carregar logo.png; caso não exista, exibe o selo dourado clássico -->
         <img src="logo.png" alt="Barros e Cavalcante" style="max-width: 170px; margin-bottom: 12px;" onerror="this.style.display='none'; document.getElementById('login-fallback-badge').style.display='flex';">
         <div id="login-fallback-badge" class="brand-logo-circle" style="display: none;">⚖️</div>
         <h2 class="brand-title">BARROS E CAVALCANTE</h2>
@@ -513,23 +533,23 @@
 
       <main class="content-area">
         
-        <!-- MÓDULO: CALCULADORA DE PRAZOS (LAYOUT EXPANDIDO) -->
+        <!-- MÓDULO: CALCULADORA DE PRAZOS -->
         <section id="modulo-prazos" class="tab-view active">
           <div class="header-view">
             <div>
               <h1>Calculadora de Prazos Processuais</h1>
               <p>Contagem automatizada por legislação e gestão de prazos fatais da banca.</p>
             </div>
+            <button class="btn-action" style="background: var(--primary);" onclick="verificarPrazosUrgentes(true)">🔔 Verificar Alertas de Prazos</button>
           </div>
 
-          <!-- Métricas de Prazos no topo para aproveitar a tela -->
           <div class="stats-prazos-row">
             <div class="stat-mini-card">
               <label>Prazos Calculados / Salvos</label>
               <span id="stat-total-prazos">0</span>
             </div>
             <div class="stat-mini-card">
-              <label>Prazos Fatais Próximos (7 dias)</label>
+              <label>Prazos Críticos (Amanhã / Hoje / Vencidos)</label>
               <span id="stat-prazos-urgentes" style="color: var(--danger);">0</span>
             </div>
             <div class="stat-mini-card">
@@ -539,7 +559,7 @@
           </div>
 
           <div class="prazos-full-layout">
-            <!-- Coluna da Esquerda: Formulário de Cálculo Completo -->
+            <!-- Formulário -->
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Simular e Salvar Prazo Processual</h3>
               
@@ -582,7 +602,7 @@
               <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="salvarPrazoNoHistorico()">Salvar na Agenda de Prazos</button>
             </div>
 
-            <!-- Coluna da Direita: Histórico e Tabela de Prazos Salvos -->
+            <!-- Tabela de Prazos Salvos -->
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos Críticos do Escritório</h3>
               
@@ -597,9 +617,7 @@
                       <th>Ação</th>
                     </tr>
                   </thead>
-                  <tbody id="tabela-prazos-salvos">
-                    <!-- Preenchido via JS -->
-                  </tbody>
+                  <tbody id="tabela-prazos-salvos"></tbody>
                 </table>
               </div>
             </div>
@@ -800,6 +818,34 @@
     </div>
   </div>
 
+  <!-- MODAL: POP-UP DE ALERTA DE PRAZOS URGENTES (1 DIA / HOJE / VENCIDOS) -->
+  <div id="modal-alerta-urgente" class="modal-overlay">
+    <div class="modal-box" style="max-width: 650px;">
+      <div class="modal-header" style="background: #fff5f5; border-bottom: 1px solid #fed7aa;">
+        <div>
+          <h3 style="color: var(--danger); font-size: 17px; display: flex; align-items: center; gap: 8px;">
+            ⚠️ Atenção: Prazos Fatais Próximos!
+          </h3>
+          <p style="color: #9a3412;">Existem prazos processuais com vencimento iminente (1 dia, hoje ou vencidos).</p>
+        </div>
+        <button onclick="fecharModalAlerta()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
+      </div>
+
+      <div class="modal-body" id="modal-alerta-corpo">
+        <!-- Renderizado dinamicamente -->
+      </div>
+
+      <div style="padding: 16px 24px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <button class="btn-action" style="background: var(--info); font-size: 13px;" onclick="enviarAlertaPorEmail()">
+          📧 Notificar por E-mail
+        </button>
+        <button class="btn-secondary" onclick="fecharModalAlerta()">
+          Ciente / Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL DE PASTAS E ANEXOS -->
   <div id="modal-pastas" class="modal-overlay">
     <div class="modal-box">
@@ -810,7 +856,6 @@
         </div>
         <button onclick="fecharModalPastas()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
       </div>
-      
       <div class="modal-body" id="modal-pastas-corpo"></div>
     </div>
   </div>
@@ -822,6 +867,7 @@
         document.getElementById('tela-login').style.display = 'none';
         document.getElementById('tela-sistema').style.display = 'block';
         carregarDados();
+        verificarPrazosUrgentes(false);
       } else {
         document.getElementById('tela-login').style.display = 'flex';
         document.getElementById('tela-sistema').style.display = 'none';
@@ -1062,6 +1108,7 @@
     // 4. CALCULADORA & AGENDA DE PRAZOS
     let listaPrazosSalvos = JSON.parse(localStorage.getItem('adv_prazos_salvos')) || [];
     let ultimoCalculoTemp = null;
+    let prazosCriticosGlobais = [];
 
     function atualizarSelectClientesPrazos() {
       const select = document.getElementById('prazo-cliente-vinculo');
@@ -1154,6 +1201,7 @@
       document.getElementById('stat-total-prazos').innerText = listaPrazosSalvos.length;
 
       const hoje = new Date();
+      hoje.setHours(0,0,0,0);
       let urgentes = 0;
 
       if (listaPrazosSalvos.length === 0) {
@@ -1167,16 +1215,20 @@
         const diffDias = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
         
         let badge = '<span class="badge-ok">Em Prazo</span>';
-        if (diffDias <= 7) {
+        if (diffDias <= 1) {
           urgentes++;
-          badge = `<span class="badge-urgente">${diffDias < 0 ? 'Vencido' : diffDias + ' dias restantes'}</span>`;
+          if (diffDias < 0) badge = '<span class="badge-urgente">Vencido</span>';
+          else if (diffDias === 0) badge = '<span class="badge-urgente">Vence HOJE!</span>';
+          else badge = '<span class="badge-alerta">Vence AMANHÃ! (1 dia)</span>';
+        } else if (diffDias <= 7) {
+          badge = `<span class="badge-alerta">${diffDias} dias restantes</span>`;
         }
 
         corpo.innerHTML += `
           <tr>
             <td><strong>${p.descricao}</strong></td>
             <td>${p.cliente}</td>
-            <td><span class="f-badge">${p.lei}</span></td>
+            <td><span class="folder-chip-index">${p.lei}</span></td>
             <td>${p.dataFatalFormatada} ${badge}</td>
             <td><button class="btn-table btn-del" onclick="excluirPrazoSalvo(${idx})">🗑️</button></td>
           </tr>
@@ -1186,7 +1238,92 @@
       document.getElementById('stat-prazos-urgentes').innerText = urgentes;
     }
 
-    // 5. FINANCEIRO
+    // 5. SISTEMA DE ALERTA NO LOGIN & E-MAIL
+    function verificarPrazosUrgentes(acionamentoManual) {
+      const hoje = new Date();
+      hoje.setHours(0,0,0,0);
+      prazosCriticosGlobais = [];
+
+      listaPrazosSalvos.forEach(p => {
+        const dataFim = new Date(p.dataFatalISO + 'T00:00:00');
+        const diffDias = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
+        
+        // Prazos vencidos, que vencem hoje (0) ou amanhã (1 dia)
+        if (diffDias <= 1) {
+          prazosCriticosGlobais.push({
+            ...p,
+            diffDias: diffDias
+          });
+        }
+      });
+
+      if (prazosCriticosGlobais.length > 0) {
+        exibirModalAlerta();
+      } else if (acionamentoManual) {
+        alert('Nenhum prazo com vencimento crítico (1 dia, hoje ou vencido) no momento.');
+      }
+    }
+
+    function exibirModalAlerta() {
+      const corpo = document.getElementById('modal-alerta-corpo');
+      corpo.innerHTML = '';
+
+      prazosCriticosGlobais.forEach(p => {
+        let statusBadge = '';
+        let classeCaixa = 'alerta-item-box';
+
+        if (p.diffDias < 0) {
+          statusBadge = '<span class="badge-urgente">PRAZO VENCIDO</span>';
+          classeCaixa += ' alerta-item-urgente';
+        } else if (p.diffDias === 0) {
+          statusBadge = '<span class="badge-urgente">VENCE HOJE!</span>';
+          classeCaixa += ' alerta-item-urgente';
+        } else if (p.diffDias === 1) {
+          statusBadge = '<span class="badge-alerta">VENCE AMANHÃ (1 DIA RESTANTE)</span>';
+        }
+
+        corpo.innerHTML += `
+          <div class="${classeCaixa}">
+            <div>
+              <strong style="color: var(--primary); font-size: 14px;">${p.descricao}</strong>
+              <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+                Cliente: <strong>${p.cliente}</strong> • Regra: ${p.lei} • Data Fatal: <strong>${p.dataFatalFormatada}</strong>
+              </p>
+            </div>
+            <div>${statusBadge}</div>
+          </div>
+        `;
+      });
+
+      document.getElementById('modal-alerta-urgente').style.display = 'flex';
+    }
+
+    function fecharModalAlerta() {
+      document.getElementById('modal-alerta-urgente').style.display = 'none';
+    }
+
+    function enviarAlertaPorEmail() {
+      if (prazosCriticosGlobais.length === 0) return;
+
+      const destinatario = "advocacia@barrosecavalcante.adv.br";
+      const assunto = encodeURIComponent("🚨 ALERTA: Prazos Fatais Iminentes - Barros e Cavalcante Advocacia");
+      
+      let corpoEmail = "Prezada Dra.,\n\nIdentificamos prazos processuais com vencimento iminente (1 dia, hoje ou vencidos):\n\n";
+
+      prazosCriticosGlobais.forEach((p, idx) => {
+        let statusTexto = p.diffDias < 0 ? "[VENCIDO]" : (p.diffDias === 0 ? "[VENCE HOJE!]" : "[VENCE AMANHÃ - 1 DIA]");
+        corpoEmail += `${idx + 1}. ${statusTexto} ${p.descricao}\n`;
+        corpoEmail += `   - Cliente: ${p.cliente}\n`;
+        corpoEmail += `   - Data Fatal: ${p.dataFatalFormatada} (${p.lei})\n\n`;
+      });
+
+      corpoEmail += "Acesse o painel do escritório para protocolar ou atualizar os andamentos.\n\nBarros e Cavalcante Advocacia";
+
+      const mailtoLink = `mailto:${destinatario}?subject=${assunto}&body=${encodeURIComponent(corpoEmail)}`;
+      window.location.href = mailtoLink;
+    }
+
+    // 6. FINANCEIRO
     let listaFin = JSON.parse(localStorage.getItem('adv_financeiro')) || [];
 
     function salvarLancamento(e) {
