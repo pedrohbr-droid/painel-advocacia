@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barros e Cavalcante Advocacia | Painel Jurídico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0b132b;
+      --sidebar-bg: #0a1128;
+      --main-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --primary: #1c2541;
+      --accent: #c59b27;
+      --accent-hover: #a37d1a;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #15803d;
+      --danger: #b91c1c;
+      --info: #0284c7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--main-bg);
+      color: var(--text-dark);
+    }
+
+    /* Tela de Login */
+    #tela-login {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a1128 0%, #1c2541 100%);
+      padding: 20px;
+    }
+
+    .login-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 440px;
+      padding: 40px 32px;
+      border-radius: 16px;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    .brand-logo-container {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .brand-logo-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      background: rgba(197, 155, 39, 0.08);
+      font-size: 28px;
+    }
+
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+    }
+
+    .brand-subtitle {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* Layout Autenticado */
+    #tela-sistema {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px 16px;
+      border-right: 1px solid #1e293b;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .sidebar-brand img {
+      max-width: 140px;
+      height: auto;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-brand .brand-title {
+      color: #fff;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .sidebar-brand .brand-subtitle {
+      color: var(--accent);
+      font-size: 9px;
+    }
+
+    .menu-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .menu-btn {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+
+    .menu-btn:hover, .menu-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      width: 100%;
+    }
+
+    .btn-logout:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .content-area {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      max-width: calc(100vw - 280px);
+    }
+
+    .tab-view {
+      display: none;
+    }
+
+    .tab-view.active {
+      display: block;
+    }
+
+    .header-view {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-view h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .header-view p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      margin-bottom: 24px;
+    }
+
+    /* Grid que aproveita a tela inteira na Calculadora */
+    .prazos-full-layout {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .stats-prazos-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stat-mini-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-mini-card label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-mini-card span {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .input-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-wrap label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.08);
+    }
+
+    .btn-action {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-action:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #334155;
+      font-weight: 600;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
+    /* Pastas no Prontuário */
+    .folders-guide {
+      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 14px 0 24px 0;
+    }
+
+    .folders-guide-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .folders-guide-header h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .folders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .folder-chip {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .folder-chip-icon { font-size: 18px; }
+    .folder-chip-text { display: flex; flex-direction: column; }
+    .folder-chip-index { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+    .folder-chip-name { font-size: 12px; font-weight: 600; color: #334155; }
+
+    .table-container { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+    table th { background: #f8fafc; color: #475569; font-weight: 700; padding: 12px; border-bottom: 2px solid var(--border); }
+    table td { padding: 12px; border-bottom: 1px solid var(--border); }
+
+    .actions-btns { display: flex; gap: 6px; }
+    .btn-table { padding: 6px 12px; font-size: 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+    .btn-edit { background: #e0f2fe; color: var(--info); }
+    .btn-folder { background: #fef3c7; color: #92400e; }
+    .btn-del { background: #fee2e2; color: var(--danger); }
+
+    /* Modal Pastas */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: #fff; width: 100%; max-width: 800px; max-height: 90vh;
+      border-radius: 16px; display: flex; flex-direction: column; overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 20px 24px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; background: #f8fafc;
+    }
+
+    .modal-body {
+      padding: 24px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 14px;
+    }
+
+    .folder-card {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+    }
+
+    .folder-header { display: flex; justify-content: space-between; align-items: center; }
+    .folder-meta { display: flex; align-items: center; gap: 12px; }
+    .folder-icon-circle {
+      width: 40px; height: 40px; border-radius: 10px; background: #fef3c7;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+
+    .folder-title { font-size: 14px; font-weight: 700; color: #1e293b; }
+    .folder-counter { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+
+    .btn-anexar {
+      background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0;
+      padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+
+    .file-list { list-style: none; margin-top: 12px; border-top: 1px dashed #e2e8f0; padding-top: 10px; }
+    .file-item {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 6px; font-size: 12px; margin-bottom: 6px;
+    }
+    .file-link { color: var(--info); text-decoration: none; font-weight: 600; max-width: 500px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-remove-btn { color: var(--danger); cursor: pointer; background: none; border: none; font-weight: bold; }
+    .empty-files-msg { color: #94a3b8; font-size: 12px; font-style: italic; margin-top: 8px; }
+
+    .alert-res {
+      margin-top: 16px; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center;
+    }
+    .alert-success { background: #ecfdf5; border: 1px solid #6ee7b7; color: var(--success); }
+
+    .badge-urgente {
+      background: #fef2f2; color: var(--danger); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #fecaca;
+    }
+    .badge-ok {
+      background: #f0fdf4; color: var(--success); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #bbf7d0;
+    }
+
+    .stat-val-income { color: var(--success); font-weight: 800; font-size: 22px; }
+    .stat-val-expense { color: var(--danger); font-weight: 800; font-size: 22px; }
+    .stat-val-balance { color: var(--primary); font-weight: 800; font-size: 22px; }
+  </style>
+</head>
+<body>
+
+  <!-- 1. TELA DE LOGIN COM LOGO DO ESCRITÓRIO -->
+  <section id="tela-login">
+    <div class="login-box">
+      <div class="brand-logo-container">
+        <!-- Tenta carregar logo.png; caso não exista, exibe o selo dourado clássico -->
+        <img src="logo.png" alt="Barros e Cavalcante" style="max-width: 170px; margin-bottom: 12px;" onerror="this.style.display='none'; document.getElementById('login-fallback-badge').style.display='flex';">
+        <div id="login-fallback-badge" class="brand-logo-circle" style="display: none;">⚖️</div>
+        <h2 class="brand-title">BARROS E CAVALCANTE</h2>
+        <span class="brand-subtitle">ADVOCACIA</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Atuação jurídica com seriedade e proximidade</p>
+      
+      <form id="form-login" onsubmit="realizarLogin(event)">
+        <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
+          <label>Usuário / OAB</label>
+          <input type="text" id="login-usuario" placeholder="admin" required>
+        </div>
+        <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
+          <label>Senha</label>
+          <input type="password" id="login-senha" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-action" style="width: 100%;">Acessar Painel Jurídico</button>
+        <p id="msg-erro-login" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;">Credenciais inválidas. (Demo: admin / 123456)</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- 2. SISTEMA INTERNO -->
+  <div id="tela-sistema">
+    <div class="app-container">
+      <aside class="sidebar">
+        <div>
+          <div class="sidebar-brand">
+            <img src="logo.png" alt="Logo" onerror="this.style.display='none'; document.getElementById('side-fallback-badge').style.display='flex';" style="max-height: 50px;">
+            <div id="side-fallback-badge" class="brand-logo-circle" style="display:none; width:44px; height:44px; font-size:20px; margin-bottom:6px;">⚖️</div>
+            <span class="brand-title">BARROS E CAVALCANTE</span>
+            <span class="brand-subtitle">ADVOCACIA</span>
+          </div>
+
+          <nav class="menu-nav">
+            <button class="menu-btn" onclick="trocarModulo('prontuario', this)">📂 Prontuário Digital</button>
+            <button class="menu-btn active" onclick="trocarModulo('prazos', this)">⏱️ Calculadora Prazos</button>
+            <button class="menu-btn" onclick="trocarModulo('financeiro', this)">💰 Financeiro & Custas</button>
+          </nav>
+        </div>
+        <button class="btn-logout" onclick="realizarLogout()">Encerrar Sessão</button>
+      </aside>
+
+      <main class="content-area">
+        
+        <!-- MÓDULO: CALCULADORA DE PRAZOS (LAYOUT EXPANDIDO) -->
+        <section id="modulo-prazos" class="tab-view active">
+          <div class="header-view">
+            <div>
+              <h1>Calculadora de Prazos Processuais</h1>
+              <p>Contagem automatizada por legislação e gestão de prazos fatais da banca.</p>
+            </div>
+          </div>
+
+          <!-- Métricas de Prazos no topo para aproveitar a tela -->
+          <div class="stats-prazos-row">
+            <div class="stat-mini-card">
+              <label>Prazos Calculados / Salvos</label>
+              <span id="stat-total-prazos">0</span>
+            </div>
+            <div class="stat-mini-card">
+              <label>Prazos Fatais Próximos (7 dias)</label>
+              <span id="stat-prazos-urgentes" style="color: var(--danger);">0</span>
+            </div>
+            <div class="stat-mini-card">
+              <label>Regime Padrão Ativo</label>
+              <span style="font-size: 16px; color: var(--accent); margin-top: 8px;">CPC (Dias Úteis)</span>
+            </div>
+          </div>
+
+          <div class="prazos-full-layout">
+            <!-- Coluna da Esquerda: Formulário de Cálculo Completo -->
+            <div class="card" style="margin-bottom: 0;">
+              <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Simular e Salvar Prazo Processual</h3>
+              
+              <div class="input-wrap" style="margin-bottom: 14px;">
+                <label>Legislação / Código de Processo:</label>
+                <select id="prazo-lei">
+                  <option value="cpc">Novo Código de Processo Civil - CPC (Dias Úteis)</option>
+                  <option value="clt">Consolidação das Leis do Trabalho - CLT (Dias Úteis)</option>
+                  <option value="jec">Juizado Especial Cível - JEC (Dias Úteis)</option>
+                  <option value="cpp">Código de Processo Penal - CPP (Dias Corridos)</option>
+                </select>
+              </div>
+
+              <div class="input-wrap" style="margin-bottom: 14px;">
+                <label>Vincular a um Cliente Cadastrado (Opcional):</label>
+                <select id="prazo-cliente-vinculo">
+                  <option value="">-- Selecione ou deixe avulso --</option>
+                </select>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="input-wrap">
+                  <label>Data da Publicação:</label>
+                  <input type="date" id="prazo-data-inicio" required>
+                </div>
+                <div class="input-wrap">
+                  <label>Quantidade de Dias:</label>
+                  <input type="number" id="prazo-qtd-dias" placeholder="Ex: 15" min="1" required>
+                </div>
+              </div>
+
+              <div class="input-wrap" style="margin-bottom: 16px;">
+                <label>Ato / Descrição do Prazo:</label>
+                <input type="text" id="prazo-descricao" placeholder="Ex: Apelação, Contestação, Manifestação">
+              </div>
+
+              <button type="button" class="btn-action" style="width: 100%;" onclick="calcularDataFatal()">Calcular Prazo Fatal</button>
+              
+              <div id="box-resultado-prazo" class="alert-res alert-success" style="display: none;"></div>
+              <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="salvarPrazoNoHistorico()">Salvar na Agenda de Prazos</button>
+            </div>
+
+            <!-- Coluna da Direita: Histórico e Tabela de Prazos Salvos -->
+            <div class="card" style="margin-bottom: 0;">
+              <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos Críticos do Escritório</h3>
+              
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ato / Processo</th>
+                      <th>Cliente</th>
+                      <th>Regra</th>
+                      <th>Data Fatal</th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabela-prazos-salvos">
+                    <!-- Preenchido via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MÓDULO: PRONTUÁRIO DIGITAL -->
+        <section id="modulo-prontuario" class="tab-view">
+          <div class="header-view">
+            <div>
+              <h1>Prontuário Digital do Cliente</h1>
+              <p>Cadastro centralizado, organização de pastas jurídicas e controle de pendências.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 id="form-cliente-titulo">Novo Cadastro de Cliente & Caso</h3>
+            
+            <div class="folders-guide">
+              <div class="folders-guide-header">
+                <span>📁</span>
+                <h4>Estrutura Padronizada de Pastas (Criada Automaticamente)</h4>
+              </div>
+              <div class="folders-grid">
+                <div class="folder-chip">
+                  <span class="folder-chip-icon">🗂️</span>
+                  <div class="folder-chip-text">
+                    <span class="folder-chip-index">Pasta 01</span>
+                    <span class="folder-chip-name">Dados Cadastrais</span>
+                  </div>
+                </div>
+                <div class="folder-chip">
+                  <span class="folder-chip-icon">⚖️</span>
+                  <div class="folder-chip-text">
+                    <span class="folder-chip-index">Pasta 02</span>
+                    <span class="folder-chip-name">Contratos & Procurações</span>
+                  </div>
+                </div>
+                <div class="folder-chip">
+                  <span class="folder-chip-icon">📄</span>
+                  <div class="folder-chip-text">
+                    <span class="folder-chip-index">Pasta 03</span>
+                    <span class="folder-chip-name">Petições & Pareceres</span>
+                  </div>
+                </div>
+                <div class="folder-chip">
+                  <span class="folder-chip-icon">🔍</span>
+                  <div class="folder-chip-text">
+                    <span class="folder-chip-index">Pasta 04</span>
+                    <span class="folder-chip-name">Provas & Anexos</span>
+                  </div>
+                </div>
+                <div class="folder-chip">
+                  <span class="folder-chip-icon">✉️</span>
+                  <div class="folder-chip-text">
+                    <span class="folder-chip-index">Pasta 05</span>
+                    <span class="folder-chip-name">Correspondência</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <form id="form-cad-cliente" onsubmit="salvarCliente(event)">
+              <input type="hidden" id="cli-id-edicao" value="">
+
+              <div class="form-grid-2">
+                <div class="input-wrap">
+                  <label>Identificação (Nome do Cliente / Razão Social):</label>
+                  <input type="text" id="cli-nome" required>
+                </div>
+                <div class="input-wrap">
+                  <label>CPF / CNPJ:</label>
+                  <input type="text" id="cli-doc" required>
+                </div>
+              </div>
+
+              <div class="form-grid-3">
+                <div class="input-wrap">
+                  <label>Contato (Telefone / E-mail):</label>
+                  <input type="text" id="cli-contato" required>
+                </div>
+                <div class="input-wrap">
+                  <label>Endereço Completo:</label>
+                  <input type="text" id="cli-endereco" required>
+                </div>
+                <div class="input-wrap">
+                  <label>Advogado Responsável:</label>
+                  <input type="text" id="cli-responsavel" required>
+                </div>
+              </div>
+
+              <div class="input-wrap" style="margin-bottom: 14px;">
+                <label>Resumo do Caso (até 3 linhas com áreas do direito e prazo crítico):</label>
+                <textarea id="cli-resumo" rows="3" maxlength="250" placeholder="Ex: Ação Trabalhista pleiteando verbas rescisórias. Prazo fatal para contestação em 10 dias úteis." required></textarea>
+              </div>
+
+              <div class="input-wrap" style="margin-bottom: 18px;">
+                <label>Lista de Documentos Pendentes (com responsável e data-alvo):</label>
+                <input type="text" id="cli-pendencias" placeholder="Ex: Cópia da CTPS e comprovante de residência (Envio pelo cliente até 15/09)">
+              </div>
+
+              <div style="display: flex; align-items: center;">
+                <button type="submit" id="btn-submit-cliente" class="btn-action">Salvar no Prontuário</button>
+                <button type="button" id="btn-cancelar-edicao" class="btn-secondary" style="display: none;" onclick="cancelarEdicao()">Cancelar Edição</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3>Clientes & Pastas Registradas</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>CPF/CNPJ</th>
+                    <th>Responsável</th>
+                    <th>Resumo do Caso</th>
+                    <th>Documentos Pendentes</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-clientes-corpo"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- MÓDULO: FINANCEIRO -->
+        <section id="modulo-financeiro" class="tab-view">
+          <div class="header-view">
+            <div>
+              <h1>Gestão Financeira & Custas do Escritório</h1>
+              <p>Controle dos 4 pilares: honorários fixos/êxito, custos de operação e reembolsos.</p>
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="card" style="margin-bottom: 0;">
+              <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Honorários Previstos/Recebidos</label>
+              <div id="stat-entradas" class="stat-val-income">R$ 0,00</div>
+            </div>
+            <div class="card" style="margin-bottom: 0;">
+              <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Despesas & Custas</label>
+              <div id="stat-saidas" class="stat-val-expense">R$ 0,00</div>
+            </div>
+            <div class="card" style="margin-bottom: 0;">
+              <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Saldo em Caixa</label>
+              <div id="stat-saldo" class="stat-val-balance">R$ 0,00</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 24px;">
+            <h3>Novo Lançamento Financeiro</h3>
+            <form id="form-cad-financeiro" onsubmit="salvarLancamento(event)">
+              <div class="form-grid-3">
+                <div class="input-wrap">
+                  <label>Classificação do Lançamento:</label>
+                  <select id="fin-categoria" required>
+                    <option value="honorario_fixo">1. Entrada: Honorário Contratual Fixo</option>
+                    <option value="honorario_exito">1. Entrada: Honorário de Êxito (Alvará)</option>
+                    <option value="despesa_fixa">2. Saída: Custo Fixo (Aluguel, Salário, Softwares)</option>
+                    <option value="despesa_variavel">2. Saída: Despesa Variável (Imposto, Marketing)</option>
+                    <option value="custa_reembolso">3. Custa Judicial / Diligência (A Reembolsar)</option>
+                  </select>
+                </div>
+                <div class="input-wrap">
+                  <label>Descrição / Vínculo ao Cliente:</label>
+                  <input type="text" id="fin-descricao" placeholder="Ex: Guia de custas recursais - Cliente Silva" required>
+                </div>
+                <div class="input-wrap">
+                  <label>Valor (R$):</label>
+                  <input type="number" id="fin-valor" step="0.01" placeholder="0.00" required>
+                </div>
+              </div>
+              <button type="submit" class="btn-action">Lançar no Fluxo</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3>Extrato de Lançamentos e Custas</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Descrição</th>
+                    <th>Classificação</th>
+                    <th>Valor</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-fin-corpo"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL DE PASTAS E ANEXOS -->
+  <div id="modal-pastas" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-cliente-nome">Prontuário Digital: Cliente</h3>
+          <p>Repositório de documentos estruturados do processo.</p>
+        </div>
+        <button onclick="fecharModalPastas()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
+      </div>
+      
+      <div class="modal-body" id="modal-pastas-corpo"></div>
+    </div>
+  </div>
+
+  <script>
+    // 1. SESSÃO & LOGIN
+    function verificarSessao() {
+      if (localStorage.getItem('adv_autenticado') === 'true') {
+        document.getElementById('tela-login').style.display = 'none';
+        document.getElementById('tela-sistema').style.display = 'block';
+        carregarDados();
+      } else {
+        document.getElementById('tela-login').style.display = 'flex';
+        document.getElementById('tela-sistema').style.display = 'none';
+      }
+    }
+
+    function realizarLogin(e) {
+      e.preventDefault();
+      const usuario = document.getElementById('login-usuario').value.trim();
+      const senha = document.getElementById('login-senha').value.trim();
+      const erroEl = document.getElementById('msg-erro-login');
+
+      if (usuario === 'admin' && senha === '123456') {
+        localStorage.setItem('adv_autenticado', 'true');
+        erroEl.style.display = 'none';
+        verificarSessao();
+      } else {
+        erroEl.style.display = 'block';
+      }
+    }
+
+    function realizarLogout() {
+      localStorage.removeItem('adv_autenticado');
+      verificarSessao();
+    }
+
+    function trocarModulo(nomeModulo, botaoClicado) {
+      document.querySelectorAll('.tab-view').forEach(m => m.classList.remove('active'));
+      document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById('modulo-' + nomeModulo).classList.add('active');
+      botaoClicado.classList.add('active');
+    }
+
+    // 2. PRONTUÁRIO DIGITAL
+    let listaClientes = JSON.parse(localStorage.getItem('adv_clientes')) || [];
+    let clienteSelecionadoIndex = null;
+
+    const pastasConfig = [
+      { id: '01_Dados_Cadastrais', icon: '🗂️', nome: '01. Dados Cadastrais', desc: 'Ficha inicial, qualificação e comprovantes' },
+      { id: '02_Contratos_e_Procuracoes', icon: '⚖️', nome: '02. Contratos & Procurações', desc: 'Instrumentos de mandato e honorários assinados' },
+      { id: '03_Peticoes_e_Pareceres', icon: '📄', nome: '03. Petições & Pareceres', desc: 'Peças processuais, recursos e notas técnicas' },
+      { id: '04_Provas', icon: '🔍', nome: '04. Provas & Documentos', desc: 'Extratos, laudos, fotos e elementos probatórios' },
+      { id: '05_Correspondencia', icon: '✉️', nome: '05. Correspondência', desc: 'Notificações, e-mails e avisos de recebimento' }
+    ];
+
+    function inicializarPastas() {
+      const p = {};
+      pastasConfig.forEach(item => { p[item.id] = []; });
+      return p;
+    }
+
+    function salvarCliente(e) {
+      e.preventDefault();
+      const idEdicao = document.getElementById('cli-id-edicao').value;
+
+      const dados = {
+        nome: document.getElementById('cli-nome').value,
+        doc: document.getElementById('cli-doc').value,
+        contato: document.getElementById('cli-contato').value,
+        endereco: document.getElementById('cli-endereco').value,
+        responsavel: document.getElementById('cli-responsavel').value,
+        resumo: document.getElementById('cli-resumo').value,
+        pendencias: document.getElementById('cli-pendencias').value || 'Nenhuma',
+        pastas: {}
+      };
+
+      if (idEdicao !== '') {
+        const index = parseInt(idEdicao);
+        dados.pastas = listaClientes[index].pastas || inicializarPastas();
+        listaClientes[index] = dados;
+      } else {
+        dados.pastas = inicializarPastas();
+        listaClientes.push(dados);
+      }
+
+      localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
+      cancelarEdicao();
+      renderizarClientes();
+      atualizarSelectClientesPrazos();
+    }
+
+    function prepararEdicao(index) {
+      const c = listaClientes[index];
+      document.getElementById('cli-id-edicao').value = index;
+      document.getElementById('cli-nome').value = c.nome;
+      document.getElementById('cli-doc').value = c.doc;
+      document.getElementById('cli-contato').value = c.contato;
+      document.getElementById('cli-endereco').value = c.endereco || '';
+      document.getElementById('cli-responsavel').value = c.responsavel;
+      document.getElementById('cli-resumo').value = c.resumo;
+      document.getElementById('cli-pendencias').value = c.pendencias === 'Nenhuma' ? '' : c.pendencias;
+
+      document.getElementById('form-cliente-titulo').innerText = 'Editar Prontuário: ' + c.nome;
+      document.getElementById('btn-submit-cliente').innerText = 'Atualizar Prontuário';
+      document.getElementById('btn-cancelar-edicao').style.display = 'inline-block';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cancelarEdicao() {
+      document.getElementById('cli-id-edicao').value = '';
+      document.getElementById('form-cad-cliente').reset();
+      document.getElementById('form-cliente-titulo').innerText = 'Novo Cadastro de Cliente & Caso';
+      document.getElementById('btn-submit-cliente').innerText = 'Salvar no Prontuário';
+      document.getElementById('btn-cancelar-edicao').style.display = 'none';
+    }
+
+    function excluirCliente(index) {
+      if (confirm(`Deseja excluir o prontuário de "${listaClientes[index].nome}"?`)) {
+        listaClientes.splice(index, 1);
+        localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
+        renderizarClientes();
+        atualizarSelectClientesPrazos();
+      }
+    }
+
+    function renderizarClientes() {
+      const corpo = document.getElementById('tabela-clientes-corpo');
+      corpo.innerHTML = '';
+
+      if (listaClientes.length === 0) {
+        corpo.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Nenhum cliente cadastrado até o momento.</td></tr>';
+        return;
+      }
+
+      listaClientes.forEach((c, index) => {
+        corpo.innerHTML += `
+          <tr>
+            <td><strong>${c.nome}</strong></td>
+            <td>${c.doc}</td>
+            <td>${c.responsavel}</td>
+            <td>${c.resumo}</td>
+            <td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td>
+            <td>
+              <div class="actions-btns">
+                <button class="btn-table btn-folder" onclick="abrirModalPastas(${index})">📁 Pastas</button>
+                <button class="btn-table btn-edit" onclick="prepararEdicao(${index})">✏️ Editar</button>
+                <button class="btn-table btn-del" onclick="excluirCliente(${index})">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // 3. ANEXOS E PASTAS
+    function abrirModalPastas(index) {
+      clienteSelecionadoIndex = index;
+      const c = listaClientes[index];
+      if (!c.pastas) c.pastas = inicializarPastas();
+
+      document.getElementById('modal-cliente-nome').innerText = `Prontuário Digital: ${c.nome}`;
+      renderizarConteudoModalPastas();
+      document.getElementById('modal-pastas').style.display = 'flex';
+    }
+
+    function fecharModalPastas() {
+      document.getElementById('modal-pastas').style.display = 'none';
+      clienteSelecionadoIndex = null;
+    }
+
+    function renderizarConteudoModalPastas() {
+      const corpo = document.getElementById('modal-pastas-corpo');
+      const c = listaClientes[clienteSelecionadoIndex];
+      corpo.innerHTML = '';
+
+      pastasConfig.forEach(pasta => {
+        const arquivos = c.pastas[pasta.id] || [];
+        
+        let arquivosHtml = '';
+        if (arquivos.length === 0) {
+          arquivosHtml = '<p class="empty-files-msg">Nenhum documento anexado nesta pasta.</p>';
+        } else {
+          arquivosHtml = '<ul class="file-list">';
+          arquivos.forEach((arq, arqIdx) => {
+            arquivosHtml += `
+              <li class="file-item">
+                <a href="${arq.dadosBase64}" download="${arq.nome}" class="file-link" title="Clique para baixar">📄 ${arq.nome}</a>
+                <button class="file-remove-btn" onclick="removerArquivo('${pasta.id}', ${arqIdx})" title="Excluir arquivo">&times;</button>
+              </li>
+            `;
+          });
+          arquivosHtml += '</ul>';
+        }
+
+        corpo.innerHTML += `
+          <div class="folder-card">
+            <div class="folder-header">
+              <div class="folder-meta">
+                <div class="folder-icon-circle">${pasta.icon}</div>
+                <div class="folder-names-wrap">
+                  <span class="folder-title">${pasta.nome}</span>
+                  <span class="folder-counter">${arquivos.length} ${arquivos.length === 1 ? 'documento' : 'documentos'} • ${pasta.desc}</span>
+                </div>
+              </div>
+              <label class="btn-anexar">
+                + Anexar Arquivo
+                <input type="file" style="display: none;" onchange="anexarArquivo(event, '${pasta.id}')">
+              </label>
+            </div>
+            ${arquivosHtml}
+          </div>
+        `;
+      });
+    }
+
+    function anexarArquivo(evento, pastaId) {
+      const file = evento.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const c = listaClientes[clienteSelecionadoIndex];
+        if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
+
+        c.pastas[pastaId].push({
+          nome: file.name,
+          tipo: file.type,
+          dadosBase64: e.target.result
+        });
+
+        localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
+        renderizarConteudoModalPastas();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removerArquivo(pastaId, arqIdx) {
+      if (confirm('Deseja excluir este documento da pasta?')) {
+        const c = listaClientes[clienteSelecionadoIndex];
+        c.pastas[pastaId].splice(arqIdx, 1);
+        localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
+        renderizarConteudoModalPastas();
+      }
+    }
+
+    // 4. CALCULADORA & AGENDA DE PRAZOS
+    let listaPrazosSalvos = JSON.parse(localStorage.getItem('adv_prazos_salvos')) || [];
+    let ultimoCalculoTemp = null;
+
+    function atualizarSelectClientesPrazos() {
+      const select = document.getElementById('prazo-cliente-vinculo');
+      select.innerHTML = '<option value="">-- Selecione ou deixe avulso --</option>';
+      listaClientes.forEach(c => {
+        select.innerHTML += `<option value="${c.nome}">${c.nome} (${c.doc})</option>`;
+      });
+    }
+
+    function calcularDataFatal() {
+      const lei = document.getElementById('prazo-lei').value;
+      const dataInput = document.getElementById('prazo-data-inicio').value;
+      const qtdDias = parseInt(document.getElementById('prazo-qtd-dias').value);
+      const resBox = document.getElementById('box-resultado-prazo');
+      const btnSalvar = document.getElementById('btn-salvar-prazo-agenda');
+
+      if (!dataInput || isNaN(qtdDias) || qtdDias <= 0) {
+        alert('Selecione a data de publicação e informe uma quantidade de dias válida.');
+        return;
+      }
+
+      let data = new Date(dataInput + 'T00:00:00');
+      let diasContados = 0;
+      const diasUteis = (lei !== 'cpp');
+
+      while (diasContados < qtdDias) {
+        data.setDate(data.getDate() + 1);
+        const diaSemana = data.getDay();
+
+        if (diasUteis) {
+          if (diaSemana !== 0 && diaSemana !== 6) diasContados++;
+        } else {
+          diasContados++;
+        }
+      }
+
+      if (!diasUteis) {
+        if (data.getDay() === 6) data.setDate(data.getDate() + 2);
+        else if (data.getDay() === 0) data.setDate(data.getDate() + 1);
+      }
+
+      const formatada = data.toLocaleDateString('pt-BR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      ultimoCalculoTemp = {
+        lei: lei.toUpperCase(),
+        dataFatalFormatada: formatada,
+        dataFatalISO: data.toISOString().split('T')[0]
+      };
+
+      resBox.style.display = 'block';
+      resBox.innerHTML = `Vencimento Fatal (${lei.toUpperCase()}): <strong>${formatada}</strong>`;
+      btnSalvar.style.display = 'block';
+    }
+
+    function salvarPrazoNoHistorico() {
+      if (!ultimoCalculoTemp) return;
+
+      const descricao = document.getElementById('prazo-descricao').value.trim() || 'Prazo Processual';
+      const cliente = document.getElementById('prazo-cliente-vinculo').value || 'Avulso';
+
+      listaPrazosSalvos.push({
+        descricao: descricao,
+        cliente: cliente,
+        lei: ultimoCalculoTemp.lei,
+        dataFatalFormatada: ultimoCalculoTemp.dataFatalFormatada,
+        dataFatalISO: ultimoCalculoTemp.dataFatalISO
+      });
+
+      localStorage.setItem('adv_prazos_salvos', JSON.stringify(listaPrazosSalvos));
+      document.getElementById('btn-salvar-prazo-agenda').style.display = 'none';
+      document.getElementById('prazo-descricao').value = '';
+      renderizarPrazosSalvos();
+    }
+
+    function excluirPrazoSalvo(index) {
+      listaPrazosSalvos.splice(index, 1);
+      localStorage.setItem('adv_prazos_salvos', JSON.stringify(listaPrazosSalvos));
+      renderizarPrazosSalvos();
+    }
+
+    function renderizarPrazosSalvos() {
+      const corpo = document.getElementById('tabela-prazos-salvos');
+      corpo.innerHTML = '';
+
+      document.getElementById('stat-total-prazos').innerText = listaPrazosSalvos.length;
+
+      const hoje = new Date();
+      let urgentes = 0;
+
+      if (listaPrazosSalvos.length === 0) {
+        corpo.innerHTML = '<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Nenhum prazo registrado na agenda.</td></tr>';
+        document.getElementById('stat-prazos-urgentes').innerText = '0';
+        return;
+      }
+
+      listaPrazosSalvos.forEach((p, idx) => {
+        const dataFim = new Date(p.dataFatalISO + 'T00:00:00');
+        const diffDias = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
+        
+        let badge = '<span class="badge-ok">Em Prazo</span>';
+        if (diffDias <= 7) {
+          urgentes++;
+          badge = `<span class="badge-urgente">${diffDias < 0 ? 'Vencido' : diffDias + ' dias restantes'}</span>`;
+        }
+
+        corpo.innerHTML += `
+          <tr>
+            <td><strong>${p.descricao}</strong></td>
+            <td>${p.cliente}</td>
+            <td><span class="f-badge">${p.lei}</span></td>
+            <td>${p.dataFatalFormatada} ${badge}</td>
+            <td><button class="btn-table btn-del" onclick="excluirPrazoSalvo(${idx})">🗑️</button></td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('stat-prazos-urgentes').innerText = urgentes;
+    }
+
+    // 5. FINANCEIRO
+    let listaFin = JSON.parse(localStorage.getItem('adv_financeiro')) || [];
+
+    function salvarLancamento(e) {
+      e.preventDefault();
+      const categoria = document.getElementById('fin-categoria').value;
+      const descricao = document.getElementById('fin-descricao').value;
+      const valor = parseFloat(document.getElementById('fin-valor').value);
+
+      listaFin.push({ categoria, descricao, valor });
+      localStorage.setItem('adv_financeiro', JSON.stringify(listaFin));
+      renderizarFinanceiro();
+      e.target.reset();
+    }
+
+    function renderizarFinanceiro() {
+      const corpo = document.getElementById('tabela-fin-corpo');
+      corpo.innerHTML = '';
+
+      let totalEntradas = 0;
+      let totalSaidas = 0;
+
+      if (listaFin.length === 0) {
+        corpo.innerHTML = '<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">Nenhum lançamento registrado.</td></tr>';
+      }
+
+      listaFin.forEach(item => {
+        const ehEntrada = item.categoria.startsWith('honorario');
+        if (ehEntrada) totalEntradas += item.valor;
+        else totalSaidas += item.valor;
+
+        corpo.innerHTML += `
+          <tr>
+            <td><strong>${item.descricao}</strong></td>
+            <td>${item.categoria.replace(/_/g, ' ').toUpperCase()}</td>
+            <td style="color: ${ehEntrada ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">
+              ${ehEntrada ? '+' : '-'} R$ ${item.valor.toFixed(2)}
+            </td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('stat-entradas').innerText = `R$ ${totalEntradas.toFixed(2)}`;
+      document.getElementById('stat-saidas').innerText = `R$ ${totalSaidas.toFixed(2)}`;
+      
+      const saldo = totalEntradas - totalSaidas;
+      const saldoEl = document.getElementById('stat-saldo');
+      saldoEl.innerText = `R$ ${saldo.toFixed(2)}`;
+      saldoEl.style.color = saldo >= 0 ? 'var(--primary)' : 'var(--danger)';
+    }
+
+    function carregarDados() {
+      renderizarClientes();
+      atualizarSelectClientesPrazos();
+      renderizarPrazosSalvos();
+      renderizarFinanceiro();
+    }
+
+    verificarSessao();
+  </script>
+</body>
+</html>
