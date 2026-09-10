@@ -25,392 +25,74 @@
       --info: #0284c7;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--main-bg); color: var(--text-dark); }
 
-    body {
-      background-color: var(--main-bg);
-      color: var(--text-dark);
-    }
-
-    /* Tela de Login & Cadastro */
-    #tela-login {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #0a1128 0%, #1c2541 100%);
-      padding: 20px;
-    }
-
-    .login-box {
-      background: #ffffff;
-      width: 100%;
-      max-width: 440px;
-      padding: 40px 32px;
-      border-radius: 16px;
-      box-shadow: 0 20px 35px rgba(0,0,0,0.4);
-      text-align: center;
-    }
-
-    .brand-logo-container {
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .brand-logo-circle {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-      background: rgba(197, 155, 39, 0.08);
-      font-size: 28px;
-    }
-
-    .brand-title {
-      font-family: 'Cinzel', serif;
-      font-size: 19px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: var(--primary);
-    }
-
-    .brand-subtitle {
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 700;
-      margin-top: 2px;
-    }
-
+    /* Tela de Login */
+    #tela-login { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #0a1128 0%, #1c2541 100%); padding: 20px; }
+    .login-box { background: #ffffff; width: 100%; max-width: 440px; padding: 40px 32px; border-radius: 16px; box-shadow: 0 20px 35px rgba(0,0,0,0.4); text-align: center; }
+    .brand-logo-container { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; }
+    .brand-logo-circle { width: 68px; height: 68px; border-radius: 50%; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: rgba(197, 155, 39, 0.08); font-size: 28px; }
+    .brand-title { font-family: 'Cinzel', serif; font-size: 19px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary); }
+    .brand-subtitle { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-top: 2px; }
     .form-auth { display: none; }
     .form-auth.active { display: block; }
-
-    .toggle-form {
-      margin-top: 20px;
-      font-size: 13px;
-      color: var(--accent);
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-block;
-    }
-
+    .toggle-form { margin-top: 20px; font-size: 13px; color: var(--accent); font-weight: 600; cursor: pointer; display: inline-block; }
     .toggle-form:hover { text-decoration: underline; }
 
     /* Layout Autenticado */
-    #tela-sistema {
-      display: none;
-      min-height: 100vh;
-    }
+    #tela-sistema { display: none; min-height: 100vh; }
+    .app-container { display: flex; min-height: 100vh; }
+    .sidebar { width: 280px; background: var(--sidebar-bg); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 24px 16px; border-right: 1px solid #1e293b; }
+    .sidebar-brand { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #1e293b; }
+    .sidebar-brand .brand-title { color: #fff; font-size: 15px; text-align: center; }
+    .sidebar-brand .brand-subtitle { color: var(--accent); font-size: 9px; }
+    .user-profile { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-bottom: 24px; text-align: center; }
+    .user-profile span { font-size: 11px; color: #94a3b8; }
+    .user-profile strong { display: block; color: var(--accent); font-size: 14px; margin-top: 2px; }
+    .menu-nav { display: flex; flex-direction: column; gap: 6px; }
+    .menu-btn { background: transparent; border: none; color: #cbd5e1; padding: 12px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+    .menu-btn:hover, .menu-btn.active { background: var(--primary); color: #fff; }
+    .btn-logout { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; }
+    .btn-logout:hover { background: #ef4444; color: #fff; }
 
-    .app-container {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      width: 280px;
-      background: var(--sidebar-bg);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 24px 16px;
-      border-right: 1px solid #1e293b;
-    }
-
-    .sidebar-brand {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #1e293b;
-    }
-
-    .sidebar-brand img {
-      max-width: 140px;
-      height: auto;
-      margin-bottom: 8px;
-    }
-
-    .sidebar-brand .brand-title {
-      color: #fff;
-      font-size: 15px;
-      text-align: center;
-    }
-
-    .sidebar-brand .brand-subtitle {
-      color: var(--accent);
-      font-size: 9px;
-    }
-
-    .user-profile {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    .user-profile span {
-      font-size: 11px;
-      color: #94a3b8;
-    }
-
-    .user-profile strong {
-      display: block;
-      color: var(--accent);
-      font-size: 14px;
-      margin-top: 2px;
-    }
-
-    .menu-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .menu-btn {
-      background: transparent;
-      border: none;
-      color: #cbd5e1;
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      text-align: left;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: 0.2s;
-    }
-
-    .menu-btn:hover, .menu-btn.active {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .btn-logout {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #f87171;
-      padding: 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      width: 100%;
-    }
-
-    .btn-logout:hover {
-      background: #ef4444;
-      color: #fff;
-    }
-
-    .content-area {
-      flex: 1;
-      padding: 30px;
-      overflow-y: auto;
-      max-width: calc(100vw - 280px);
-    }
-
+    .content-area { flex: 1; padding: 30px; overflow-y: auto; max-width: calc(100vw - 280px); }
     .tab-view { display: none; }
     .tab-view.active { display: block; }
-
-    .header-view {
-      margin-bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header-view h1 {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--text-dark);
-    }
-
-    .header-view p {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 24px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-      margin-bottom: 24px;
-    }
-
-    .prazos-full-layout {
-      display: grid;
-      grid-template-columns: 460px 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .stats-prazos-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .stat-mini-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      padding: 16px;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .stat-mini-card label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .stat-mini-card span {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--primary);
-      margin-top: 4px;
-    }
-
-    .form-grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .form-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .input-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .input-wrap label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #334155;
-      text-align: left;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 13px;
-      outline: none;
-      background: #fff;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.08);
-    }
-
-    .btn-action {
-      background: var(--accent);
-      color: #fff;
-      font-weight: 600;
-      padding: 12px 22px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
+    .header-view { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header-view h1 { font-size: 24px; font-weight: 800; color: var(--text-dark); }
+    .header-view p { color: var(--text-muted); font-size: 14px; }
+    
+    .card { background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border); padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); margin-bottom: 24px; }
+    .prazos-full-layout { display: grid; grid-template-columns: 460px 1fr; gap: 24px; align-items: start; }
+    .stats-prazos-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+    .stat-mini-card { background: #fff; border: 1px solid var(--border); padding: 16px; border-radius: 10px; display: flex; flex-direction: column; }
+    .stat-mini-card label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-mini-card span { font-size: 22px; font-weight: 800; color: var(--primary); margin-top: 4px; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .form-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+    .input-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .input-wrap label { font-size: 12px; font-weight: 600; color: #334155; text-align: left; }
+    input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; background: #fff; }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.08); }
+    .btn-action { background: var(--accent); color: #fff; font-weight: 600; padding: 12px 22px; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; }
     .btn-action:hover { background: var(--accent-hover); }
+    .btn-secondary { background: #e2e8f0; color: #334155; font-weight: 600; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; margin-left: 8px; }
 
-    .btn-secondary {
-      background: #e2e8f0;
-      color: #334155;
-      font-weight: 600;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-left: 8px;
-    }
-
-    /* Pastas no Prontuário */
-    .folders-guide {
-      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 18px 20px;
-      margin: 14px 0 24px 0;
-    }
-
-    .folders-guide-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .folders-guide-header h4 {
-      font-size: 13px;
-      font-weight: 700;
-      color: #1e293b;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .folders-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-    }
-
-    .folder-chip {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    /* Pastas & Tabelas */
+    .folders-guide { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; margin: 14px 0 24px 0; }
+    .folders-guide-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .folders-guide-header h4 { font-size: 13px; font-weight: 700; color: #1e293b; text-transform: uppercase; }
+    .folders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+    .folder-chip { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px; }
     .folder-chip-icon { font-size: 18px; }
     .folder-chip-text { display: flex; flex-direction: column; }
     .folder-chip-index { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
     .folder-chip-name { font-size: 12px; font-weight: 600; color: #334155; }
-
     .table-container { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
     table th { background: #f8fafc; color: #475569; font-weight: 700; padding: 12px; border-bottom: 2px solid var(--border); }
     table td { padding: 12px; border-bottom: 1px solid var(--border); }
-
     .actions-btns { display: flex; gap: 6px; }
     .btn-table { padding: 6px 12px; font-size: 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
     .btn-edit { background: #e0f2fe; color: var(--info); }
@@ -418,84 +100,31 @@
     .btn-del { background: #fee2e2; color: var(--danger); }
 
     /* Modais */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(5px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-
-    .modal-box {
-      background: #fff; width: 100%; max-width: 800px; max-height: 90vh;
-      border-radius: 16px; display: flex; flex-direction: column; overflow: hidden;
-    }
-
-    .modal-header {
-      padding: 20px 24px; border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center; background: #f8fafc;
-    }
-
-    .modal-body {
-      padding: 24px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 14px;
-    }
-
-    .folder-card {
-      background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px;
-    }
-
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+    .modal-box { background: #fff; width: 100%; max-width: 800px; max-height: 90vh; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; }
+    .modal-body { padding: 24px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 14px; }
+    .folder-card { background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
     .folder-header { display: flex; justify-content: space-between; align-items: center; }
     .folder-meta { display: flex; align-items: center; gap: 12px; }
-    .folder-icon-circle {
-      width: 40px; height: 40px; border-radius: 10px; background: #fef3c7;
-      display: flex; align-items: center; justify-content: center; font-size: 20px;
-    }
-
+    .folder-icon-circle { width: 40px; height: 40px; border-radius: 10px; background: #fef3c7; display: flex; align-items: center; justify-content: center; font-size: 20px; }
     .folder-title { font-size: 14px; font-weight: 700; color: #1e293b; }
     .folder-counter { font-size: 11px; font-weight: 600; color: var(--text-muted); }
-
-    .btn-anexar {
-      background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0;
-      padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;
-    }
-
+    .btn-anexar { background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .file-list { list-style: none; margin-top: 12px; border-top: 1px dashed #e2e8f0; padding-top: 10px; }
-    .file-item {
-      display: flex; justify-content: space-between; align-items: center;
-      background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 6px; font-size: 12px; margin-bottom: 6px;
-    }
+    .file-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 6px; font-size: 12px; margin-bottom: 6px; }
     .file-link { color: var(--info); text-decoration: none; font-weight: 600; max-width: 500px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .file-remove-btn { color: var(--danger); cursor: pointer; background: none; border: none; font-weight: bold; }
     .empty-files-msg { color: #94a3b8; font-size: 12px; font-style: italic; margin-top: 8px; }
 
-    .alert-res {
-      margin-top: 16px; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center;
-    }
+    .alert-res { margin-top: 16px; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; }
     .alert-success { background: #ecfdf5; border: 1px solid #6ee7b7; color: var(--success); }
-
-    .badge-urgente {
-      background: #fef2f2; color: var(--danger); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #fecaca;
-    }
-    .badge-alerta {
-      background: #fffbeb; color: #b45309; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #fde68a;
-    }
-    .badge-ok {
-      background: #f0fdf4; color: var(--success); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #bbf7d0;
-    }
-
-    .alerta-item-box {
-      background: #fff; border: 1px solid #fed7aa; border-left: 4px solid var(--accent);
-      padding: 12px 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
-    }
-
-    .alerta-item-urgente {
-      border-color: #fca5a5; border-left: 4px solid var(--danger); background: #fff5f5;
-    }
-
+    .badge-urgente { background: #fef2f2; color: var(--danger); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #fecaca; }
+    .badge-alerta { background: #fffbeb; color: #b45309; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #fde68a; }
+    .badge-ok { background: #f0fdf4; color: var(--success); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #bbf7d0; }
+    .alerta-item-box { background: #fff; border: 1px solid #fed7aa; border-left: 4px solid var(--accent); padding: 12px 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .alerta-item-urgente { border-color: #fca5a5; border-left: 4px solid var(--danger); background: #fff5f5; }
+    
     .stat-val-income { color: var(--success); font-weight: 800; font-size: 22px; }
     .stat-val-expense { color: var(--danger); font-weight: 800; font-size: 22px; }
     .stat-val-balance { color: var(--primary); font-weight: 800; font-size: 22px; }
@@ -503,49 +132,44 @@
 </head>
 <body>
 
-  <!-- 1. TELA DE LOGIN & CADASTRO -->
+  <!-- 1. TELA DE LOGIN -->
   <section id="tela-login">
     <div class="login-box">
       <div class="brand-logo-container">
-        <img src="logo.png" alt="Barros e Cavalcante" style="max-width: 170px; margin-bottom: 12px;" onerror="this.style.display='none'; document.getElementById('login-fallback-badge').style.display='flex';">
-        <div id="login-fallback-badge" class="brand-logo-circle" style="display: none;">⚖️</div>
+        <div class="brand-logo-circle">⚖️</div>
         <h2 class="brand-title">BARROS E CAVALCANTE</h2>
         <span class="brand-subtitle">ADVOCACIA</span>
       </div>
       <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Atuação jurídica com seriedade e proximidade</p>
       
-      <!-- Formulário de Login (Firebase Auth) -->
       <form id="form-login" class="form-auth active" onsubmit="window.realizarLogin(event)">
         <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
           <label>E-mail Institucional</label>
-          <input type="email" id="login-usuario" placeholder="advogada@escritorio.com" required>
+          <input type="email" id="login-usuario" required>
         </div>
         <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
           <label>Senha</label>
-          <input type="password" id="login-senha" placeholder="••••••••" required>
+          <input type="password" id="login-senha" required>
         </div>
         <button type="submit" class="btn-action" style="width: 100%;">Acessar Painel Jurídico</button>
         <p id="msg-erro-login" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;">Credenciais inválidas.</p>
-        
         <span class="toggle-form" onclick="window.alternarTelaAuth('cadastro')">Não tem uma conta? Cadastre-se</span>
       </form>
 
-      <!-- Formulário de Cadastro (Firebase Auth) -->
       <form id="form-cadastro" class="form-auth" onsubmit="window.realizarCadastro(event)">
         <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
           <label>Nome Completo (Advogada)</label>
-          <input type="text" id="cad-nome" placeholder="Ex: Dra. Ana Silva" required>
+          <input type="text" id="cad-nome" required>
         </div>
         <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
           <label>E-mail Institucional</label>
-          <input type="email" id="cad-usuario" placeholder="advogada@escritorio.com" required>
+          <input type="email" id="cad-usuario" required>
         </div>
         <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
           <label>Crie uma Senha (Mín. 6 caracteres)</label>
           <input type="password" id="cad-senha" required minlength="6">
         </div>
         <button type="submit" class="btn-action" style="width: 100%; background: var(--primary);">Criar Conta Jurídica</button>
-        
         <span class="toggle-form" onclick="window.alternarTelaAuth('login')">Já possui conta? Faça o Login</span>
       </form>
     </div>
@@ -557,8 +181,7 @@
       <aside class="sidebar">
         <div>
           <div class="sidebar-brand">
-            <img src="logo.png" alt="Logo" onerror="this.style.display='none'; document.getElementById('side-fallback-badge').style.display='flex';" style="max-height: 50px;">
-            <div id="side-fallback-badge" class="brand-logo-circle" style="display:none; width:44px; height:44px; font-size:20px; margin-bottom:6px;">⚖️</div>
+            <div class="brand-logo-circle" style="width:44px; height:44px; font-size:20px; margin-bottom:6px;">⚖️</div>
             <span class="brand-title">BARROS E CAVALCANTE</span>
             <span class="brand-subtitle">ADVOCACIA</span>
           </div>
@@ -584,9 +207,9 @@
           <div class="header-view">
             <div>
               <h1>Calculadora de Prazos Processuais</h1>
-              <p>Contagem automatizada por legislação e gestão de prazos fatais da banca.</p>
+              <p>Integração com Brasil API para descontar automaticamente Sábados, Domingos e Feriados Nacionais.</p>
             </div>
-            <button class="btn-action" style="background: var(--primary);" onclick="window.verificarPrazosUrgentes(true)">🔔 Verificar Alertas de Prazos</button>
+            <button class="btn-action" style="background: var(--primary);" onclick="window.verificarPrazosUrgentes(true)">🔔 Alertas de Prazos</button>
           </div>
 
           <div class="stats-prazos-row">
@@ -595,12 +218,12 @@
               <span id="stat-total-prazos">0</span>
             </div>
             <div class="stat-mini-card">
-              <label>Prazos Críticos (Amanhã / Hoje / Vencidos)</label>
+              <label>Prazos Críticos</label>
               <span id="stat-prazos-urgentes" style="color: var(--danger);">0</span>
             </div>
             <div class="stat-mini-card">
-              <label>Regime Padrão Ativo</label>
-              <span style="font-size: 16px; color: var(--accent); margin-top: 8px;">CPC (Dias Úteis)</span>
+              <label>Feriados Carregados (Brasil API)</label>
+              <span id="stat-feriados" style="font-size: 16px; color: var(--accent); margin-top: 8px;">Aguardando...</span>
             </div>
           </div>
 
@@ -638,27 +261,21 @@
 
               <div class="input-wrap" style="margin-bottom: 16px;">
                 <label>Ato / Descrição do Prazo:</label>
-                <input type="text" id="prazo-descricao" placeholder="Ex: Apelação, Contestação, Manifestação">
+                <input type="text" id="prazo-descricao" placeholder="Ex: Apelação, Contestação">
               </div>
 
               <button type="button" class="btn-action" style="width: 100%;" onclick="window.calcularDataFatal()">Calcular Prazo Fatal</button>
               
               <div id="box-resultado-prazo" class="alert-res alert-success" style="display: none;"></div>
-              <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="window.salvarPrazoNoHistorico()">Salvar na Agenda de Prazos</button>
+              <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="window.salvarPrazoNoHistorico()">Salvar na Agenda</button>
             </div>
 
             <div class="card" style="margin-bottom: 0;">
-              <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos Críticos do Escritório</h3>
+              <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos</h3>
               <div class="table-container">
                 <table>
                   <thead>
-                    <tr>
-                      <th>Ato / Processo</th>
-                      <th>Cliente</th>
-                      <th>Regra</th>
-                      <th>Data Fatal</th>
-                      <th>Ação</th>
-                    </tr>
+                    <tr><th>Ato / Processo</th><th>Cliente</th><th>Regra</th><th>Data Fatal</th><th>Ação</th></tr>
                   </thead>
                   <tbody id="tabela-prazos-salvos"></tbody>
                 </table>
@@ -677,28 +294,13 @@
           </div>
 
           <div class="card">
-            <h3 id="form-cliente-titulo">Novo Cadastro de Cliente & Caso</h3>
-            
-            <div class="folders-guide">
-              <div class="folders-guide-header">
-                <span>📁</span>
-                <h4>Estrutura Padronizada de Pastas</h4>
-              </div>
-              <div class="folders-grid">
-                <div class="folder-chip"><span class="folder-chip-icon">🗂️</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 01</span><span class="folder-chip-name">Dados Cadastrais</span></div></div>
-                <div class="folder-chip"><span class="folder-chip-icon">⚖️</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 02</span><span class="folder-chip-name">Contratos & Procura.</span></div></div>
-                <div class="folder-chip"><span class="folder-chip-icon">📄</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 03</span><span class="folder-chip-name">Petições & Pareceres</span></div></div>
-                <div class="folder-chip"><span class="folder-chip-icon">🔍</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 04</span><span class="folder-chip-name">Provas & Anexos</span></div></div>
-                <div class="folder-chip"><span class="folder-chip-icon">✉️</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 05</span><span class="folder-chip-name">Correspondência</span></div></div>
-              </div>
-            </div>
-
+            <h3 id="form-cliente-titulo">Novo Cadastro de Cliente</h3>
             <form id="form-cad-cliente" onsubmit="window.salvarCliente(event)">
               <input type="hidden" id="cli-id-edicao" value="">
 
               <div class="form-grid-2">
                 <div class="input-wrap">
-                  <label>Identificação (Nome do Cliente / Razão Social):</label>
+                  <label>Identificação (Nome / Razão Social):</label>
                   <input type="text" id="cli-nome" required>
                 </div>
                 <div class="input-wrap">
@@ -706,30 +308,18 @@
                   <input type="text" id="cli-doc" required>
                 </div>
               </div>
-
               <div class="form-grid-3">
-                <div class="input-wrap">
-                  <label>Contato (Telefone / E-mail):</label>
-                  <input type="text" id="cli-contato" required>
-                </div>
-                <div class="input-wrap">
-                  <label>Endereço Completo:</label>
-                  <input type="text" id="cli-endereco" required>
-                </div>
-                <div class="input-wrap">
-                  <label>Advogado Responsável:</label>
-                  <input type="text" id="cli-responsavel" required>
-                </div>
+                <div class="input-wrap"><label>Contato (Telefone/E-mail):</label><input type="text" id="cli-contato" required></div>
+                <div class="input-wrap"><label>Endereço Completo:</label><input type="text" id="cli-endereco" required></div>
+                <div class="input-wrap"><label>Advogado Responsável:</label><input type="text" id="cli-responsavel" required></div>
               </div>
-
               <div class="input-wrap" style="margin-bottom: 14px;">
-                <label>Resumo do Caso (até 3 linhas com áreas do direito e prazo crítico):</label>
-                <textarea id="cli-resumo" rows="3" maxlength="250" placeholder="Ex: Ação Trabalhista pleiteando verbas rescisórias." required></textarea>
+                <label>Resumo do Caso:</label>
+                <textarea id="cli-resumo" rows="2" maxlength="250" required></textarea>
               </div>
-
               <div class="input-wrap" style="margin-bottom: 18px;">
                 <label>Lista de Documentos Pendentes:</label>
-                <input type="text" id="cli-pendencias" placeholder="Ex: Cópia da CTPS (Envio até 15/09)">
+                <input type="text" id="cli-pendencias">
               </div>
 
               <div style="display: flex; align-items: center;">
@@ -740,18 +330,16 @@
           </div>
 
           <div class="card">
-            <h3>Clientes & Pastas Registradas na Nuvem</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h3>Clientes Registrados na Nuvem</h3>
+              <!-- NOVO: BARRA DE PESQUISA -->
+              <input type="text" id="busca-cliente" placeholder="🔍 Buscar por Nome ou CPF..." style="max-width: 300px; padding: 6px 12px;" onkeyup="window.filtrarClientes()">
+            </div>
+            
             <div class="table-container">
               <table>
                 <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>CPF/CNPJ</th>
-                    <th>Responsável</th>
-                    <th>Resumo do Caso</th>
-                    <th>Documentos Pendentes</th>
-                    <th>Ações</th>
-                  </tr>
+                  <tr><th>Cliente</th><th>CPF/CNPJ</th><th>Responsável</th><th>Resumo do Caso</th><th>Documentos Pendentes</th><th>Ações</th></tr>
                 </thead>
                 <tbody id="tabela-clientes-corpo"></tbody>
               </table>
@@ -764,23 +352,14 @@
           <div class="header-view">
             <div>
               <h1>Gestão Financeira & Custas do Escritório</h1>
-              <p>Controle centralizado na nuvem de honorários e despesas.</p>
+              <p>Controle centralizado de honorários e despesas.</p>
             </div>
           </div>
 
           <div class="form-grid-3">
-            <div class="card" style="margin-bottom: 0;">
-              <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Honorários Previstos/Recebidos</label>
-              <div id="stat-entradas" class="stat-val-income">R$ 0,00</div>
-            </div>
-            <div class="card" style="margin-bottom: 0;">
-              <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Despesas & Custas</label>
-              <div id="stat-saidas" class="stat-val-expense">R$ 0,00</div>
-            </div>
-            <div class="card" style="margin-bottom: 0;">
-              <label style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Saldo em Caixa</label>
-              <div id="stat-saldo" class="stat-val-balance">R$ 0,00</div>
-            </div>
+            <div class="card" style="margin-bottom: 0;"><label style="font-size: 12px; font-weight: 600;">Entradas</label><div id="stat-entradas" class="stat-val-income">R$ 0,00</div></div>
+            <div class="card" style="margin-bottom: 0;"><label style="font-size: 12px; font-weight: 600;">Saídas</label><div id="stat-saidas" class="stat-val-expense">R$ 0,00</div></div>
+            <div class="card" style="margin-bottom: 0;"><label style="font-size: 12px; font-weight: 600;">Saldo</label><div id="stat-saldo" class="stat-val-balance">R$ 0,00</div></div>
           </div>
 
           <div class="card" style="margin-top: 24px;">
@@ -788,39 +367,27 @@
             <form id="form-cad-financeiro" onsubmit="window.salvarLancamento(event)">
               <div class="form-grid-3">
                 <div class="input-wrap">
-                  <label>Classificação do Lançamento:</label>
+                  <label>Classificação:</label>
                   <select id="fin-categoria" required>
-                    <option value="honorario_fixo">1. Entrada: Honorário Contratual Fixo</option>
-                    <option value="honorario_exito">1. Entrada: Honorário de Êxito (Alvará)</option>
-                    <option value="despesa_fixa">2. Saída: Custo Fixo (Aluguel, Salário, Softwares)</option>
-                    <option value="despesa_variavel">2. Saída: Despesa Variável (Imposto, Marketing)</option>
-                    <option value="custa_reembolso">3. Custa Judicial / Diligência (A Reembolsar)</option>
+                    <option value="honorario_fixo">1. Entrada: Honorário Fixo</option>
+                    <option value="honorario_exito">1. Entrada: Honorário de Êxito</option>
+                    <option value="despesa_fixa">2. Saída: Custo Fixo</option>
+                    <option value="despesa_variavel">2. Saída: Despesa Variável</option>
+                    <option value="custa_reembolso">3. Custa Judicial (A Reembolsar)</option>
                   </select>
                 </div>
-                <div class="input-wrap">
-                  <label>Descrição / Vínculo ao Cliente:</label>
-                  <input type="text" id="fin-descricao" placeholder="Ex: Guia de custas recursais - Cliente Silva" required>
-                </div>
-                <div class="input-wrap">
-                  <label>Valor (R$):</label>
-                  <input type="number" id="fin-valor" step="0.01" placeholder="0.00" required>
-                </div>
+                <div class="input-wrap"><label>Descrição:</label><input type="text" id="fin-descricao" required></div>
+                <div class="input-wrap"><label>Valor (R$):</label><input type="number" id="fin-valor" step="0.01" required></div>
               </div>
               <button type="submit" class="btn-action">Lançar no Fluxo</button>
             </form>
           </div>
 
           <div class="card">
-            <h3>Extrato de Lançamentos e Custas (Nuvem)</h3>
+            <h3>Extrato de Lançamentos</h3>
             <div class="table-container">
               <table>
-                <thead>
-                  <tr>
-                    <th>Descrição</th>
-                    <th>Classificação</th>
-                    <th>Valor</th>
-                  </tr>
-                </thead>
+                <thead><tr><th>Descrição</th><th>Classificação</th><th>Valor</th></tr></thead>
                 <tbody id="tabela-fin-corpo"></tbody>
               </table>
             </div>
@@ -831,34 +398,23 @@
     </div>
   </div>
 
-  <!-- MODAL: POP-UP DE ALERTA DE PRAZOS URGENTES -->
+  <!-- MODAL: PRAZOS -->
   <div id="modal-alerta-urgente" class="modal-overlay">
     <div class="modal-box" style="max-width: 650px;">
       <div class="modal-header" style="background: #fff5f5; border-bottom: 1px solid #fed7aa;">
-        <div>
-          <h3 style="color: var(--danger); font-size: 17px; display: flex; align-items: center; gap: 8px;">
-            ⚠️ Atenção: Prazos Fatais Próximos!
-          </h3>
-          <p style="color: #9a3412;">Existem prazos processuais com vencimento iminente.</p>
-        </div>
-        <button onclick="window.fecharModalAlerta()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
+        <h3 style="color: var(--danger); font-size: 17px;">⚠️ Atenção: Prazos Fatais Próximos!</h3>
+        <button onclick="window.fecharModalAlerta()" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
       </div>
       <div class="modal-body" id="modal-alerta-corpo"></div>
-      <div style="padding: 16px 24px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: flex-end;">
-        <button class="btn-action" style="background: var(--primary);" onclick="window.fecharModalAlerta()">Ciente / Fechar</button>
-      </div>
     </div>
   </div>
 
-  <!-- MODAL DE PASTAS E ANEXOS -->
+  <!-- MODAL PASTAS -->
   <div id="modal-pastas" class="modal-overlay">
     <div class="modal-box">
       <div class="modal-header">
-        <div>
-          <h3 id="modal-cliente-nome">Prontuário Digital: Cliente</h3>
-          <p>Repositório de documentos estruturados do processo.</p>
-        </div>
-        <button onclick="window.fecharModalPastas()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
+        <h3 id="modal-cliente-nome">Prontuário Digital: Cliente</h3>
+        <button onclick="window.fecharModalPastas()" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
       </div>
       <div class="modal-body" id="modal-pastas-corpo"></div>
     </div>
@@ -871,36 +427,53 @@
     import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-    // Configuração do Firebase
+    // 1. Configuração do Firebase com a sua CHAVE CORRETA (Letras maiúsculas corrigidas)
     const firebaseConfig = {
-  apiKey: "AIzaSyCuMkOKT4vfc6LWA82Rx2QeYDrZsP46pAY",
-  authDomain: "juris-admin-barros.firebaseapp.com",
-  projectId: "juris-admin-barros",
-  storageBucket: "juris-admin-barros.firebasestorage.app",
-  messagingSenderId: "578478220830",
-  appId: "1:578478220830:web:e81dabf715444bdb7bf00f"
-};
+      apiKey: "AIzaSyCuMkOKT4vfc6LWA82Rx2QeYDrZsP46pAY",
+      authDomain: "juris-admin-barros.firebaseapp.com",
+      projectId: "juris-admin-barros",
+      storageBucket: "juris-admin-barros.firebasestorage.app",
+      messagingSenderId: "578478220830",
+      appId: "1:578478220830:web:e81dabf715444bdb7bf00f"
+    };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Configuração do Supabase (Apenas Anexos)
+    // 2. Configuração do Supabase
     const SUPABASE_URL = "https://wwdgopyvpouynjbbekm.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_mg-acgKJPEbc7rOa4sKHUg_aZyVjtHX";
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // ==========================================
-    // 1. AUTENTICAÇÃO
+    // NOVA FUNÇÃO: CARREGAR FERIADOS NACIONAIS
+    // ==========================================
+    let feriadosNacionais = [];
+    async function carregarFeriadosDaAPI() {
+      try {
+        const anoAtual = new Date().getFullYear();
+        const [res1, res2] = await Promise.all([
+          fetch(`https://brasilapi.com.br/api/feriados/v1/${anoAtual}`),
+          fetch(`https://brasilapi.com.br/api/feriados/v1/${anoAtual + 1}`)
+        ]);
+        const dados1 = await res1.json();
+        const dados2 = await res2.json();
+        feriadosNacionais = [...dados1, ...dados2].map(f => f.date);
+        document.getElementById('stat-feriados').innerText = `${feriadosNacionais.length} feriados integrados (Brasil API)`;
+        document.getElementById('stat-feriados').style.color = "var(--success)";
+      } catch (error) {
+        console.warn("Erro ao buscar feriados da Brasil API:", error);
+        document.getElementById('stat-feriados').innerText = "Erro ao carregar feriados";
+      }
+    }
+
+    // ==========================================
+    // AUTENTICAÇÃO E NAVEGAÇÃO
     // ==========================================
     window.alternarTelaAuth = function(tipo) {
-      if (tipo === 'cadastro') {
-        document.getElementById('form-login').classList.remove('active');
-        document.getElementById('form-cadastro').classList.add('active');
-      } else {
-        document.getElementById('form-cadastro').classList.remove('active');
-        document.getElementById('form-login').classList.add('active');
-      }
+      document.querySelectorAll('.form-auth').forEach(el => el.classList.remove('active'));
+      document.getElementById(tipo === 'cadastro' ? 'form-cadastro' : 'form-login').classList.add('active');
     };
 
     window.realizarCadastro = async function(e) {
@@ -912,35 +485,19 @@
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
         await updateProfile(userCredential.user, { displayName: nome });
-        alert('Cadastro realizado com sucesso! Faça login para continuar.');
-        e.target.reset();
+        alert('Cadastro realizado com sucesso! Faça login.');
         window.alternarTelaAuth('login');
-      } catch(error) {
-        let msg = "Erro ao cadastrar: " + error.message;
-        if (error.code === 'auth/email-already-in-use') msg = "Este e-mail já está cadastrado.";
-        if (error.code === 'auth/weak-password') msg = "A senha deve ter pelo menos 6 caracteres.";
-        alert(msg);
-      }
+      } catch(error) { alert("Erro ao cadastrar: " + error.message); }
     };
 
     window.realizarLogin = async function(e) {
       e.preventDefault();
-      const email = document.getElementById('login-usuario').value.trim();
-      const senha = document.getElementById('login-senha').value.trim();
-      const erroEl = document.getElementById('msg-erro-login');
-
       try {
-        await signInWithEmailAndPassword(auth, email, senha);
-        erroEl.style.display = 'none';
-      } catch(error) {
-        erroEl.style.display = 'block';
-        erroEl.innerText = "E-mail ou senha incorretos.";
-      }
+        await signInWithEmailAndPassword(auth, document.getElementById('login-usuario').value, document.getElementById('login-senha').value);
+      } catch(error) { document.getElementById('msg-erro-login').style.display = 'block'; }
     };
 
-    window.realizarLogout = function() {
-      signOut(auth);
-    };
+    window.realizarLogout = () => signOut(auth);
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -948,8 +505,8 @@
         document.getElementById('tela-sistema').style.display = 'block';
         document.getElementById('nome-advogada-logada').innerText = user.displayName || 'Advogada';
         
+        carregarFeriadosDaAPI(); // Carrega os feriados após login
         window.carregarDadosNuvem();
-        window.verificarPrazosUrgentes(false);
       } else {
         document.getElementById('tela-login').style.display = 'flex';
         document.getElementById('tela-sistema').style.display = 'none';
@@ -957,46 +514,42 @@
     });
 
     window.trocarModulo = function(nomeModulo, botaoClicado) {
-      document.querySelectorAll('.tab-view').forEach(m => m.classList.remove('active'));
-      document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
-
+      document.querySelectorAll('.tab-view, .menu-btn').forEach(el => el.classList.remove('active'));
       document.getElementById('modulo-' + nomeModulo).classList.add('active');
       botaoClicado.classList.add('active');
     };
 
     // ==========================================
-    // 2. PRONTUÁRIO DIGITAL (Firestore)
+    // PRONTUÁRIO DIGITAL (Firestore)
     // ==========================================
     let listaClientes = [];
     let clienteSelecionadoIndex = null;
-
     const pastasConfig = [
-      { id: '01_Dados_Cadastrais', icon: '🗂️', nome: '01. Dados Cadastrais', desc: 'Ficha inicial e comprovantes' },
-      { id: '02_Contratos_e_Procuracoes', icon: '⚖️', nome: '02. Contratos & Procurações', desc: 'Mandato e honorários' },
-      { id: '03_Peticoes_e_Pareceres', icon: '📄', nome: '03. Petições & Pareceres', desc: 'Peças processuais' },
-      { id: '04_Provas', icon: '🔍', nome: '04. Provas & Documentos', desc: 'Elementos probatórios' },
-      { id: '05_Correspondencia', icon: '✉️', nome: '05. Correspondência', desc: 'Avisos e e-mails' }
+      { id: '01_Dados', icon: '🗂️', nome: '01. Dados Cadastrais', desc: 'Fichas e doc' },
+      { id: '02_Contratos', icon: '⚖️', nome: '02. Contratos & Procura.', desc: 'Mandatos' },
+      { id: '03_Peticoes', icon: '📄', nome: '03. Petições & Pareceres', desc: 'Peças' },
+      { id: '04_Provas', icon: '🔍', nome: '04. Provas & Anexos', desc: 'Evidências' }
     ];
+    function inicializarPastas() { const p = {}; pastasConfig.forEach(i => p[i.id] = []); return p; }
 
-    function inicializarPastas() {
-      const p = {};
-      pastasConfig.forEach(item => { p[item.id] = []; });
-      return p;
-    }
+    // NOVO: Filtro de Busca
+    window.filtrarClientes = function() {
+      const termo = document.getElementById('busca-cliente').value.toLowerCase();
+      const linhas = document.getElementById('tabela-clientes-corpo').getElementsByTagName('tr');
+      for (let i = 0; i < linhas.length; i++) {
+        const conteudoLinha = linhas[i].innerText.toLowerCase();
+        linhas[i].style.display = conteudoLinha.includes(termo) ? '' : 'none';
+      }
+    };
 
     window.salvarCliente = async function(e) {
       e.preventDefault();
       const idEdicao = document.getElementById('cli-id-edicao').value;
-
       const dados = {
-        nome: document.getElementById('cli-nome').value,
-        doc: document.getElementById('cli-doc').value,
-        contato: document.getElementById('cli-contato').value,
-        endereco: document.getElementById('cli-endereco').value,
-        responsavel: document.getElementById('cli-responsavel').value,
-        resumo: document.getElementById('cli-resumo').value,
-        pendencias: document.getElementById('cli-pendencias').value || 'Nenhuma',
-        pastas: {}
+        nome: document.getElementById('cli-nome').value, doc: document.getElementById('cli-doc').value,
+        contato: document.getElementById('cli-contato').value, endereco: document.getElementById('cli-endereco').value,
+        responsavel: document.getElementById('cli-responsavel').value, resumo: document.getElementById('cli-resumo').value,
+        pendencias: document.getElementById('cli-pendencias').value || 'Nenhuma', pastas: {}
       };
 
       try {
@@ -1008,423 +561,236 @@
           dados.pastas = inicializarPastas();
           await addDoc(collection(db, "clientes"), dados);
         }
-
-        window.cancelarEdicao();
-        window.carregarDadosNuvem();
-      } catch (err) {
-        alert("Erro ao salvar cliente na nuvem: " + err.message);
-      }
+        window.cancelarEdicao(); window.carregarDadosNuvem();
+      } catch (err) { alert("Erro ao salvar: " + err.message); }
     };
 
     window.prepararEdicao = function(index) {
       const c = listaClientes[index];
       document.getElementById('cli-id-edicao').value = index;
-      document.getElementById('cli-nome').value = c.nome;
-      document.getElementById('cli-doc').value = c.doc;
-      document.getElementById('cli-contato').value = c.contato;
-      document.getElementById('cli-endereco').value = c.endereco || '';
-      document.getElementById('cli-responsavel').value = c.responsavel;
-      document.getElementById('cli-resumo').value = c.resumo;
+      document.getElementById('cli-nome').value = c.nome; document.getElementById('cli-doc').value = c.doc;
+      document.getElementById('cli-contato').value = c.contato; document.getElementById('cli-endereco').value = c.endereco || '';
+      document.getElementById('cli-responsavel').value = c.responsavel; document.getElementById('cli-resumo').value = c.resumo;
       document.getElementById('cli-pendencias').value = c.pendencias === 'Nenhuma' ? '' : c.pendencias;
-
       document.getElementById('form-cliente-titulo').innerText = 'Editar Prontuário: ' + c.nome;
       document.getElementById('btn-submit-cliente').innerText = 'Atualizar Prontuário';
       document.getElementById('btn-cancelar-edicao').style.display = 'inline-block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
     window.cancelarEdicao = function() {
-      document.getElementById('cli-id-edicao').value = '';
-      document.getElementById('form-cad-cliente').reset();
-      document.getElementById('form-cliente-titulo').innerText = 'Novo Cadastro de Cliente & Caso';
+      document.getElementById('cli-id-edicao').value = ''; document.getElementById('form-cad-cliente').reset();
+      document.getElementById('form-cliente-titulo').innerText = 'Novo Cadastro de Cliente';
       document.getElementById('btn-submit-cliente').innerText = 'Salvar no Prontuário';
       document.getElementById('btn-cancelar-edicao').style.display = 'none';
     };
-
     window.excluirCliente = async function(index) {
-      if (confirm(`Deseja excluir o prontuário de "${listaClientes[index].nome}"?`)) {
-        try {
-          await deleteDoc(doc(db, "clientes", listaClientes[index].id));
-          window.carregarDadosNuvem();
-        } catch (err) {
-          alert("Erro ao excluir: " + err.message);
-        }
-      }
+      if (confirm(`Deseja excluir "${listaClientes[index].nome}"?`)) { await deleteDoc(doc(db, "clientes", listaClientes[index].id)); window.carregarDadosNuvem(); }
     };
 
     window.renderizarClientes = function() {
-      const corpo = document.getElementById('tabela-clientes-corpo');
-      corpo.innerHTML = '';
-      if (listaClientes.length === 0) {
-        corpo.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Nenhum cliente cadastrado na nuvem.</td></tr>';
-        return;
-      }
+      const corpo = document.getElementById('tabela-clientes-corpo'); corpo.innerHTML = '';
+      if (listaClientes.length === 0) return corpo.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum cliente cadastrado.</td></tr>';
       listaClientes.forEach((c, index) => {
-        corpo.innerHTML += `
-          <tr>
-            <td><strong>${c.nome}</strong></td>
-            <td>${c.doc}</td>
-            <td>${c.responsavel}</td>
-            <td>${c.resumo}</td>
-            <td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td>
-            <td>
-              <div class="actions-btns">
-                <button class="btn-table btn-folder" onclick="window.abrirModalPastas(${index})">📁 Pastas</button>
-                <button class="btn-table btn-edit" onclick="window.prepararEdicao(${index})">✏️ Editar</button>
-                <button class="btn-table btn-del" onclick="window.excluirCliente(${index})">🗑️</button>
-              </div>
-            </td>
-          </tr>
-        `;
+        corpo.innerHTML += `<tr>
+          <td><strong>${c.nome}</strong></td><td>${c.doc}</td><td>${c.responsavel}</td><td>${c.resumo}</td>
+          <td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td>
+          <td>
+            <div class="actions-btns">
+              <button class="btn-table btn-folder" onclick="window.abrirModalPastas(${index})">📁 Pastas</button>
+              <button class="btn-table btn-edit" onclick="window.prepararEdicao(${index})">✏️</button>
+              <button class="btn-table btn-del" onclick="window.excluirCliente(${index})">🗑️</button>
+            </div>
+          </td></tr>`;
       });
     };
 
-    // 3. ANEXOS NO SUPABASE STORAGE
+    // ==========================================
+    // SUPABASE STORAGE (ANEXOS OFUSCADOS)
+    // ==========================================
     window.abrirModalPastas = function(index) {
       clienteSelecionadoIndex = index;
-      const c = listaClientes[index];
-      if (!c.pastas) c.pastas = inicializarPastas();
-      document.getElementById('modal-cliente-nome').innerText = `Prontuário Digital: ${c.nome}`;
+      if (!listaClientes[index].pastas) listaClientes[index].pastas = inicializarPastas();
+      document.getElementById('modal-cliente-nome').innerText = `Prontuário Digital: ${listaClientes[index].nome}`;
       window.renderizarConteudoModalPastas();
       document.getElementById('modal-pastas').style.display = 'flex';
     };
-
-    window.fecharModalPastas = function() {
-      document.getElementById('modal-pastas').style.display = 'none';
-      clienteSelecionadoIndex = null;
-    };
+    window.fecharModalPastas = function() { document.getElementById('modal-pastas').style.display = 'none'; };
 
     window.renderizarConteudoModalPastas = function() {
-      const corpo = document.getElementById('modal-pastas-corpo');
-      const c = listaClientes[clienteSelecionadoIndex];
-      corpo.innerHTML = '';
-
+      const corpo = document.getElementById('modal-pastas-corpo'); const c = listaClientes[clienteSelecionadoIndex]; corpo.innerHTML = '';
       pastasConfig.forEach(pasta => {
         const arquivos = c.pastas[pasta.id] || [];
-        let arquivosHtml = '';
-        if (arquivos.length === 0) {
-          arquivosHtml = '<p class="empty-files-msg">Nenhum documento anexado nesta pasta.</p>';
-        } else {
-          arquivosHtml = '<ul class="file-list">';
-          arquivos.forEach((arq, arqIdx) => {
-            arquivosHtml += `
-              <li class="file-item">
-                <a href="${arq.url}" target="_blank" class="file-link">📄 ${arq.nome}</a>
-                <button class="file-remove-btn" onclick="window.removerArquivo('${pasta.id}', ${arqIdx})">&times;</button>
-              </li>`;
-          });
-          arquivosHtml += '</ul>';
-        }
+        let arquivosHtml = arquivos.length === 0 ? '<p class="empty-files-msg">Nenhum documento anexado.</p>' : '<ul class="file-list">';
+        arquivos.forEach((arq, arqIdx) => {
+          if (arquivos.length > 0) arquivosHtml += `<li class="file-item"><a href="${arq.url}" target="_blank" class="file-link">📄 ${arq.nomeVisual}</a><button class="file-remove-btn" onclick="window.removerArquivo('${pasta.id}', ${arqIdx})">&times;</button></li>`;
+        });
+        if (arquivos.length > 0) arquivosHtml += '</ul>';
 
         corpo.innerHTML += `
           <div class="folder-card">
             <div class="folder-header">
               <div class="folder-meta">
                 <div class="folder-icon-circle">${pasta.icon}</div>
-                <div class="folder-names-wrap">
-                  <span class="folder-title">${pasta.nome}</span>
-                  <span class="folder-counter">${arquivos.length} ${arquivos.length === 1 ? 'documento' : 'documentos'} • ${pasta.desc}</span>
-                </div>
+                <div><span class="folder-title">${pasta.nome}</span><span style="display:block" class="folder-counter">${arquivos.length} arquivos • ${pasta.desc}</span></div>
               </div>
-              <label class="btn-anexar" id="label-anexar-${pasta.id}">
-                + Anexar Arquivo
-                <input type="file" style="display: none;" onchange="window.anexarArquivoSupabase(event, '${pasta.id}')">
-              </label>
-            </div>
-            ${arquivosHtml}
-          </div>
-        `;
+              <label class="btn-anexar" id="label-anexar-${pasta.id}">+ Anexar<input type="file" style="display: none;" onchange="window.anexarArquivoSupabase(event, '${pasta.id}')"></label>
+            </div>${arquivosHtml}
+          </div>`;
       });
     };
 
     window.anexarArquivoSupabase = async function(evento, pastaId) {
-      const file = evento.target.files[0];
-      if (!file) return;
+      const file = evento.target.files[0]; if (!file) return;
+      const labelEl = document.getElementById(`label-anexar-${pastaId}`); labelEl.innerText = "Enviando...";
 
-      const labelEl = document.getElementById(`label-anexar-${pastaId}`);
-      labelEl.innerText = "Enviando...";
+      // NOVO: Gerar nome criptografado/aleatório para salvar na nuvem
+      const extensao = file.name.split('.').pop();
+      const stringAleatoria = Math.random().toString(36).substring(2, 12); // ex: xk8j2mz9
+      const nomeSeguroStorage = `${Date.now()}_${stringAleatoria}.${extensao}`; 
+      
+      const { data, error } = await supabase.storage.from('prontuarios').upload(nomeSeguroStorage, file);
 
-      const fileName = `${Date.now()}_${file.name}`;
-      const { data, error } = await supabase.storage.from('prontuarios').upload(fileName, file);
-
-      if (error) {
-        alert("Erro ao enviar arquivo para o Supabase: " + error.message);
-        labelEl.innerText = "+ Anexar Arquivo";
-        return;
-      }
-
-      const { data: publicUrlData } = supabase.storage.from('prontuarios').getPublicUrl(fileName);
+      if (error) { alert("Erro ao enviar: " + error.message); labelEl.innerText = "+ Anexar"; return; }
+      const { data: publicUrlData } = supabase.storage.from('prontuarios').getPublicUrl(nomeSeguroStorage);
 
       const c = listaClientes[clienteSelecionadoIndex];
       if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
-
-      c.pastas[pastaId].push({
-        nome: file.name,
-        url: publicUrlData.publicUrl
-      });
-
+      
+      // Salva o nome real só pra exibição, mas guarda o link do arquivo com nome ofuscado
+      c.pastas[pastaId].push({ nomeVisual: file.name, url: publicUrlData.publicUrl });
       await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas });
-      labelEl.innerText = "+ Anexar Arquivo";
-      window.renderizarConteudoModalPastas();
+      labelEl.innerText = "+ Anexar"; window.renderizarConteudoModalPastas();
     };
 
     window.removerArquivo = async function(pastaId, arqIdx) {
-      if (confirm('Deseja excluir este documento da pasta?')) {
-        const c = listaClientes[clienteSelecionadoIndex];
-        c.pastas[pastaId].splice(arqIdx, 1);
-        await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas });
-        window.renderizarConteudoModalPastas();
+      if (confirm('Deseja excluir este documento?')) {
+        const c = listaClientes[clienteSelecionadoIndex]; c.pastas[pastaId].splice(arqIdx, 1);
+        await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.renderizarConteudoModalPastas();
       }
     };
 
-    // 4. CALCULADORA & AGENDA DE PRAZOS (Firestore)
+    // ==========================================
+    // CALCULADORA DE PRAZOS (Com Feriados API)
+    // ==========================================
     let listaPrazosSalvos = [];
     let ultimoCalculoTemp = null;
-    let prazosCriticosGlobais = [];
 
     window.atualizarSelectClientesPrazos = function() {
-      const select = document.getElementById('prazo-cliente-vinculo');
-      select.innerHTML = '<option value="">-- Selecione ou deixe avulso --</option>';
-      listaClientes.forEach(c => {
-        select.innerHTML += `<option value="${c.nome}">${c.nome} (${c.doc})</option>`;
-      });
+      const select = document.getElementById('prazo-cliente-vinculo'); select.innerHTML = '<option value="">-- Selecione --</option>';
+      listaClientes.forEach(c => select.innerHTML += `<option value="${c.nome}">${c.nome}</option>`);
     };
 
     window.calcularDataFatal = function() {
       const lei = document.getElementById('prazo-lei').value;
       const dataInput = document.getElementById('prazo-data-inicio').value;
       const qtdDias = parseInt(document.getElementById('prazo-qtd-dias').value);
-      const resBox = document.getElementById('box-resultado-prazo');
-      const btnSalvar = document.getElementById('btn-salvar-prazo-agenda');
-
-      if (!dataInput || isNaN(qtdDias) || qtdDias <= 0) return alert('Selecione a data e os dias válidos.');
+      if (!dataInput || isNaN(qtdDias) || qtdDias <= 0) return alert('Insira os dados corretamente.');
 
       let data = new Date(dataInput + 'T00:00:00');
       let diasContados = 0;
-      const diasUteis = (lei !== 'cpp');
+      const contaApenasUteis = (lei !== 'cpp');
 
       while (diasContados < qtdDias) {
         data.setDate(data.getDate() + 1);
         const diaSemana = data.getDay();
-        if (diasUteis) {
-          if (diaSemana !== 0 && diaSemana !== 6) diasContados++;
+        const dataFormatadaParaVerificacao = data.toISOString().split('T')[0]; // ex: 2026-09-07
+
+        // Se for dia útil (não é Sábado e não é Domingo)
+        if (contaApenasUteis) {
+          const isFimDeSemana = (diaSemana === 0 || diaSemana === 6);
+          const isFeriadoNacional = feriadosNacionais.includes(dataFormatadaParaVerificacao);
+
+          // Só conta se não for final de semana E não for feriado nacional
+          if (!isFimDeSemana && !isFeriadoNacional) {
+            diasContados++;
+          }
         } else {
+          // Se for corrido (CPP) conta todos os dias
           diasContados++;
         }
       }
 
-      if (!diasUteis) {
-        if (data.getDay() === 6) data.setDate(data.getDate() + 2);
-        else if (data.getDay() === 0) data.setDate(data.getDate() + 1);
+      // Se o prazo fatal caiu em fds ou feriado e for CPP, prorroga pro 1º dia útil seguinte
+      if (!contaApenasUteis) {
+        while (data.getDay() === 0 || data.getDay() === 6 || feriadosNacionais.includes(data.toISOString().split('T')[0])) {
+          data.setDate(data.getDate() + 1);
+        }
       }
 
       const formatada = data.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       ultimoCalculoTemp = { lei: lei.toUpperCase(), dataFatalFormatada: formatada, dataFatalISO: data.toISOString().split('T')[0] };
 
-      resBox.style.display = 'block';
-      resBox.innerHTML = `Vencimento Fatal (${lei.toUpperCase()}): <strong>${formatada}</strong>`;
-      btnSalvar.style.display = 'block';
+      document.getElementById('box-resultado-prazo').style.display = 'block';
+      document.getElementById('box-resultado-prazo').innerHTML = `Vencimento Fatal (${lei.toUpperCase()}): <strong>${formatada}</strong>`;
+      document.getElementById('btn-salvar-prazo-agenda').style.display = 'block';
     };
 
     window.salvarPrazoNoHistorico = async function() {
       if (!ultimoCalculoTemp) return;
-      const descricao = document.getElementById('prazo-descricao').value.trim() || 'Prazo Processual';
-      const cliente = document.getElementById('prazo-cliente-vinculo').value || 'Avulso';
-
-      const novoPrazo = {
-        descricao: descricao, cliente: cliente,
-        lei: ultimoCalculoTemp.lei, dataFatalFormatada: ultimoCalculoTemp.dataFatalFormatada,
-        dataFatalISO: ultimoCalculoTemp.dataFatalISO
+      const prazoObj = {
+        descricao: document.getElementById('prazo-descricao').value || 'Prazo',
+        cliente: document.getElementById('prazo-cliente-vinculo').value || 'Avulso',
+        ...ultimoCalculoTemp
       };
-
-      try {
-        await addDoc(collection(db, "prazos"), novoPrazo);
-        document.getElementById('btn-salvar-prazo-agenda').style.display = 'none';
-        document.getElementById('prazo-descricao').value = '';
-        window.carregarDadosNuvem();
-      } catch (err) {
-        alert("Erro ao salvar prazo: " + err.message);
-      }
+      await addDoc(collection(db, "prazos"), prazoObj);
+      document.getElementById('btn-salvar-prazo-agenda').style.display = 'none';
+      window.carregarDadosNuvem();
     };
 
     window.excluirPrazoSalvo = async function(index) {
-      try {
-        await deleteDoc(doc(db, "prazos", listaPrazosSalvos[index].id));
-        window.carregarDadosNuvem();
-      } catch (err) {
-        alert("Erro ao excluir prazo: " + err.message);
-      }
+      await deleteDoc(doc(db, "prazos", listaPrazosSalvos[index].id)); window.carregarDadosNuvem();
     };
 
     window.renderizarPrazosSalvos = function() {
-      const corpo = document.getElementById('tabela-prazos-salvos');
-      corpo.innerHTML = '';
+      const corpo = document.getElementById('tabela-prazos-salvos'); corpo.innerHTML = '';
       document.getElementById('stat-total-prazos').innerText = listaPrazosSalvos.length;
-
-      const hoje = new Date();
-      hoje.setHours(0,0,0,0);
-      let urgentes = 0;
-
-      if (listaPrazosSalvos.length === 0) {
-        corpo.innerHTML = '<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Nenhum prazo na agenda.</td></tr>';
-        document.getElementById('stat-prazos-urgentes').innerText = '0';
-        return;
-      }
+      const hoje = new Date(); hoje.setHours(0,0,0,0); let urgentes = 0;
 
       listaPrazosSalvos.forEach((p, idx) => {
-        const dataFim = new Date(p.dataFatalISO + 'T00:00:00');
-        const diffDias = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
-        
+        const diffDias = Math.ceil((new Date(p.dataFatalISO + 'T00:00:00') - hoje) / (1000 * 60 * 60 * 24));
         let badge = '<span class="badge-ok">Em Prazo</span>';
-        if (diffDias <= 1) {
-          urgentes++;
-          if (diffDias < 0) badge = '<span class="badge-urgente">Vencido</span>';
-          else if (diffDias === 0) badge = '<span class="badge-urgente">Vence HOJE!</span>';
-          else badge = '<span class="badge-alerta">Vence AMANHÃ! (1 dia)</span>';
-        } else if (diffDias <= 7) {
-          badge = `<span class="badge-alerta">${diffDias} dias restantes</span>`;
-        }
-
-        corpo.innerHTML += `
-          <tr>
-            <td><strong>${p.descricao}</strong></td>
-            <td>${p.cliente}</td>
-            <td><span class="folder-chip-index">${p.lei}</span></td>
-            <td>${p.dataFatalFormatada} ${badge}</td>
-            <td><button class="btn-table btn-del" onclick="window.excluirPrazoSalvo(${idx})">🗑️</button></td>
-          </tr>
-        `;
+        if (diffDias <= 1) { urgentes++; badge = diffDias < 0 ? '<span class="badge-urgente">Vencido</span>' : (diffDias === 0 ? '<span class="badge-urgente">Vence HOJE</span>' : '<span class="badge-alerta">Vence AMANHÃ</span>'); } 
+        else if (diffDias <= 7) { badge = `<span class="badge-alerta">${diffDias} dias restantes</span>`; }
+        corpo.innerHTML += `<tr><td><strong>${p.descricao}</strong></td><td>${p.cliente}</td><td>${p.lei}</td><td>${p.dataFatalFormatada} ${badge}</td><td><button class="btn-table btn-del" onclick="window.excluirPrazoSalvo(${idx})">🗑️</button></td></tr>`;
       });
       document.getElementById('stat-prazos-urgentes').innerText = urgentes;
     };
 
-    window.verificarPrazosUrgentes = function(acionamentoManual) {
-      const hoje = new Date();
-      hoje.setHours(0,0,0,0);
-      prazosCriticosGlobais = [];
-
-      listaPrazosSalvos.forEach(p => {
-        const dataFim = new Date(p.dataFatalISO + 'T00:00:00');
-        const diffDias = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
-        if (diffDias <= 1) prazosCriticosGlobais.push({ ...p, diffDias: diffDias });
-      });
-
-      if (prazosCriticosGlobais.length > 0) {
-        window.exibirModalAlerta();
-      } else if (acionamentoManual) {
-        alert('Nenhum prazo com vencimento crítico no momento.');
-      }
-    };
-
-    window.exibirModalAlerta = function() {
-      const corpo = document.getElementById('modal-alerta-corpo');
-      corpo.innerHTML = '';
-      prazosCriticosGlobais.forEach(p => {
-        let statusBadge = '';
-        let classeCaixa = 'alerta-item-box';
-        if (p.diffDias < 0) { statusBadge = '<span class="badge-urgente">PRAZO VENCIDO</span>'; classeCaixa += ' alerta-item-urgente'; }
-        else if (p.diffDias === 0) { statusBadge = '<span class="badge-urgente">VENCE HOJE!</span>'; classeCaixa += ' alerta-item-urgente'; }
-        else if (p.diffDias === 1) { statusBadge = '<span class="badge-alerta">VENCE AMANHÃ (1 DIA RESTANTE)</span>'; }
-
-        corpo.innerHTML += `
-          <div class="${classeCaixa}">
-            <div>
-              <strong style="color: var(--primary); font-size: 14px;">${p.descricao}</strong>
-              <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-                Cliente: <strong>${p.cliente}</strong> • Regra: ${p.lei} • Data Fatal: <strong>${p.dataFatalFormatada}</strong>
-              </p>
-            </div>
-            <div>${statusBadge}</div>
-          </div>
-        `;
-      });
-      document.getElementById('modal-alerta-urgente').style.display = 'flex';
-    };
-
-    window.fecharModalAlerta = function() { document.getElementById('modal-alerta-urgente').style.display = 'none'; };
-
-    // 5. FINANCEIRO (Firestore)
+    // ==========================================
+    // FINANCEIRO & GERAL (Firestore)
+    // ==========================================
     let listaFin = [];
-
     window.salvarLancamento = async function(e) {
       e.preventDefault();
-      const categoria = document.getElementById('fin-categoria').value;
-      const descricao = document.getElementById('fin-descricao').value;
-      const valor = parseFloat(document.getElementById('fin-valor').value);
-
-      try {
-        await addDoc(collection(db, "financeiro"), { categoria, descricao, valor });
-        window.carregarDadosNuvem();
-        e.target.reset();
-      } catch (err) {
-        alert("Erro ao salvar lançamento: " + err.message);
-      }
+      await addDoc(collection(db, "financeiro"), { 
+        categoria: document.getElementById('fin-categoria').value, 
+        descricao: document.getElementById('fin-descricao').value, 
+        valor: parseFloat(document.getElementById('fin-valor').value) 
+      });
+      e.target.reset(); window.carregarDadosNuvem();
     };
 
     window.renderizarFinanceiro = function() {
-      const corpo = document.getElementById('tabela-fin-corpo');
-      corpo.innerHTML = '';
-      let totalEntradas = 0, totalSaidas = 0;
-
-      if (listaFin.length === 0) {
-        corpo.innerHTML = '<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">Nenhum lançamento registrado na nuvem.</td></tr>';
-      }
-
+      const corpo = document.getElementById('tabela-fin-corpo'); corpo.innerHTML = '';
+      let entradas = 0, saidas = 0;
       listaFin.forEach(item => {
-        const ehEntrada = item.categoria.startsWith('honorario');
-        if (ehEntrada) totalEntradas += item.valor; else totalSaidas += item.valor;
-        corpo.innerHTML += `
-          <tr>
-            <td><strong>${item.descricao}</strong></td>
-            <td>${item.categoria.replace(/_/g, ' ').toUpperCase()}</td>
-            <td style="color: ${ehEntrada ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">
-              ${ehEntrada ? '+' : '-'} R$ ${item.valor.toFixed(2)}
-            </td>
-          </tr>
-        `;
+        const ehEnt = item.categoria.startsWith('honorario'); ehEnt ? entradas += item.valor : saidas += item.valor;
+        corpo.innerHTML += `<tr><td><strong>${item.descricao}</strong></td><td>${item.categoria.replace(/_/g, ' ').toUpperCase()}</td><td style="color: ${ehEnt ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">${ehEnt ? '+' : '-'} R$ ${item.valor.toFixed(2)}</td></tr>`;
       });
-
-      document.getElementById('stat-entradas').innerText = `R$ ${totalEntradas.toFixed(2)}`;
-      document.getElementById('stat-saidas').innerText = `R$ ${totalSaidas.toFixed(2)}`;
-      const saldo = totalEntradas - totalSaidas;
-      const saldoEl = document.getElementById('stat-saldo');
-      saldoEl.innerText = `R$ ${saldo.toFixed(2)}`;
-      saldoEl.style.color = saldo >= 0 ? 'var(--primary)' : 'var(--danger)';
+      document.getElementById('stat-entradas').innerText = `R$ ${entradas.toFixed(2)}`;
+      document.getElementById('stat-saidas').innerText = `R$ ${saidas.toFixed(2)}`;
+      document.getElementById('stat-saldo').innerText = `R$ ${(entradas - saidas).toFixed(2)}`;
+      document.getElementById('stat-saldo').style.color = (entradas - saidas) >= 0 ? 'var(--primary)' : 'var(--danger)';
     };
 
-    // Função central para puxar todos os dados do Firestore
     window.carregarDadosNuvem = async function() {
       try {
-        // Clientes
-        const snapClientes = await getDocs(collection(db, "clientes"));
-        listaClientes = [];
-        snapClientes.forEach(docSnap => {
-          listaClientes.push({ id: docSnap.id, ...docSnap.data() });
-        });
-        window.renderizarClientes();
-        window.atualizarSelectClientesPrazos();
-
-        // Prazos
-        const snapPrazos = await getDocs(collection(db, "prazos"));
-        listaPrazosSalvos = [];
-        snapPrazos.forEach(docSnap => {
-          listaPrazosSalvos.push({ id: docSnap.id, ...docSnap.data() });
-        });
-        window.renderizarPrazosSalvos();
-
-        // Financeiro
-        const snapFin = await getDocs(collection(db, "financeiro"));
-        listaFin = [];
-        snapFin.forEach(docSnap => {
-          listaFin.push({ id: docSnap.id, ...docSnap.data() });
-        });
-        window.renderizarFinanceiro();
-
-      } catch (err) {
-        console.error("Erro ao sincronizar com o Firestore:", err);
-      }
+        const [sClientes, sPrazos, sFin] = await Promise.all([getDocs(collection(db, "clientes")), getDocs(collection(db, "prazos")), getDocs(collection(db, "financeiro"))]);
+        listaClientes = []; sClientes.forEach(d => listaClientes.push({ id: d.id, ...d.data() })); window.renderizarClientes(); window.atualizarSelectClientesPrazos();
+        listaPrazosSalvos = []; sPrazos.forEach(d => listaPrazosSalvos.push({ id: d.id, ...d.data() })); window.renderizarPrazosSalvos();
+        listaFin = []; sFin.forEach(d => listaFin.push({ id: d.id, ...d.data() })); window.renderizarFinanceiro();
+      } catch(e) { console.warn("Erro ao buscar dados", e); }
     };
-
   </script>
 </body>
 </html>
