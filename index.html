@@ -37,7 +37,7 @@
       color: var(--text-dark);
     }
 
-    /* Tela de Login */
+    /* Tela de Login & Cadastro */
     #tela-login {
       display: flex;
       justify-content: center;
@@ -94,6 +94,27 @@
       margin-top: 2px;
     }
 
+    .form-auth {
+      display: none;
+    }
+
+    .form-auth.active {
+      display: block;
+    }
+
+    .toggle-form {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .toggle-form:hover {
+      text-decoration: underline;
+    }
+
     /* Layout Autenticado */
     #tela-sistema {
       display: none;
@@ -120,7 +141,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
       padding-bottom: 20px;
       border-bottom: 1px solid #1e293b;
     }
@@ -140,6 +161,27 @@
     .sidebar-brand .brand-subtitle {
       color: var(--accent);
       font-size: 9px;
+    }
+
+    .user-profile {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .user-profile span {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .user-profile strong {
+      display: block;
+      color: var(--accent);
+      font-size: 14px;
+      margin-top: 2px;
     }
 
     .menu-nav {
@@ -289,6 +331,7 @@
       font-size: 12px;
       font-weight: 600;
       color: #334155;
+      text-align: left;
     }
 
     input, select, textarea {
@@ -329,10 +372,7 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-    }
-
-    .btn-secondary:hover {
-      background: #cbd5e1;
+      margin-left: 8px;
     }
 
     /* Pastas no Prontuário */
@@ -487,7 +527,7 @@
 </head>
 <body>
 
-  <!-- 1. TELA DE LOGIN -->
+  <!-- 1. TELA DE LOGIN & CADASTRO -->
   <section id="tela-login">
     <div class="login-box">
       <div class="brand-logo-container">
@@ -498,18 +538,41 @@
       </div>
       <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Atuação jurídica com seriedade e proximidade</p>
       
-      <form id="form-login" onsubmit="realizarLogin(event)">
-        <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
+      <!-- Formulário de Login -->
+      <form id="form-login" class="form-auth active" onsubmit="realizarLogin(event)">
+        <div class="input-wrap" style="margin-bottom: 12px;">
           <label>Usuário / OAB</label>
-          <input type="text" id="login-usuario" placeholder="admin" required>
+          <input type="text" id="login-usuario" required>
         </div>
-        <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
+        <div class="input-wrap" style="margin-bottom: 18px;">
           <label>Senha</label>
-          <input type="password" id="login-senha" placeholder="••••••••" required>
+          <input type="password" id="login-senha" required>
         </div>
         <button type="submit" class="btn-action" style="width: 100%;">Acessar Painel Jurídico</button>
-        <p id="msg-erro-login" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;">Credenciais inválidas. (Demo: admin / 123456)</p>
+        <p id="msg-erro-login" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;">Credenciais inválidas.</p>
+        
+        <span class="toggle-form" onclick="alternarTelaAuth('cadastro')">Não tem uma conta? Cadastre-se</span>
       </form>
+
+      <!-- Formulário de Cadastro -->
+      <form id="form-cadastro" class="form-auth" onsubmit="realizarCadastro(event)">
+        <div class="input-wrap" style="margin-bottom: 12px;">
+          <label>Nome Completo (Advogada)</label>
+          <input type="text" id="cad-nome" placeholder="Ex: Dra. Ana Silva" required>
+        </div>
+        <div class="input-wrap" style="margin-bottom: 12px;">
+          <label>Novo Usuário / OAB</label>
+          <input type="text" id="cad-usuario" required>
+        </div>
+        <div class="input-wrap" style="margin-bottom: 18px;">
+          <label>Crie uma Senha</label>
+          <input type="password" id="cad-senha" required>
+        </div>
+        <button type="submit" class="btn-action" style="width: 100%; background: var(--primary);">Criar Conta Jurídica</button>
+        
+        <span class="toggle-form" onclick="alternarTelaAuth('login')">Já possui conta? Faça o Login</span>
+      </form>
+
     </div>
   </section>
 
@@ -523,6 +586,12 @@
             <div id="side-fallback-badge" class="brand-logo-circle" style="display:none; width:44px; height:44px; font-size:20px; margin-bottom:6px;">⚖️</div>
             <span class="brand-title">BARROS E CAVALCANTE</span>
             <span class="brand-subtitle">ADVOCACIA</span>
+          </div>
+
+          <!-- Perfil da Advogada Logada -->
+          <div class="user-profile">
+            <span>Bem-vinda,</span>
+            <strong id="nome-advogada-logada">Advogada</strong>
           </div>
 
           <nav class="menu-nav">
@@ -722,7 +791,7 @@
 
               <div style="display: flex; align-items: center;">
                 <button type="submit" id="btn-submit-cliente" class="btn-action">Salvar no Prontuário</button>
-                <button type="button" id="btn-cancelar-edicao" class="btn-secondary" style="display: none; margin-left: 8px;" onclick="cancelarEdicao()">Cancelar Edição</button>
+                <button type="button" id="btn-cancelar-edicao" class="btn-secondary" style="display: none;" onclick="cancelarEdicao()">Cancelar Edição</button>
               </div>
             </form>
           </div>
@@ -859,17 +928,40 @@
   </div>
 
   <script>
-    // 1. SESSÃO & LOGIN
-    function verificarSessao() {
-      if (localStorage.getItem('adv_autenticado') === 'true') {
-        document.getElementById('tela-login').style.display = 'none';
-        document.getElementById('tela-sistema').style.display = 'block';
-        carregarDados();
-        verificarPrazosUrgentes(false);
+    // 1. GESTÃO DE USUÁRIOS E AUTENTICAÇÃO
+    let bancoUsuarios = JSON.parse(localStorage.getItem('adv_usuarios')) || [
+      { nome: 'Administrador', usuario: 'admin', senha: '123' }
+    ];
+
+    function alternarTelaAuth(tipo) {
+      if (tipo === 'cadastro') {
+        document.getElementById('form-login').classList.remove('active');
+        document.getElementById('form-cadastro').classList.add('active');
       } else {
-        document.getElementById('tela-login').style.display = 'flex';
-        document.getElementById('tela-sistema').style.display = 'none';
+        document.getElementById('form-cadastro').classList.remove('active');
+        document.getElementById('form-login').classList.add('active');
       }
+    }
+
+    function realizarCadastro(e) {
+      e.preventDefault();
+      const nome = document.getElementById('cad-nome').value.trim();
+      const usuario = document.getElementById('cad-usuario').value.trim();
+      const senha = document.getElementById('cad-senha').value.trim();
+
+      const usuarioExiste = bancoUsuarios.find(u => u.usuario === usuario);
+      
+      if (usuarioExiste) {
+        alert('Este Usuário/OAB já está cadastrado!');
+        return;
+      }
+
+      bancoUsuarios.push({ nome, usuario, senha });
+      localStorage.setItem('adv_usuarios', JSON.stringify(bancoUsuarios));
+      
+      alert('Cadastro realizado com sucesso! Faça o login.');
+      e.target.reset();
+      alternarTelaAuth('login');
     }
 
     function realizarLogin(e) {
@@ -878,8 +970,11 @@
       const senha = document.getElementById('login-senha').value.trim();
       const erroEl = document.getElementById('msg-erro-login');
 
-      if (usuario === 'admin' && senha === '123456') {
+      const user = bancoUsuarios.find(u => u.usuario === usuario && u.senha === senha);
+
+      if (user) {
         localStorage.setItem('adv_autenticado', 'true');
+        localStorage.setItem('adv_nome_logado', user.nome);
         erroEl.style.display = 'none';
         verificarSessao();
       } else {
@@ -889,7 +984,25 @@
 
     function realizarLogout() {
       localStorage.removeItem('adv_autenticado');
+      localStorage.removeItem('adv_nome_logado');
       verificarSessao();
+    }
+
+    function verificarSessao() {
+      if (localStorage.getItem('adv_autenticado') === 'true') {
+        document.getElementById('tela-login').style.display = 'none';
+        document.getElementById('tela-sistema').style.display = 'block';
+        
+        // Atualiza o nome da advogada logada na barra lateral
+        const nomeLogado = localStorage.getItem('adv_nome_logado') || 'Advogada';
+        document.getElementById('nome-advogada-logada').innerText = nomeLogado;
+
+        carregarDados();
+        verificarPrazosUrgentes(false);
+      } else {
+        document.getElementById('tela-login').style.display = 'flex';
+        document.getElementById('tela-sistema').style.display = 'none';
+      }
     }
 
     function trocarModulo(nomeModulo, botaoClicado) {
