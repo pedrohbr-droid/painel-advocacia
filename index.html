@@ -402,25 +402,37 @@
               <p>Cadastre novos advogados e colaboradores para acessarem o sistema.</p>
             </div>
           </div>
-          <div class="card" style="max-width: 600px;">
-            <h3 style="margin-bottom: 16px; color: var(--primary);">Cadastrar Novo Usuário</h3>
-            <form onsubmit="window.cadastrarMembroEquipe(event, this.querySelector('button[type=submit]'))">
-              <div class="input-wrap" style="margin-bottom: 14px;">
-                <label>Nome Completo:</label>
-                <input type="text" id="novo-membro-nome" required>
-              </div>
-              <div class="input-wrap" style="margin-bottom: 14px;">
-                <label>E-mail Institucional:</label>
-                <input type="email" id="novo-membro-email" required>
-              </div>
-              <div class="input-wrap" style="margin-bottom: 20px;">
-                <label>Senha Provisória (Mín. 6 caracteres):</label>
-                <input type="password" id="novo-membro-senha" required minlength="6">
-              </div>
-              <button type="submit" class="btn-action" style="width: 100%;">
-                <span>Criar Acesso</span><div class="spinner"></div>
-              </button>
-            </form>
+          
+          <div class="prazos-full-layout">
+            <div class="card" style="margin-bottom: 0;">
+              <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Cadastrar Novo Usuário</h3>
+              <form onsubmit="window.cadastrarMembroEquipe(event, this.querySelector('button[type=submit]'))">
+                <div class="input-wrap" style="margin-bottom: 14px;">
+                  <label>Nome Completo:</label>
+                  <input type="text" id="novo-membro-nome" required>
+                </div>
+                <div class="input-wrap" style="margin-bottom: 14px;">
+                  <label>E-mail Institucional:</label>
+                  <input type="email" id="novo-membro-email" required>
+                </div>
+                <div class="input-wrap" style="margin-bottom: 24px;">
+                  <label>Senha Provisória (Mín. 6 caracteres):</label>
+                  <input type="password" id="novo-membro-senha" required minlength="6">
+                </div>
+                <button type="submit" class="btn-action" style="width: 100%;">
+                  <span>Criar Acesso ao Sistema</span><div class="spinner"></div>
+                </button>
+              </form>
+            </div>
+
+            <div class="card" style="margin-bottom: 0; background-color: #f8fafc; border-style: dashed;">
+              <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Como funciona a adição de membros?</h3>
+              <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 20px; display: flex; flex-direction: column; gap: 14px;">
+                <li><strong>1. A Senha Provisória:</strong> É você (Administrador) quem define esta primeira senha (ex: <em>"mudar123"</em>) e informa ao novo colaborador de forma privada junto com o link do painel.</li>
+                <li><strong>2. Acesso ao Sistema:</strong> O novo advogado usará o e-mail cadastrado e essa senha provisória para fazer o login normalmente na tela inicial.</li>
+                <li><strong>3. Liberação no Banco de Dados (⚠️ Importante):</strong> Lembre-se que por segurança, o banco de dados é selado. Após criar a conta aqui, você deve ir no painel do <strong>Firebase > Firestore > Regras</strong> e adicionar o e-mail do novo colaborador na lista de permissões. Sem isso, ele entrará no sistema mas verá a tela vazia.</li>
+              </ul>
+            </div>
           </div>
         </section>
 
