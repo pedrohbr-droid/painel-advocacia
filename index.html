@@ -8,21 +8,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
   
+  <!-- Biblioteca de Gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     :root {
-      --bg: #0b132b;
-      --sidebar-bg: #0a1128;
-      --main-bg: #f8fafc;
-      --card-bg: #ffffff;
-      --primary: #1c2541;
-      --accent: #c59b27;
-      --accent-hover: #a37d1a;
-      --text-dark: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --success: #15803d;
-      --danger: #b91c1c;
-      --info: #0284c7;
+      --bg: #0b132b; --sidebar-bg: #0a1128; --main-bg: #f8fafc; --card-bg: #ffffff;
+      --primary: #1c2541; --accent: #c59b27; --accent-hover: #a37d1a;
+      --text-dark: #0f172a; --text-muted: #64748b; --border: #e2e8f0;
+      --success: #15803d; --danger: #b91c1c; --info: #0284c7;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -44,7 +38,6 @@
     #tela-sistema { display: none; min-height: 100vh; }
     .app-container { display: flex; min-height: 100vh; position: relative; }
     
-    /* Header Mobile (Visível apenas em telas pequenas) */
     .mobile-header { display: none; background: var(--sidebar-bg); padding: 16px 20px; color: white; align-items: center; justify-content: space-between; z-index: 100; }
     .btn-mobile-menu { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
     .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 998; backdrop-filter: blur(2px); }
@@ -85,27 +78,15 @@
     input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; background: #fff; transition: 0.2s; }
     input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.08); }
     
-    /* Botões & Spinner de Loading */
+    /* Botões & Spinner */
     .btn-action { background: var(--accent); color: #fff; font-weight: 600; padding: 12px 22px; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; }
     .btn-action:hover { background: var(--accent-hover); }
     .btn-action:disabled { opacity: 0.7; cursor: not-allowed; }
     .btn-secondary { background: #e2e8f0; color: #334155; font-weight: 600; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; margin-left: 8px; }
-    
     .spinner { display: none; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
     .btn-action.loading .spinner { display: block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Pastas */
-    .folders-guide { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; margin: 14px 0 24px 0; }
-    .folders-guide-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-    .folders-guide-header h4 { font-size: 13px; font-weight: 700; color: #1e293b; text-transform: uppercase; }
-    .folders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-    .folder-chip { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px; }
-    .folder-chip-icon { font-size: 18px; }
-    .folder-chip-text { display: flex; flex-direction: column; }
-    .folder-chip-index { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
-    .folder-chip-name { font-size: 12px; font-weight: 600; color: #334155; }
-    
     /* Tabelas e Ordenação */
     .table-container { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; white-space: nowrap; }
@@ -114,7 +95,6 @@
     table th.sortable:hover { background: #e2e8f0; color: var(--primary); }
     table td { padding: 12px; border-bottom: 1px solid var(--border); }
     .sort-icon { font-size: 10px; margin-left: 4px; color: #94a3b8; }
-    
     .actions-btns { display: flex; gap: 6px; }
     .btn-table { padding: 6px 12px; font-size: 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 4px; }
     .btn-edit { background: #e0f2fe; color: var(--info); }
@@ -161,22 +141,16 @@
     .toast.error { background-color: var(--danger); }
     .toast.info { background-color: var(--info); }
 
-    /* RESPONSIVIDADE (MOBILE) */
-    @media (max-width: 992px) {
-      .prazos-full-layout { grid-template-columns: 1fr; }
-    }
+    /* RESPONSIVIDADE */
+    @media (max-width: 992px) { .prazos-full-layout { grid-template-columns: 1fr; } }
     @media (max-width: 768px) {
-      .app-container { flex-direction: column; }
-      .mobile-header { display: flex; }
+      .app-container { flex-direction: column; } .mobile-header { display: flex; }
       .sidebar { position: fixed; left: -100%; top: 0; bottom: 0; box-shadow: 4px 0 15px rgba(0,0,0,0.5); }
-      .sidebar.open { left: 0; }
-      .sidebar-overlay.open { display: block; }
+      .sidebar.open { left: 0; } .sidebar-overlay.open { display: block; }
       .content-area { max-width: 100vw; padding: 20px 16px; }
       .form-grid-2, .form-grid-3, .stats-prazos-row { grid-template-columns: 1fr; }
-      .header-view { flex-direction: column; align-items: flex-start; }
-      .header-view button { width: 100%; }
-      .folder-header { flex-direction: column; align-items: flex-start; gap: 14px; }
-      .btn-anexar { width: 100%; justify-content: center; }
+      .header-view { flex-direction: column; align-items: flex-start; } .header-view button { width: 100%; }
+      .folder-header { flex-direction: column; align-items: flex-start; gap: 14px; } .btn-anexar { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -260,8 +234,10 @@
           </div>
 
           <nav class="menu-nav">
+            <!-- Novo botão Dashboard setado como ativo inicial -->
+            <button class="menu-btn active" onclick="window.trocarModulo('dashboard', this)">📊 Visão Geral</button>
             <button class="menu-btn" onclick="window.trocarModulo('prontuario', this)">📂 Prontuário Digital</button>
-            <button class="menu-btn active" onclick="window.trocarModulo('prazos', this)">⏱️ Calculadora Prazos</button>
+            <button class="menu-btn" onclick="window.trocarModulo('prazos', this)">⏱️ Calculadora Prazos</button>
             <button class="menu-btn" onclick="window.trocarModulo('financeiro', this)">💰 Financeiro & Custas</button>
           </nav>
         </div>
@@ -269,9 +245,49 @@
       </aside>
 
       <main class="content-area">
+
+        <!-- NOVO MÓDULO: DASHBOARD (VISÃO GERAL) -->
+        <section id="modulo-dashboard" class="tab-view active">
+          <div class="header-view">
+            <div>
+              <h1>Visão Geral do Escritório</h1>
+              <p>Resumo em tempo real de clientes, andamento processual e fluxo de caixa.</p>
+            </div>
+          </div>
+
+          <div class="stats-prazos-row">
+            <div class="stat-mini-card">
+              <label>Clientes Ativos</label>
+              <span id="dash-clientes">0</span>
+            </div>
+            <div class="stat-mini-card">
+              <label>Total de Prazos Pendentes</label>
+              <span id="dash-prazos">0</span>
+            </div>
+            <div class="stat-mini-card">
+              <label>Saldo Financeiro</label>
+              <span id="dash-saldo">R$ 0,00</span>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="card" style="margin-bottom: 0;">
+              <h3 style="font-size: 15px; margin-bottom: 16px; color: var(--primary);">Distribuição Financeira</h3>
+              <div style="position: relative; height: 260px; width: 100%;">
+                <canvas id="chart-financeiro"></canvas>
+              </div>
+            </div>
+            <div class="card" style="margin-bottom: 0;">
+              <h3 style="font-size: 15px; margin-bottom: 16px; color: var(--primary);">Status da Agenda de Prazos</h3>
+              <div style="position: relative; height: 260px; width: 100%;">
+                <canvas id="chart-prazos"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
         
         <!-- MÓDULO: CALCULADORA DE PRAZOS -->
-        <section id="modulo-prazos" class="tab-view active">
+        <section id="modulo-prazos" class="tab-view">
           <div class="header-view">
             <div>
               <h1>Calculadora de Prazos Processuais</h1>
@@ -532,19 +548,13 @@
     // ORDENAÇÃO DE TABELAS
     // ==========================================
     let sortConfig = { clientes: { col: null, dir: 'asc' }, prazos: { col: 'dataFatalISO', dir: 'asc' }, fin: { col: null, dir: 'asc' } };
-    
-    function resetarIcones(prefix) {
-      document.querySelectorAll(`[id^="sort-${prefix}-"]`).forEach(el => el.innerText = '');
-    }
+    function resetarIcones(prefix) { document.querySelectorAll(`[id^="sort-${prefix}-"]`).forEach(el => el.innerText = ''); }
 
     window.ordenarTabelaClientes = function(coluna) {
       let dir = (sortConfig.clientes.col === coluna && sortConfig.clientes.dir === 'asc') ? 'desc' : 'asc';
       sortConfig.clientes = { col: coluna, dir: dir };
-      listaClientes.sort((a, b) => {
-        let valA = a[coluna].toLowerCase(); let valB = b[coluna].toLowerCase();
-        if (valA < valB) return dir === 'asc' ? -1 : 1;
-        if (valA > valB) return dir === 'asc' ? 1 : -1;
-        return 0;
+      listaClientes.sort((a, b) => { let valA = a[coluna].toLowerCase(); let valB = b[coluna].toLowerCase();
+        if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0;
       });
       resetarIcones('cli'); document.getElementById(`sort-cli-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼';
       window.renderizarClientes();
@@ -553,11 +563,8 @@
     window.ordenarTabelaPrazos = function(coluna) {
       let dir = (sortConfig.prazos.col === coluna && sortConfig.prazos.dir === 'asc') ? 'desc' : 'asc';
       sortConfig.prazos = { col: coluna, dir: dir };
-      listaPrazosSalvos.sort((a, b) => {
-        let valA = a[coluna]; let valB = b[coluna];
-        if (valA < valB) return dir === 'asc' ? -1 : 1;
-        if (valA > valB) return dir === 'asc' ? 1 : -1;
-        return 0;
+      listaPrazosSalvos.sort((a, b) => { let valA = a[coluna]; let valB = b[coluna];
+        if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0;
       });
       resetarIcones('prazo'); document.getElementById(`sort-prazo-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼';
       window.renderizarPrazosSalvos();
@@ -566,17 +573,63 @@
     window.ordenarTabelaFinanceiro = function(coluna) {
       let dir = (sortConfig.fin.col === coluna && sortConfig.fin.dir === 'asc') ? 'desc' : 'asc';
       sortConfig.fin = { col: coluna, dir: dir };
-      listaFin.sort((a, b) => {
-        let valA = a[coluna]; let valB = b[coluna];
+      listaFin.sort((a, b) => { let valA = a[coluna]; let valB = b[coluna];
         if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); }
-        if (valA < valB) return dir === 'asc' ? -1 : 1;
-        if (valA > valB) return dir === 'asc' ? 1 : -1;
-        return 0;
+        if (valA < valB) return dir === 'asc' ? -1 : 1; if (valA > valB) return dir === 'asc' ? 1 : -1; return 0;
       });
       resetarIcones('fin'); document.getElementById(`sort-fin-${coluna}`).innerText = dir === 'asc' ? '▲' : '▼';
       window.renderizarFinanceiro();
     };
 
+    // ==========================================
+    // DASHBOARD & GRÁFICOS (CHART.JS)
+    // ==========================================
+    let chartFin = null;
+    let chartPrazos = null;
+
+    window.renderizarDashboard = function() {
+      // 1. Mini-cards Superiores
+      document.getElementById('dash-clientes').innerText = listaClientes.length;
+      document.getElementById('dash-prazos').innerText = listaPrazosSalvos.length;
+      
+      let entradas = 0; let saidas = 0;
+      listaFin.forEach(i => i.categoria.startsWith('honorario') ? entradas += i.valor : saidas += i.valor);
+      const saldo = entradas - saidas;
+      const elSaldo = document.getElementById('dash-saldo');
+      elSaldo.innerText = `R$ ${saldo.toFixed(2)}`;
+      elSaldo.style.color = saldo >= 0 ? 'var(--primary)' : 'var(--danger)';
+
+      // 2. Gráfico Financeiro (Rosca)
+      const ctxFin = document.getElementById('chart-financeiro');
+      if (chartFin) chartFin.destroy();
+      chartFin = new Chart(ctxFin, {
+        type: 'doughnut',
+        data: {
+          labels: ['Entradas', 'Saídas'],
+          datasets: [{ data: [entradas, saidas], backgroundColor: ['#15803d', '#b91c1c'], borderWidth: 0 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      // 3. Gráfico de Prazos (Barras)
+      let urgentes = 0, noPrazo = 0;
+      const hoje = new Date(); hoje.setHours(0,0,0,0);
+      listaPrazosSalvos.forEach(p => {
+         const diff = Math.ceil((new Date(p.dataFatalISO + 'T00:00:00') - hoje) / (1000 * 60 * 60 * 24));
+         if(diff <= 1) urgentes++; else noPrazo++;
+      });
+      
+      const ctxPrazos = document.getElementById('chart-prazos');
+      if (chartPrazos) chartPrazos.destroy();
+      chartPrazos = new Chart(ctxPrazos, {
+        type: 'bar',
+        data: {
+          labels: ['Críticos (Hoje/Vencidos)', 'No Prazo (Seguros)'],
+          datasets: [{ label: 'Quantidade de Prazos', data: [urgentes, noPrazo], backgroundColor: ['#b91c1c', '#0284c7'], borderRadius: 4 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
+    };
 
     // ==========================================
     // FERIADOS DA API
@@ -588,28 +641,20 @@
         const [res1, res2] = await Promise.all([ fetch(`https://brasilapi.com.br/api/feriados/v1/${anoAtual}`), fetch(`https://brasilapi.com.br/api/feriados/v1/${anoAtual + 1}`) ]);
         const dados1 = await res1.json(); const dados2 = await res2.json();
         feriadosNacionais = [...dados1, ...dados2].map(f => f.date);
-        document.getElementById('stat-feriados').innerText = `${feriadosNacionais.length} feriados (Brasil API)`;
-        document.getElementById('stat-feriados').style.color = "var(--success)";
+        document.getElementById('stat-feriados').innerText = `${feriadosNacionais.length} feriados (Brasil API)`; document.getElementById('stat-feriados').style.color = "var(--success)";
       } catch (error) { document.getElementById('stat-feriados').innerText = "Erro na Brasil API"; }
     }
 
     // ==========================================
-    // AUTENTICAÇÃO
+    // AUTENTICAÇÃO E NAVEGAÇÃO
     // ==========================================
-    window.alternarTelaAuth = function(tipo) {
-      document.querySelectorAll('.form-auth').forEach(el => el.classList.remove('active'));
-      document.getElementById(tipo === 'cadastro' ? 'form-cadastro' : 'form-login').classList.add('active');
-    };
+    window.alternarTelaAuth = function(tipo) { document.querySelectorAll('.form-auth').forEach(el => el.classList.remove('active')); document.getElementById(tipo === 'cadastro' ? 'form-cadastro' : 'form-login').classList.add('active'); };
 
     window.realizarCadastro = async function(e) {
       e.preventDefault(); const btn = document.getElementById('btn-submit-cad'); window.toggleLoading(btn, true);
       const nome = document.getElementById('cad-nome').value.trim(); const email = document.getElementById('cad-usuario').value.trim(); const senha = document.getElementById('cad-senha').value.trim();
-      try {
-        const userCred = await createUserWithEmailAndPassword(auth, email, senha);
-        await updateProfile(userCred.user, { displayName: nome });
-        window.showToast('Cadastro realizado! Faça login.', 'success'); window.alternarTelaAuth('login');
-      } catch(err) { window.showToast("Erro: " + err.message, 'error'); }
-      finally { window.toggleLoading(btn, false); }
+      try { const userCred = await createUserWithEmailAndPassword(auth, email, senha); await updateProfile(userCred.user, { displayName: nome }); window.showToast('Cadastro realizado! Faça login.', 'success'); window.alternarTelaAuth('login'); } 
+      catch(err) { window.showToast("Erro: " + err.message, 'error'); } finally { window.toggleLoading(btn, false); }
     };
 
     window.realizarLogin = async function(e) {
@@ -634,7 +679,7 @@
     window.trocarModulo = function(nomeModulo, botaoClicado) {
       document.querySelectorAll('.tab-view, .menu-btn').forEach(el => el.classList.remove('active'));
       document.getElementById('modulo-' + nomeModulo).classList.add('active'); botaoClicado.classList.add('active');
-      if (window.innerWidth <= 768) window.toggleMobileMenu(); // Fecha o menu ao clicar (mobile)
+      if (window.innerWidth <= 768) window.toggleMobileMenu();
     };
 
     // ==========================================
@@ -645,21 +690,18 @@
     function inicializarPastas() { const p = {}; pastasConfig.forEach(i => p[i.id] = []); return p; }
 
     window.filtrarClientes = function() {
-      const termo = document.getElementById('busca-cliente').value.toLowerCase();
-      const linhas = document.getElementById('tabela-clientes-corpo').getElementsByTagName('tr');
+      const termo = document.getElementById('busca-cliente').value.toLowerCase(); const linhas = document.getElementById('tabela-clientes-corpo').getElementsByTagName('tr');
       for (let i = 0; i < linhas.length; i++) { linhas[i].style.display = linhas[i].innerText.toLowerCase().includes(termo) ? '' : 'none'; }
     };
 
     window.salvarCliente = async function(e, btnElement) {
-      e.preventDefault(); window.toggleLoading(btnElement, true);
-      const idEdicao = document.getElementById('cli-id-edicao').value;
+      e.preventDefault(); window.toggleLoading(btnElement, true); const idEdicao = document.getElementById('cli-id-edicao').value;
       const dados = { nome: document.getElementById('cli-nome').value, doc: document.getElementById('cli-doc').value, contato: document.getElementById('cli-contato').value, endereco: document.getElementById('cli-endereco').value, responsavel: document.getElementById('cli-responsavel').value, resumo: document.getElementById('cli-resumo').value, pendencias: document.getElementById('cli-pendencias').value || 'Nenhuma', pastas: {} };
       try {
         if (idEdicao !== '') { const clienteAtual = listaClientes[idEdicao]; dados.pastas = clienteAtual.pastas || inicializarPastas(); await updateDoc(doc(db, "clientes", clienteAtual.id), dados); window.showToast('Prontuário atualizado!', 'success'); } 
         else { dados.pastas = inicializarPastas(); await addDoc(collection(db, "clientes"), dados); window.showToast('Novo cliente salvo!', 'success'); }
         window.cancelarEdicao(); await window.carregarDadosNuvem();
-      } catch (err) { window.showToast("Erro ao salvar: " + err.message, 'error'); } 
-      finally { window.toggleLoading(btnElement, false); }
+      } catch (err) { window.showToast("Erro ao salvar: " + err.message, 'error'); } finally { window.toggleLoading(btnElement, false); }
     };
 
     window.prepararEdicao = function(index) {
@@ -671,16 +713,12 @@
       document.getElementById('cli-id-edicao').value = ''; document.getElementById('form-cad-cliente').reset();
       document.getElementById('form-cliente-titulo').innerText = 'Novo Cadastro de Cliente'; document.querySelector('#btn-submit-cliente span').innerText = 'Salvar no Prontuário'; document.getElementById('btn-cancelar-edicao').style.display = 'none';
     };
-    window.excluirCliente = async function(index) {
-      if (confirm(`Excluir "${listaClientes[index].nome}"?`)) { await deleteDoc(doc(db, "clientes", listaClientes[index].id)); window.showToast('Cliente excluído.', 'info'); window.carregarDadosNuvem(); }
-    };
+    window.excluirCliente = async function(index) { if (confirm(`Excluir "${listaClientes[index].nome}"?`)) { await deleteDoc(doc(db, "clientes", listaClientes[index].id)); window.showToast('Cliente excluído.', 'info'); window.carregarDadosNuvem(); } };
 
     window.renderizarClientes = function() {
       const corpo = document.getElementById('tabela-clientes-corpo'); corpo.innerHTML = '';
       if (listaClientes.length === 0) return corpo.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum cliente cadastrado.</td></tr>';
-      listaClientes.forEach((c, index) => {
-        corpo.innerHTML += `<tr><td><strong>${c.nome}</strong></td><td>${c.doc}</td><td>${c.responsavel}</td><td>${c.resumo}</td><td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td><td><div class="actions-btns"><button class="btn-table btn-folder" onclick="window.abrirModalPastas(${index})">📁 Pastas</button><button class="btn-table btn-edit" onclick="window.prepararEdicao(${index})">✏️</button><button class="btn-table btn-del" onclick="window.excluirCliente(${index})">🗑️</button></div></td></tr>`;
-      });
+      listaClientes.forEach((c, index) => { corpo.innerHTML += `<tr><td><strong>${c.nome}</strong></td><td>${c.doc}</td><td>${c.responsavel}</td><td>${c.resumo}</td><td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td><td><div class="actions-btns"><button class="btn-table btn-folder" onclick="window.abrirModalPastas(${index})">📁 Pastas</button><button class="btn-table btn-edit" onclick="window.prepararEdicao(${index})">✏️</button><button class="btn-table btn-del" onclick="window.excluirCliente(${index})">🗑️</button></div></td></tr>`; });
     };
 
     window.abrirModalPastas = function(index) { clienteSelecionadoIndex = index; if (!listaClientes[index].pastas) listaClientes[index].pastas = inicializarPastas(); document.getElementById('modal-cliente-nome').innerText = `Prontuário: ${listaClientes[index].nome}`; window.renderizarConteudoModalPastas(); document.getElementById('modal-pastas').style.display = 'flex'; };
@@ -689,10 +727,8 @@
     window.renderizarConteudoModalPastas = function() {
       const corpo = document.getElementById('modal-pastas-corpo'); const c = listaClientes[clienteSelecionadoIndex]; corpo.innerHTML = '';
       pastasConfig.forEach(pasta => {
-        const arquivos = c.pastas[pasta.id] || [];
-        let arquivosHtml = arquivos.length === 0 ? '<p class="empty-files-msg">Nenhum documento anexado.</p>' : '<ul class="file-list">';
-        arquivos.forEach((arq, arqIdx) => { if (arquivos.length > 0) arquivosHtml += `<li class="file-item"><a href="${arq.url}" target="_blank" class="file-link">📄 ${arq.nomeVisual}</a><button class="file-remove-btn" onclick="window.removerArquivo('${pasta.id}', ${arqIdx})">&times;</button></li>`; });
-        if (arquivos.length > 0) arquivosHtml += '</ul>';
+        const arquivos = c.pastas[pasta.id] || []; let arquivosHtml = arquivos.length === 0 ? '<p class="empty-files-msg">Nenhum documento anexado.</p>' : '<ul class="file-list">';
+        arquivos.forEach((arq, arqIdx) => { if (arquivos.length > 0) arquivosHtml += `<li class="file-item"><a href="${arq.url}" target="_blank" class="file-link">📄 ${arq.nomeVisual}</a><button class="file-remove-btn" onclick="window.removerArquivo('${pasta.id}', ${arqIdx})">&times;</button></li>`; }); if (arquivos.length > 0) arquivosHtml += '</ul>';
         corpo.innerHTML += `<div class="folder-card"><div class="folder-header"><div class="folder-meta"><div class="folder-icon-circle">${pasta.icon}</div><div><span class="folder-title">${pasta.nome}</span><span style="display:block" class="folder-counter">${arquivos.length} arquivos • ${pasta.desc}</span></div></div><label class="btn-anexar" id="label-anexar-${pasta.id}">+ Anexar<input type="file" style="display: none;" onchange="window.anexarArquivoSupabase(event, '${pasta.id}')"></label></div>${arquivosHtml}</div>`;
       });
     };
@@ -706,13 +742,10 @@
       const { data: publicUrlData } = supabase.storage.from('prontuarios').getPublicUrl(nomeSeguro);
       const c = listaClientes[clienteSelecionadoIndex]; if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
       c.pastas[pastaId].push({ nomeVisual: file.name, url: publicUrlData.publicUrl });
-      await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas });
-      window.showToast("Arquivo anexado!", 'success'); labelEl.innerText = "+ Anexar"; window.renderizarConteudoModalPastas();
+      await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Arquivo anexado!", 'success'); labelEl.innerText = "+ Anexar"; window.renderizarConteudoModalPastas();
     };
 
-    window.removerArquivo = async function(pastaId, arqIdx) {
-      if (confirm('Excluir documento?')) { const c = listaClientes[clienteSelecionadoIndex]; c.pastas[pastaId].splice(arqIdx, 1); await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Documento removido.", 'info'); window.renderizarConteudoModalPastas(); }
-    };
+    window.removerArquivo = async function(pastaId, arqIdx) { if (confirm('Excluir documento?')) { const c = listaClientes[clienteSelecionadoIndex]; c.pastas[pastaId].splice(arqIdx, 1); await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Documento removido.", 'info'); window.renderizarConteudoModalPastas(); } };
 
     // ==========================================
     // PRAZOS E FINANCEIRO
@@ -724,13 +757,9 @@
       const lei = document.getElementById('prazo-lei').value; const dataInput = document.getElementById('prazo-data-inicio').value; const qtdDias = parseInt(document.getElementById('prazo-qtd-dias').value);
       if (!dataInput || isNaN(qtdDias) || qtdDias <= 0) return window.showToast('Insira data e dias válidos.', 'error');
       let data = new Date(dataInput + 'T00:00:00'); let diasContados = 0; const contaApenasUteis = (lei !== 'cpp');
-      while (diasContados < qtdDias) {
-        data.setDate(data.getDate() + 1); const diaSemana = data.getDay(); const isoData = data.toISOString().split('T')[0];
-        if (contaApenasUteis) { if (diaSemana !== 0 && diaSemana !== 6 && !feriadosNacionais.includes(isoData)) diasContados++; } else diasContados++;
-      }
+      while (diasContados < qtdDias) { data.setDate(data.getDate() + 1); const diaSemana = data.getDay(); const isoData = data.toISOString().split('T')[0]; if (contaApenasUteis) { if (diaSemana !== 0 && diaSemana !== 6 && !feriadosNacionais.includes(isoData)) diasContados++; } else diasContados++; }
       if (!contaApenasUteis) { while (data.getDay() === 0 || data.getDay() === 6 || feriadosNacionais.includes(data.toISOString().split('T')[0])) data.setDate(data.getDate() + 1); }
-      const formatada = data.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      ultimoCalculoTemp = { lei: lei.toUpperCase(), dataFatalFormatada: formatada, dataFatalISO: data.toISOString().split('T')[0] };
+      const formatada = data.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); ultimoCalculoTemp = { lei: lei.toUpperCase(), dataFatalFormatada: formatada, dataFatalISO: data.toISOString().split('T')[0] };
       document.getElementById('box-resultado-prazo').style.display = 'block'; document.getElementById('box-resultado-prazo').innerHTML = `Vencimento (${lei.toUpperCase()}): <strong>${formatada}</strong>`; document.getElementById('btn-salvar-prazo-agenda').style.display = 'flex';
     };
 
@@ -785,8 +814,11 @@
         listaPrazosSalvos = []; sPrazos.forEach(d => listaPrazosSalvos.push({ id: d.id, ...d.data() })); window.renderizarPrazosSalvos();
         listaFin = []; sFin.forEach(d => listaFin.push({ id: d.id, ...d.data() })); window.renderizarFinanceiro();
         
-        // Aplica ordenação inicial na tabela de prazos (Vencimento mais próximo primeiro)
         if(listaPrazosSalvos.length > 0 && sortConfig.prazos.col === 'dataFatalISO') { window.ordenarTabelaPrazos('dataFatalISO'); }
+        
+        // Chamada da nova tela de Dashboard!
+        window.renderizarDashboard();
+
       } catch(e) { window.showToast("Erro ao buscar dados na nuvem", "error"); }
     };
   </script>
