@@ -21,7 +21,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background-color: var(--main-bg); color: var(--text-dark); }
 
-    /* Tela de Login Segurança Máxima */
+    /* Tela de Login Blindada com Recuperação */
     #tela-login { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #0a1128 0%, #1c2541 100%); padding: 20px; }
     .login-box { background: #ffffff; width: 100%; max-width: 440px; padding: 40px 32px; border-radius: 16px; box-shadow: 0 20px 35px rgba(0,0,0,0.4); text-align: center; }
     .brand-logo-container { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; }
@@ -29,6 +29,11 @@
     .brand-title { font-family: 'Cinzel', serif; font-size: 19px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary); }
     .brand-subtitle { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-top: 2px; }
     
+    .form-auth { display: none; }
+    .form-auth.active { display: block; }
+    .toggle-form { margin-top: 20px; font-size: 13px; color: var(--accent); font-weight: 600; cursor: pointer; display: inline-block; }
+    .toggle-form:hover { text-decoration: underline; }
+
     #tela-sistema { display: none; min-height: 100vh; }
     .app-container { display: flex; min-height: 100vh; position: relative; }
     
@@ -146,7 +151,7 @@
 
   <div id="toast-container"></div>
 
-  <!-- 1. TELA DE LOGIN BLINDADA -->
+  <!-- 1. TELA DE LOGIN BLINDADA COM RECUPERAÇÃO DE SENHA -->
   <section id="tela-login">
     <div class="login-box">
       <div class="brand-logo-container">
@@ -156,21 +161,46 @@
       </div>
       <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Acesso restrito a colaboradores autorizados.</p>
       
-      <form id="form-login" onsubmit="window.realizarLogin(event)">
+      <!-- FORMULÁRIO DE LOGIN -->
+      <form id="form-login" class="form-auth active" onsubmit="window.realizarLogin(event)">
         <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
           <label>E-mail Institucional</label>
           <input type="email" id="login-usuario" required>
         </div>
-        <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
+        <div class="input-wrap" style="margin-bottom: 8px; text-align: left;">
           <label>Senha</label>
           <input type="password" id="login-senha" required>
         </div>
+        
+        <div style="text-align: right; margin-bottom: 18px;">
+          <span style="font-size: 11px; color: var(--info); cursor: pointer; font-weight: 600;" onclick="window.alternarTelaAuth('recuperar')">Esqueci minha senha</span>
+        </div>
+
         <button type="submit" id="btn-submit-login" class="btn-action" style="width: 100%;">
           <span>Acessar Painel Jurídico</span>
           <div class="spinner"></div>
         </button>
         <p id="msg-erro-login" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;">Acesso negado. Credenciais inválidas ou usuário sem permissão.</p>
       </form>
+
+      <!-- FORMULÁRIO DE RECUPERAÇÃO DE SENHA -->
+      <form id="form-recuperar" class="form-auth" onsubmit="window.recuperarSenha(event, this.querySelector('button[type=submit]'))">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">Digite seu e-mail cadastrado. Enviaremos um link seguro para você redefinir sua senha.</p>
+        
+        <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
+          <label>E-mail Institucional</label>
+          <input type="email" id="recuperar-email" required>
+        </div>
+        
+        <button type="submit" class="btn-action" style="width: 100%; background: var(--info);">
+          <span>Enviar Link de Recuperação</span><div class="spinner"></div>
+        </button>
+        
+        <div style="margin-top: 20px;">
+          <span class="toggle-form" onclick="window.alternarTelaAuth('login')" style="margin-top: 0;">Voltar para o Login</span>
+        </div>
+      </form>
+
     </div>
   </section>
 
@@ -394,7 +424,7 @@
           </div>
         </section>
 
-        <!-- NOVO: GESTÃO DE EQUIPE -->
+        <!-- GESTÃO DE EQUIPE -->
         <section id="modulo-equipe" class="tab-view">
           <div class="header-view">
             <div>
@@ -429,7 +459,7 @@
               <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Como funciona a adição de membros?</h3>
               <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 20px; display: flex; flex-direction: column; gap: 14px;">
                 <li><strong>1. A Senha Provisória:</strong> É você (Administrador) quem define esta primeira senha (ex: <em>"mudar123"</em>) e informa ao novo colaborador de forma privada junto com o link do painel.</li>
-                <li><strong>2. Acesso ao Sistema:</strong> O novo advogado usará o e-mail cadastrado e essa senha provisória para fazer o login normalmente na tela inicial.</li>
+                <li><strong>2. Acesso ao Sistema:</strong> O novo advogado usará o e-mail cadastrado e essa senha para fazer o login. Se esquecer, poderá usar a função "Esqueci minha senha" na tela inicial para redefinir.</li>
                 <li><strong>3. Liberação no Banco de Dados (⚠️ Importante):</strong> Lembre-se que por segurança, o banco de dados é selado. Após criar a conta aqui, você deve ir no painel do <strong>Firebase > Firestore > Regras</strong> e adicionar o e-mail do novo colaborador na lista de permissões. Sem isso, ele entrará no sistema mas verá a tela vazia.</li>
               </ul>
             </div>
@@ -464,7 +494,7 @@
   <!-- SCRIPTS FIREBASE/SUPABASE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
@@ -557,6 +587,11 @@
     }
 
     // AUTENTICAÇÃO E NAVEGAÇÃO
+    window.alternarTelaAuth = function(tipo) {
+      document.querySelectorAll('.form-auth').forEach(el => el.classList.remove('active'));
+      document.getElementById('form-' + tipo).classList.add('active');
+    };
+
     window.realizarLogin = async function(e) {
       e.preventDefault(); const btn = document.getElementById('btn-submit-login'); window.toggleLoading(btn, true);
       try { 
@@ -566,6 +601,22 @@
         document.getElementById('msg-erro-login').style.display = 'block'; 
         window.showToast('Acesso Negado.', 'error'); 
         window.toggleLoading(btn, false); 
+      }
+    };
+
+    window.recuperarSenha = async function(e, btnElement) {
+      e.preventDefault(); 
+      window.toggleLoading(btnElement, true);
+      const email = document.getElementById('recuperar-email').value.trim();
+      try {
+        await sendPasswordResetEmail(auth, email);
+        window.showToast('Um link de recuperação foi enviado para o seu e-mail!', 'success');
+        window.alternarTelaAuth('login');
+        e.target.reset();
+      } catch (err) {
+        window.showToast("Erro ao enviar o e-mail de recuperação.", 'error');
+      } finally {
+        window.toggleLoading(btnElement, false);
       }
     };
 
@@ -736,7 +787,7 @@
         listaFin = []; sFin.forEach(d => listaFin.push({ id: d.id, ...d.data() })); window.renderizarFinanceiro();
         if(listaPrazosSalvos.length > 0 && sortConfig.prazos.col === 'dataFatalISO') { window.ordenarTabelaPrazos('dataFatalISO'); }
         window.renderizarDashboard();
-      } catch(e) { window.showToast("Erro ao buscar dados", "error"); }
+      } catch(e) { window.showToast("Erro ao buscar dados na nuvem", "error"); }
     };
   </script>
 </body>
