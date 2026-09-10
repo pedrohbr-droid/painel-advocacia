@@ -94,13 +94,8 @@
       margin-top: 2px;
     }
 
-    .form-auth {
-      display: none;
-    }
-
-    .form-auth.active {
-      display: block;
-    }
+    .form-auth { display: none; }
+    .form-auth.active { display: block; }
 
     .toggle-form {
       margin-top: 20px;
@@ -111,9 +106,7 @@
       display: inline-block;
     }
 
-    .toggle-form:hover {
-      text-decoration: underline;
-    }
+    .toggle-form:hover { text-decoration: underline; }
 
     /* Layout Autenticado */
     #tela-sistema {
@@ -234,13 +227,8 @@
       max-width: calc(100vw - 280px);
     }
 
-    .tab-view {
-      display: none;
-    }
-
-    .tab-view.active {
-      display: block;
-    }
+    .tab-view { display: none; }
+    .tab-view.active { display: block; }
 
     .header-view {
       margin-bottom: 24px;
@@ -360,9 +348,7 @@
       transition: 0.2s;
     }
 
-    .btn-action:hover {
-      background: var(--accent-hover);
-    }
+    .btn-action:hover { background: var(--accent-hover); }
 
     .btn-secondary {
       background: #e2e8f0;
@@ -501,23 +487,13 @@
       background: #f0fdf4; color: var(--success); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: 1px solid #bbf7d0;
     }
 
-    /* Modal de Alerta de Prazos */
     .alerta-item-box {
-      background: #fff;
-      border: 1px solid #fed7aa;
-      border-left: 4px solid var(--accent);
-      padding: 12px 16px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+      background: #fff; border: 1px solid #fed7aa; border-left: 4px solid var(--accent);
+      padding: 12px 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
     }
 
     .alerta-item-urgente {
-      border-color: #fca5a5;
-      border-left: 4px solid var(--danger);
-      background: #fff5f5;
+      border-color: #fca5a5; border-left: 4px solid var(--danger); background: #fff5f5;
     }
 
     .stat-val-income { color: var(--success); font-weight: 800; font-size: 22px; }
@@ -538,41 +514,40 @@
       </div>
       <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">Atuação jurídica com seriedade e proximidade</p>
       
-      <!-- Formulário de Login -->
-      <form id="form-login" class="form-auth active" onsubmit="realizarLogin(event)">
-        <div class="input-wrap" style="margin-bottom: 12px;">
-          <label>Usuário / OAB</label>
-          <input type="text" id="login-usuario" required>
+      <!-- Formulário de Login (Agora usa E-mail) -->
+      <form id="form-login" class="form-auth active" onsubmit="window.realizarLogin(event)">
+        <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
+          <label>E-mail Institucional</label>
+          <input type="email" id="login-usuario" placeholder="advogada@escritorio.com" required>
         </div>
-        <div class="input-wrap" style="margin-bottom: 18px;">
+        <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
           <label>Senha</label>
-          <input type="password" id="login-senha" required>
+          <input type="password" id="login-senha" placeholder="••••••••" required>
         </div>
         <button type="submit" class="btn-action" style="width: 100%;">Acessar Painel Jurídico</button>
         <p id="msg-erro-login" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;">Credenciais inválidas.</p>
         
-        <span class="toggle-form" onclick="alternarTelaAuth('cadastro')">Não tem uma conta? Cadastre-se</span>
+        <span class="toggle-form" onclick="window.alternarTelaAuth('cadastro')">Não tem uma conta? Cadastre-se</span>
       </form>
 
-      <!-- Formulário de Cadastro -->
-      <form id="form-cadastro" class="form-auth" onsubmit="realizarCadastro(event)">
-        <div class="input-wrap" style="margin-bottom: 12px;">
+      <!-- Formulário de Cadastro (Firebase Auth) -->
+      <form id="form-cadastro" class="form-auth" onsubmit="window.realizarCadastro(event)">
+        <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
           <label>Nome Completo (Advogada)</label>
           <input type="text" id="cad-nome" placeholder="Ex: Dra. Ana Silva" required>
         </div>
-        <div class="input-wrap" style="margin-bottom: 12px;">
-          <label>Novo Usuário / OAB</label>
-          <input type="text" id="cad-usuario" required>
+        <div class="input-wrap" style="margin-bottom: 12px; text-align: left;">
+          <label>E-mail Institucional</label>
+          <input type="email" id="cad-usuario" placeholder="advogada@escritorio.com" required>
         </div>
-        <div class="input-wrap" style="margin-bottom: 18px;">
-          <label>Crie uma Senha</label>
-          <input type="password" id="cad-senha" required>
+        <div class="input-wrap" style="margin-bottom: 18px; text-align: left;">
+          <label>Crie uma Senha (Mín. 6 caracteres)</label>
+          <input type="password" id="cad-senha" required minlength="6">
         </div>
         <button type="submit" class="btn-action" style="width: 100%; background: var(--primary);">Criar Conta Jurídica</button>
         
-        <span class="toggle-form" onclick="alternarTelaAuth('login')">Já possui conta? Faça o Login</span>
+        <span class="toggle-form" onclick="window.alternarTelaAuth('login')">Já possui conta? Faça o Login</span>
       </form>
-
     </div>
   </section>
 
@@ -588,19 +563,18 @@
             <span class="brand-subtitle">ADVOCACIA</span>
           </div>
 
-          <!-- Perfil da Advogada Logada -->
           <div class="user-profile">
             <span>Bem-vinda,</span>
             <strong id="nome-advogada-logada">Advogada</strong>
           </div>
 
           <nav class="menu-nav">
-            <button class="menu-btn" onclick="trocarModulo('prontuario', this)">📂 Prontuário Digital</button>
-            <button class="menu-btn active" onclick="trocarModulo('prazos', this)">⏱️ Calculadora Prazos</button>
-            <button class="menu-btn" onclick="trocarModulo('financeiro', this)">💰 Financeiro & Custas</button>
+            <button class="menu-btn" onclick="window.trocarModulo('prontuario', this)">📂 Prontuário Digital</button>
+            <button class="menu-btn active" onclick="window.trocarModulo('prazos', this)">⏱️ Calculadora Prazos</button>
+            <button class="menu-btn" onclick="window.trocarModulo('financeiro', this)">💰 Financeiro & Custas</button>
           </nav>
         </div>
-        <button class="btn-logout" onclick="realizarLogout()">Encerrar Sessão</button>
+        <button class="btn-logout" onclick="window.realizarLogout()">Encerrar Sessão</button>
       </aside>
 
       <main class="content-area">
@@ -612,7 +586,7 @@
               <h1>Calculadora de Prazos Processuais</h1>
               <p>Contagem automatizada por legislação e gestão de prazos fatais da banca.</p>
             </div>
-            <button class="btn-action" style="background: var(--primary);" onclick="verificarPrazosUrgentes(true)">🔔 Verificar Alertas de Prazos</button>
+            <button class="btn-action" style="background: var(--primary);" onclick="window.verificarPrazosUrgentes(true)">🔔 Verificar Alertas de Prazos</button>
           </div>
 
           <div class="stats-prazos-row">
@@ -667,15 +641,14 @@
                 <input type="text" id="prazo-descricao" placeholder="Ex: Apelação, Contestação, Manifestação">
               </div>
 
-              <button type="button" class="btn-action" style="width: 100%;" onclick="calcularDataFatal()">Calcular Prazo Fatal</button>
+              <button type="button" class="btn-action" style="width: 100%;" onclick="window.calcularDataFatal()">Calcular Prazo Fatal</button>
               
               <div id="box-resultado-prazo" class="alert-res alert-success" style="display: none;"></div>
-              <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="salvarPrazoNoHistorico()">Salvar na Agenda de Prazos</button>
+              <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="window.salvarPrazoNoHistorico()">Salvar na Agenda de Prazos</button>
             </div>
 
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos Críticos do Escritório</h3>
-              
               <div class="table-container">
                 <table>
                   <thead>
@@ -709,48 +682,18 @@
             <div class="folders-guide">
               <div class="folders-guide-header">
                 <span>📁</span>
-                <h4>Estrutura Padronizada de Pastas (Criada Automaticamente)</h4>
+                <h4>Estrutura Padronizada de Pastas</h4>
               </div>
               <div class="folders-grid">
-                <div class="folder-chip">
-                  <span class="folder-chip-icon">🗂️</span>
-                  <div class="folder-chip-text">
-                    <span class="folder-chip-index">Pasta 01</span>
-                    <span class="folder-chip-name">Dados Cadastrais</span>
-                  </div>
-                </div>
-                <div class="folder-chip">
-                  <span class="folder-chip-icon">⚖️</span>
-                  <div class="folder-chip-text">
-                    <span class="folder-chip-index">Pasta 02</span>
-                    <span class="folder-chip-name">Contratos & Procurações</span>
-                  </div>
-                </div>
-                <div class="folder-chip">
-                  <span class="folder-chip-icon">📄</span>
-                  <div class="folder-chip-text">
-                    <span class="folder-chip-index">Pasta 03</span>
-                    <span class="folder-chip-name">Petições & Pareceres</span>
-                  </div>
-                </div>
-                <div class="folder-chip">
-                  <span class="folder-chip-icon">🔍</span>
-                  <div class="folder-chip-text">
-                    <span class="folder-chip-index">Pasta 04</span>
-                    <span class="folder-chip-name">Provas & Anexos</span>
-                  </div>
-                </div>
-                <div class="folder-chip">
-                  <span class="folder-chip-icon">✉️</span>
-                  <div class="folder-chip-text">
-                    <span class="folder-chip-index">Pasta 05</span>
-                    <span class="folder-chip-name">Correspondência</span>
-                  </div>
-                </div>
+                <div class="folder-chip"><span class="folder-chip-icon">🗂️</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 01</span><span class="folder-chip-name">Dados Cadastrais</span></div></div>
+                <div class="folder-chip"><span class="folder-chip-icon">⚖️</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 02</span><span class="folder-chip-name">Contratos & Procura.</span></div></div>
+                <div class="folder-chip"><span class="folder-chip-icon">📄</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 03</span><span class="folder-chip-name">Petições & Pareceres</span></div></div>
+                <div class="folder-chip"><span class="folder-chip-icon">🔍</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 04</span><span class="folder-chip-name">Provas & Anexos</span></div></div>
+                <div class="folder-chip"><span class="folder-chip-icon">✉️</span><div class="folder-chip-text"><span class="folder-chip-index">Pasta 05</span><span class="folder-chip-name">Correspondência</span></div></div>
               </div>
             </div>
 
-            <form id="form-cad-cliente" onsubmit="salvarCliente(event)">
+            <form id="form-cad-cliente" onsubmit="window.salvarCliente(event)">
               <input type="hidden" id="cli-id-edicao" value="">
 
               <div class="form-grid-2">
@@ -781,17 +724,17 @@
 
               <div class="input-wrap" style="margin-bottom: 14px;">
                 <label>Resumo do Caso (até 3 linhas com áreas do direito e prazo crítico):</label>
-                <textarea id="cli-resumo" rows="3" maxlength="250" placeholder="Ex: Ação Trabalhista pleiteando verbas rescisórias. Prazo fatal para contestação em 10 dias úteis." required></textarea>
+                <textarea id="cli-resumo" rows="3" maxlength="250" placeholder="Ex: Ação Trabalhista pleiteando verbas rescisórias." required></textarea>
               </div>
 
               <div class="input-wrap" style="margin-bottom: 18px;">
-                <label>Lista de Documentos Pendentes (com responsável e data-alvo):</label>
-                <input type="text" id="cli-pendencias" placeholder="Ex: Cópia da CTPS e comprovante de residência (Envio pelo cliente até 15/09)">
+                <label>Lista de Documentos Pendentes:</label>
+                <input type="text" id="cli-pendencias" placeholder="Ex: Cópia da CTPS (Envio até 15/09)">
               </div>
 
               <div style="display: flex; align-items: center;">
                 <button type="submit" id="btn-submit-cliente" class="btn-action">Salvar no Prontuário</button>
-                <button type="button" id="btn-cancelar-edicao" class="btn-secondary" style="display: none;" onclick="cancelarEdicao()">Cancelar Edição</button>
+                <button type="button" id="btn-cancelar-edicao" class="btn-secondary" style="display: none;" onclick="window.cancelarEdicao()">Cancelar Edição</button>
               </div>
             </form>
           </div>
@@ -821,7 +764,7 @@
           <div class="header-view">
             <div>
               <h1>Gestão Financeira & Custas do Escritório</h1>
-              <p>Controle dos 4 pilares: honorários fixos/êxito, custos de operação e reembolsos.</p>
+              <p>Controle de honorários fixos/êxito, custos de operação e reembolsos.</p>
             </div>
           </div>
 
@@ -842,7 +785,7 @@
 
           <div class="card" style="margin-top: 24px;">
             <h3>Novo Lançamento Financeiro</h3>
-            <form id="form-cad-financeiro" onsubmit="salvarLancamento(event)">
+            <form id="form-cad-financeiro" onsubmit="window.salvarLancamento(event)">
               <div class="form-grid-3">
                 <div class="input-wrap">
                   <label>Classificação do Lançamento:</label>
@@ -896,19 +839,13 @@
           <h3 style="color: var(--danger); font-size: 17px; display: flex; align-items: center; gap: 8px;">
             ⚠️ Atenção: Prazos Fatais Próximos!
           </h3>
-          <p style="color: #9a3412;">Existem prazos processuais com vencimento iminente (1 dia, hoje ou vencidos).</p>
+          <p style="color: #9a3412;">Existem prazos processuais com vencimento iminente.</p>
         </div>
-        <button onclick="fecharModalAlerta()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
+        <button onclick="window.fecharModalAlerta()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
       </div>
-
-      <div class="modal-body" id="modal-alerta-corpo">
-        <!-- Renderizado dinamicamente -->
-      </div>
-
+      <div class="modal-body" id="modal-alerta-corpo"></div>
       <div style="padding: 16px 24px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: flex-end;">
-        <button class="btn-action" style="background: var(--primary);" onclick="fecharModalAlerta()">
-          Ciente / Fechar
-        </button>
+        <button class="btn-action" style="background: var(--primary);" onclick="window.fecharModalAlerta()">Ciente / Fechar</button>
       </div>
     </div>
   </div>
@@ -921,19 +858,36 @@
           <h3 id="modal-cliente-nome">Prontuário Digital: Cliente</h3>
           <p>Repositório de documentos estruturados do processo.</p>
         </div>
-        <button onclick="fecharModalPastas()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
+        <button onclick="window.fecharModalPastas()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted);">&times;</button>
       </div>
       <div class="modal-body" id="modal-pastas-corpo"></div>
     </div>
   </div>
 
-  <script>
-    // 1. GESTÃO DE USUÁRIOS E AUTENTICAÇÃO
-    let bancoUsuarios = JSON.parse(localStorage.getItem('adv_usuarios')) || [
-      { nome: 'Administrador', usuario: 'admin', senha: '123' }
-    ];
+  <!-- FIREBASE CONFIGURATION & SCRIPTS -->
+  <script type="module">
+    // Importando as bibliotecas do Firebase diretamente via CDN
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-    function alternarTelaAuth(tipo) {
+    // Suas credenciais do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCuMkOKT4vfc6LWA82Rx2QeyDrZSp46pAY",
+      authDomain: "juris-admin-barros.firebaseapp.com",
+      projectId: "juris-admin-barros",
+      storageBucket: "juris-admin-barros.firebasestorage.app",
+      messagingSenderId: "578478220830",
+      appId: "1:578478220830:web:e81dabf715444bdb7bf00f"
+    };
+
+    // Inicializando os serviços
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ==========================================
+    // 1. SISTEMA DE AUTENTICAÇÃO COM FIREBASE
+    // ==========================================
+    window.alternarTelaAuth = function(tipo) {
       if (tipo === 'cadastro') {
         document.getElementById('form-login').classList.remove('active');
         document.getElementById('form-cadastro').classList.add('active');
@@ -941,88 +895,82 @@
         document.getElementById('form-cadastro').classList.remove('active');
         document.getElementById('form-login').classList.add('active');
       }
-    }
+    };
 
-    function realizarCadastro(e) {
+    window.realizarCadastro = async function(e) {
       e.preventDefault();
       const nome = document.getElementById('cad-nome').value.trim();
-      const usuario = document.getElementById('cad-usuario').value.trim();
+      const email = document.getElementById('cad-usuario').value.trim();
       const senha = document.getElementById('cad-senha').value.trim();
 
-      const usuarioExiste = bancoUsuarios.find(u => u.usuario === usuario);
-      
-      if (usuarioExiste) {
-        alert('Este Usuário/OAB já está cadastrado!');
-        return;
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+        await updateProfile(userCredential.user, { displayName: nome });
+        alert('Cadastro realizado com sucesso! Faça login para continuar.');
+        e.target.reset();
+        window.alternarTelaAuth('login');
+      } catch(error) {
+        let msg = "Erro ao cadastrar: " + error.message;
+        if (error.code === 'auth/email-already-in-use') msg = "Este e-mail já está cadastrado.";
+        if (error.code === 'auth/weak-password') msg = "A senha deve ter pelo menos 6 caracteres.";
+        alert(msg);
       }
+    };
 
-      bancoUsuarios.push({ nome, usuario, senha });
-      localStorage.setItem('adv_usuarios', JSON.stringify(bancoUsuarios));
-      
-      alert('Cadastro realizado com sucesso! Faça o login.');
-      e.target.reset();
-      alternarTelaAuth('login');
-    }
-
-    function realizarLogin(e) {
+    window.realizarLogin = async function(e) {
       e.preventDefault();
-      const usuario = document.getElementById('login-usuario').value.trim();
+      const email = document.getElementById('login-usuario').value.trim();
       const senha = document.getElementById('login-senha').value.trim();
       const erroEl = document.getElementById('msg-erro-login');
 
-      const user = bancoUsuarios.find(u => u.usuario === usuario && u.senha === senha);
-
-      if (user) {
-        localStorage.setItem('adv_autenticado', 'true');
-        localStorage.setItem('adv_nome_logado', user.nome);
+      try {
+        await signInWithEmailAndPassword(auth, email, senha);
         erroEl.style.display = 'none';
-        verificarSessao();
-      } else {
+      } catch(error) {
         erroEl.style.display = 'block';
+        erroEl.innerText = "E-mail ou senha inválidos. Verifique suas credenciais.";
       }
-    }
+    };
 
-    function realizarLogout() {
-      localStorage.removeItem('adv_autenticado');
-      localStorage.removeItem('adv_nome_logado');
-      verificarSessao();
-    }
+    window.realizarLogout = function() {
+      signOut(auth);
+    };
 
-    function verificarSessao() {
-      if (localStorage.getItem('adv_autenticado') === 'true') {
+    // Fica escutando as mudanças de estado (logado / deslogado)
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
         document.getElementById('tela-login').style.display = 'none';
         document.getElementById('tela-sistema').style.display = 'block';
+        document.getElementById('nome-advogada-logada').innerText = user.displayName || 'Advogada';
         
-        // Atualiza o nome da advogada logada na barra lateral
-        const nomeLogado = localStorage.getItem('adv_nome_logado') || 'Advogada';
-        document.getElementById('nome-advogada-logada').innerText = nomeLogado;
-
-        carregarDados();
-        verificarPrazosUrgentes(false);
+        window.carregarDados();
+        window.verificarPrazosUrgentes(false);
       } else {
         document.getElementById('tela-login').style.display = 'flex';
         document.getElementById('tela-sistema').style.display = 'none';
       }
-    }
+    });
 
-    function trocarModulo(nomeModulo, botaoClicado) {
+    window.trocarModulo = function(nomeModulo, botaoClicado) {
       document.querySelectorAll('.tab-view').forEach(m => m.classList.remove('active'));
       document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
 
       document.getElementById('modulo-' + nomeModulo).classList.add('active');
       botaoClicado.classList.add('active');
-    }
+    };
 
-    // 2. PRONTUÁRIO DIGITAL
-    let listaClientes = JSON.parse(localStorage.getItem('adv_clientes')) || [];
+    // ==========================================
+    // 2. PRONTUÁRIO DIGITAL (Temporariamente no LocalStorage até o passo do Firestore)
+    // ==========================================
+    let listaClientes = [];
     let clienteSelecionadoIndex = null;
 
     const pastasConfig = [
-      { id: '01_Dados_Cadastrais', icon: '🗂️', nome: '01. Dados Cadastrais', desc: 'Ficha inicial, qualificação e comprovantes' },
-      { id: '02_Contratos_e_Procuracoes', icon: '⚖️', nome: '02. Contratos & Procurações', desc: 'Instrumentos de mandato e honorários assinados' },
-      { id: '03_Peticoes_e_Pareceres', icon: '📄', nome: '03. Petições & Pareceres', desc: 'Peças processuais, recursos e notas técnicas' },
-      { id: '04_Provas', icon: '🔍', nome: '04. Provas & Documentos', desc: 'Extratos, laudos, fotos e elementos probatórios' },
-      { id: '05_Correspondencia', icon: '✉️', nome: '05. Correspondência', desc: 'Notificações, e-mails e avisos de recebimento' }
+      { id: '01_Dados_Cadastrais', icon: '🗂️', nome: '01. Dados Cadastrais', desc: 'Ficha inicial e comprovantes' },
+      { id: '02_Contratos_e_Procuracoes', icon: '⚖️', nome: '02. Contratos & Procurações', desc: 'Mandato e honorários' },
+      { id: '03_Peticoes_e_Pareceres', icon: '📄', nome: '03. Petições & Pareceres', desc: 'Peças processuais' },
+      { id: '04_Provas', icon: '🔍', nome: '04. Provas & Documentos', desc: 'Elementos probatórios' },
+      { id: '05_Correspondencia', icon: '✉️', nome: '05. Correspondência', desc: 'Avisos e e-mails' }
     ];
 
     function inicializarPastas() {
@@ -1031,7 +979,7 @@
       return p;
     }
 
-    function salvarCliente(e) {
+    window.salvarCliente = function(e) {
       e.preventDefault();
       const idEdicao = document.getElementById('cli-id-edicao').value;
 
@@ -1056,12 +1004,12 @@
       }
 
       localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
-      cancelarEdicao();
-      renderizarClientes();
-      atualizarSelectClientesPrazos();
-    }
+      window.cancelarEdicao();
+      window.renderizarClientes();
+      window.atualizarSelectClientesPrazos();
+    };
 
-    function prepararEdicao(index) {
+    window.prepararEdicao = function(index) {
       const c = listaClientes[index];
       document.getElementById('cli-id-edicao').value = index;
       document.getElementById('cli-nome').value = c.nome;
@@ -1075,36 +1023,33 @@
       document.getElementById('form-cliente-titulo').innerText = 'Editar Prontuário: ' + c.nome;
       document.getElementById('btn-submit-cliente').innerText = 'Atualizar Prontuário';
       document.getElementById('btn-cancelar-edicao').style.display = 'inline-block';
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    };
 
-    function cancelarEdicao() {
+    window.cancelarEdicao = function() {
       document.getElementById('cli-id-edicao').value = '';
       document.getElementById('form-cad-cliente').reset();
       document.getElementById('form-cliente-titulo').innerText = 'Novo Cadastro de Cliente & Caso';
       document.getElementById('btn-submit-cliente').innerText = 'Salvar no Prontuário';
       document.getElementById('btn-cancelar-edicao').style.display = 'none';
-    }
+    };
 
-    function excluirCliente(index) {
+    window.excluirCliente = function(index) {
       if (confirm(`Deseja excluir o prontuário de "${listaClientes[index].nome}"?`)) {
         listaClientes.splice(index, 1);
         localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
-        renderizarClientes();
-        atualizarSelectClientesPrazos();
+        window.renderizarClientes();
+        window.atualizarSelectClientesPrazos();
       }
-    }
+    };
 
-    function renderizarClientes() {
+    window.renderizarClientes = function() {
       const corpo = document.getElementById('tabela-clientes-corpo');
       corpo.innerHTML = '';
-
       if (listaClientes.length === 0) {
-        corpo.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Nenhum cliente cadastrado até o momento.</td></tr>';
+        corpo.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Nenhum cliente cadastrado.</td></tr>';
         return;
       }
-
       listaClientes.forEach((c, index) => {
         corpo.innerHTML += `
           <tr>
@@ -1115,40 +1060,38 @@
             <td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td>
             <td>
               <div class="actions-btns">
-                <button class="btn-table btn-folder" onclick="abrirModalPastas(${index})">📁 Pastas</button>
-                <button class="btn-table btn-edit" onclick="prepararEdicao(${index})">✏️ Editar</button>
-                <button class="btn-table btn-del" onclick="excluirCliente(${index})">🗑️</button>
+                <button class="btn-table btn-folder" onclick="window.abrirModalPastas(${index})">📁 Pastas</button>
+                <button class="btn-table btn-edit" onclick="window.prepararEdicao(${index})">✏️ Editar</button>
+                <button class="btn-table btn-del" onclick="window.excluirCliente(${index})">🗑️</button>
               </div>
             </td>
           </tr>
         `;
       });
-    }
+    };
 
     // 3. ANEXOS E PASTAS
-    function abrirModalPastas(index) {
+    window.abrirModalPastas = function(index) {
       clienteSelecionadoIndex = index;
       const c = listaClientes[index];
       if (!c.pastas) c.pastas = inicializarPastas();
-
       document.getElementById('modal-cliente-nome').innerText = `Prontuário Digital: ${c.nome}`;
-      renderizarConteudoModalPastas();
+      window.renderizarConteudoModalPastas();
       document.getElementById('modal-pastas').style.display = 'flex';
-    }
+    };
 
-    function fecharModalPastas() {
+    window.fecharModalPastas = function() {
       document.getElementById('modal-pastas').style.display = 'none';
       clienteSelecionadoIndex = null;
-    }
+    };
 
-    function renderizarConteudoModalPastas() {
+    window.renderizarConteudoModalPastas = function() {
       const corpo = document.getElementById('modal-pastas-corpo');
       const c = listaClientes[clienteSelecionadoIndex];
       corpo.innerHTML = '';
 
       pastasConfig.forEach(pasta => {
         const arquivos = c.pastas[pasta.id] || [];
-        
         let arquivosHtml = '';
         if (arquivos.length === 0) {
           arquivosHtml = '<p class="empty-files-msg">Nenhum documento anexado nesta pasta.</p>';
@@ -1157,10 +1100,9 @@
           arquivos.forEach((arq, arqIdx) => {
             arquivosHtml += `
               <li class="file-item">
-                <a href="${arq.dadosBase64}" download="${arq.nome}" class="file-link" title="Clique para baixar">📄 ${arq.nome}</a>
-                <button class="file-remove-btn" onclick="removerArquivo('${pasta.id}', ${arqIdx})" title="Excluir arquivo">&times;</button>
-              </li>
-            `;
+                <a href="${arq.dadosBase64}" download="${arq.nome}" class="file-link">📄 ${arq.nome}</a>
+                <button class="file-remove-btn" onclick="window.removerArquivo('${pasta.id}', ${arqIdx})">&times;</button>
+              </li>`;
           });
           arquivosHtml += '</ul>';
         }
@@ -1177,69 +1119,59 @@
               </div>
               <label class="btn-anexar">
                 + Anexar Arquivo
-                <input type="file" style="display: none;" onchange="anexarArquivo(event, '${pasta.id}')">
+                <input type="file" style="display: none;" onchange="window.anexarArquivo(event, '${pasta.id}')">
               </label>
             </div>
             ${arquivosHtml}
           </div>
         `;
       });
-    }
+    };
 
-    function anexarArquivo(evento, pastaId) {
+    window.anexarArquivo = function(evento, pastaId) {
       const file = evento.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = function(e) {
         const c = listaClientes[clienteSelecionadoIndex];
         if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
-
-        c.pastas[pastaId].push({
-          nome: file.name,
-          tipo: file.type,
-          dadosBase64: e.target.result
-        });
-
+        c.pastas[pastaId].push({ nome: file.name, tipo: file.type, dadosBase64: e.target.result });
         localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
-        renderizarConteudoModalPastas();
+        window.renderizarConteudoModalPastas();
       };
       reader.readAsDataURL(file);
-    }
+    };
 
-    function removerArquivo(pastaId, arqIdx) {
+    window.removerArquivo = function(pastaId, arqIdx) {
       if (confirm('Deseja excluir este documento da pasta?')) {
         const c = listaClientes[clienteSelecionadoIndex];
         c.pastas[pastaId].splice(arqIdx, 1);
         localStorage.setItem('adv_clientes', JSON.stringify(listaClientes));
-        renderizarConteudoModalPastas();
+        window.renderizarConteudoModalPastas();
       }
-    }
+    };
 
     // 4. CALCULADORA & AGENDA DE PRAZOS
-    let listaPrazosSalvos = JSON.parse(localStorage.getItem('adv_prazos_salvos')) || [];
+    let listaPrazosSalvos = [];
     let ultimoCalculoTemp = null;
     let prazosCriticosGlobais = [];
 
-    function atualizarSelectClientesPrazos() {
+    window.atualizarSelectClientesPrazos = function() {
       const select = document.getElementById('prazo-cliente-vinculo');
       select.innerHTML = '<option value="">-- Selecione ou deixe avulso --</option>';
       listaClientes.forEach(c => {
         select.innerHTML += `<option value="${c.nome}">${c.nome} (${c.doc})</option>`;
       });
-    }
+    };
 
-    function calcularDataFatal() {
+    window.calcularDataFatal = function() {
       const lei = document.getElementById('prazo-lei').value;
       const dataInput = document.getElementById('prazo-data-inicio').value;
       const qtdDias = parseInt(document.getElementById('prazo-qtd-dias').value);
       const resBox = document.getElementById('box-resultado-prazo');
       const btnSalvar = document.getElementById('btn-salvar-prazo-agenda');
 
-      if (!dataInput || isNaN(qtdDias) || qtdDias <= 0) {
-        alert('Selecione a data de publicação e informe uma quantidade de dias válida.');
-        return;
-      }
+      if (!dataInput || isNaN(qtdDias) || qtdDias <= 0) return alert('Selecione a data e os dias válidos.');
 
       let data = new Date(dataInput + 'T00:00:00');
       let diasContados = 0;
@@ -1248,7 +1180,6 @@
       while (diasContados < qtdDias) {
         data.setDate(data.getDate() + 1);
         const diaSemana = data.getDay();
-
         if (diasUteis) {
           if (diaSemana !== 0 && diaSemana !== 6) diasContados++;
         } else {
@@ -1261,54 +1192,40 @@
         else if (data.getDay() === 0) data.setDate(data.getDate() + 1);
       }
 
-      const formatada = data.toLocaleDateString('pt-BR', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-
-      ultimoCalculoTemp = {
-        lei: lei.toUpperCase(),
-        dataFatalFormatada: formatada,
-        dataFatalISO: data.toISOString().split('T')[0]
-      };
+      const formatada = data.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      ultimoCalculoTemp = { lei: lei.toUpperCase(), dataFatalFormatada: formatada, dataFatalISO: data.toISOString().split('T')[0] };
 
       resBox.style.display = 'block';
       resBox.innerHTML = `Vencimento Fatal (${lei.toUpperCase()}): <strong>${formatada}</strong>`;
       btnSalvar.style.display = 'block';
-    }
+    };
 
-    function salvarPrazoNoHistorico() {
+    window.salvarPrazoNoHistorico = function() {
       if (!ultimoCalculoTemp) return;
-
       const descricao = document.getElementById('prazo-descricao').value.trim() || 'Prazo Processual';
       const cliente = document.getElementById('prazo-cliente-vinculo').value || 'Avulso';
 
       listaPrazosSalvos.push({
-        descricao: descricao,
-        cliente: cliente,
-        lei: ultimoCalculoTemp.lei,
-        dataFatalFormatada: ultimoCalculoTemp.dataFatalFormatada,
+        descricao: descricao, cliente: cliente,
+        lei: ultimoCalculoTemp.lei, dataFatalFormatada: ultimoCalculoTemp.dataFatalFormatada,
         dataFatalISO: ultimoCalculoTemp.dataFatalISO
       });
 
       localStorage.setItem('adv_prazos_salvos', JSON.stringify(listaPrazosSalvos));
       document.getElementById('btn-salvar-prazo-agenda').style.display = 'none';
       document.getElementById('prazo-descricao').value = '';
-      renderizarPrazosSalvos();
-    }
+      window.renderizarPrazosSalvos();
+    };
 
-    function excluirPrazoSalvo(index) {
+    window.excluirPrazoSalvo = function(index) {
       listaPrazosSalvos.splice(index, 1);
       localStorage.setItem('adv_prazos_salvos', JSON.stringify(listaPrazosSalvos));
-      renderizarPrazosSalvos();
-    }
+      window.renderizarPrazosSalvos();
+    };
 
-    function renderizarPrazosSalvos() {
+    window.renderizarPrazosSalvos = function() {
       const corpo = document.getElementById('tabela-prazos-salvos');
       corpo.innerHTML = '';
-
       document.getElementById('stat-total-prazos').innerText = listaPrazosSalvos.length;
 
       const hoje = new Date();
@@ -1316,7 +1233,7 @@
       let urgentes = 0;
 
       if (listaPrazosSalvos.length === 0) {
-        corpo.innerHTML = '<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Nenhum prazo registrado na agenda.</td></tr>';
+        corpo.innerHTML = '<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Nenhum prazo na agenda.</td></tr>';
         document.getElementById('stat-prazos-urgentes').innerText = '0';
         return;
       }
@@ -1341,16 +1258,14 @@
             <td>${p.cliente}</td>
             <td><span class="folder-chip-index">${p.lei}</span></td>
             <td>${p.dataFatalFormatada} ${badge}</td>
-            <td><button class="btn-table btn-del" onclick="excluirPrazoSalvo(${idx})">🗑️</button></td>
+            <td><button class="btn-table btn-del" onclick="window.excluirPrazoSalvo(${idx})">🗑️</button></td>
           </tr>
         `;
       });
-
       document.getElementById('stat-prazos-urgentes').innerText = urgentes;
-    }
+    };
 
-    // 5. SISTEMA DE ALERTA NO LOGIN
-    function verificarPrazosUrgentes(acionamentoManual) {
+    window.verificarPrazosUrgentes = function(acionamentoManual) {
       const hoje = new Date();
       hoje.setHours(0,0,0,0);
       prazosCriticosGlobais = [];
@@ -1358,39 +1273,25 @@
       listaPrazosSalvos.forEach(p => {
         const dataFim = new Date(p.dataFatalISO + 'T00:00:00');
         const diffDias = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
-        
-        if (diffDias <= 1) {
-          prazosCriticosGlobais.push({
-            ...p,
-            diffDias: diffDias
-          });
-        }
+        if (diffDias <= 1) prazosCriticosGlobais.push({ ...p, diffDias: diffDias });
       });
 
       if (prazosCriticosGlobais.length > 0) {
-        exibirModalAlerta();
+        window.exibirModalAlerta();
       } else if (acionamentoManual) {
         alert('Nenhum prazo com vencimento crítico (1 dia, hoje ou vencido) no momento.');
       }
-    }
+    };
 
-    function exibirModalAlerta() {
+    window.exibirModalAlerta = function() {
       const corpo = document.getElementById('modal-alerta-corpo');
       corpo.innerHTML = '';
-
       prazosCriticosGlobais.forEach(p => {
         let statusBadge = '';
         let classeCaixa = 'alerta-item-box';
-
-        if (p.diffDias < 0) {
-          statusBadge = '<span class="badge-urgente">PRAZO VENCIDO</span>';
-          classeCaixa += ' alerta-item-urgente';
-        } else if (p.diffDias === 0) {
-          statusBadge = '<span class="badge-urgente">VENCE HOJE!</span>';
-          classeCaixa += ' alerta-item-urgente';
-        } else if (p.diffDias === 1) {
-          statusBadge = '<span class="badge-alerta">VENCE AMANHÃ (1 DIA RESTANTE)</span>';
-        }
+        if (p.diffDias < 0) { statusBadge = '<span class="badge-urgente">PRAZO VENCIDO</span>'; classeCaixa += ' alerta-item-urgente'; }
+        else if (p.diffDias === 0) { statusBadge = '<span class="badge-urgente">VENCE HOJE!</span>'; classeCaixa += ' alerta-item-urgente'; }
+        else if (p.diffDias === 1) { statusBadge = '<span class="badge-alerta">VENCE AMANHÃ (1 DIA RESTANTE)</span>'; }
 
         corpo.innerHTML += `
           <div class="${classeCaixa}">
@@ -1404,35 +1305,29 @@
           </div>
         `;
       });
-
       document.getElementById('modal-alerta-urgente').style.display = 'flex';
-    }
+    };
 
-    function fecharModalAlerta() {
-      document.getElementById('modal-alerta-urgente').style.display = 'none';
-    }
+    window.fecharModalAlerta = function() { document.getElementById('modal-alerta-urgente').style.display = 'none'; };
 
-    // 6. FINANCEIRO
-    let listaFin = JSON.parse(localStorage.getItem('adv_financeiro')) || [];
+    // 5. FINANCEIRO
+    let listaFin = [];
 
-    function salvarLancamento(e) {
+    window.salvarLancamento = function(e) {
       e.preventDefault();
       const categoria = document.getElementById('fin-categoria').value;
       const descricao = document.getElementById('fin-descricao').value;
       const valor = parseFloat(document.getElementById('fin-valor').value);
-
       listaFin.push({ categoria, descricao, valor });
       localStorage.setItem('adv_financeiro', JSON.stringify(listaFin));
-      renderizarFinanceiro();
+      window.renderizarFinanceiro();
       e.target.reset();
-    }
+    };
 
-    function renderizarFinanceiro() {
+    window.renderizarFinanceiro = function() {
       const corpo = document.getElementById('tabela-fin-corpo');
       corpo.innerHTML = '';
-
-      let totalEntradas = 0;
-      let totalSaidas = 0;
+      let totalEntradas = 0, totalSaidas = 0;
 
       if (listaFin.length === 0) {
         corpo.innerHTML = '<tr><td colspan="3" style="text-align:center; color: var(--text-muted);">Nenhum lançamento registrado.</td></tr>';
@@ -1440,9 +1335,7 @@
 
       listaFin.forEach(item => {
         const ehEntrada = item.categoria.startsWith('honorario');
-        if (ehEntrada) totalEntradas += item.valor;
-        else totalSaidas += item.valor;
-
+        if (ehEntrada) totalEntradas += item.valor; else totalSaidas += item.valor;
         corpo.innerHTML += `
           <tr>
             <td><strong>${item.descricao}</strong></td>
@@ -1456,21 +1349,22 @@
 
       document.getElementById('stat-entradas').innerText = `R$ ${totalEntradas.toFixed(2)}`;
       document.getElementById('stat-saidas').innerText = `R$ ${totalSaidas.toFixed(2)}`;
-      
       const saldo = totalEntradas - totalSaidas;
       const saldoEl = document.getElementById('stat-saldo');
       saldoEl.innerText = `R$ ${saldo.toFixed(2)}`;
       saldoEl.style.color = saldo >= 0 ? 'var(--primary)' : 'var(--danger)';
-    }
+    };
 
-    function carregarDados() {
-      renderizarClientes();
-      atualizarSelectClientesPrazos();
-      renderizarPrazosSalvos();
-      renderizarFinanceiro();
-    }
+    window.carregarDados = function() {
+      listaClientes = JSON.parse(localStorage.getItem('adv_clientes')) || [];
+      listaPrazosSalvos = JSON.parse(localStorage.getItem('adv_prazos_salvos')) || [];
+      listaFin = JSON.parse(localStorage.getItem('adv_financeiro')) || [];
+      window.renderizarClientes();
+      window.atualizarSelectClientesPrazos();
+      window.renderizarPrazosSalvos();
+      window.renderizarFinanceiro();
+    };
 
-    verificarSessao();
   </script>
 </body>
 </html>
