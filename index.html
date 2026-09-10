@@ -329,7 +329,10 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      margin-left: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e1;
     }
 
     /* Pastas no Prontuário */
@@ -484,7 +487,7 @@
 </head>
 <body>
 
-  <!-- 1. TELA DE LOGIN COM LOGO DO ESCRITÓRIO -->
+  <!-- 1. TELA DE LOGIN -->
   <section id="tela-login">
     <div class="login-box">
       <div class="brand-logo-container">
@@ -559,7 +562,6 @@
           </div>
 
           <div class="prazos-full-layout">
-            <!-- Formulário -->
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Simular e Salvar Prazo Processual</h3>
               
@@ -602,7 +604,6 @@
               <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="salvarPrazoNoHistorico()">Salvar na Agenda de Prazos</button>
             </div>
 
-            <!-- Tabela de Prazos Salvos -->
             <div class="card" style="margin-bottom: 0;">
               <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos Críticos do Escritório</h3>
               
@@ -721,7 +722,7 @@
 
               <div style="display: flex; align-items: center;">
                 <button type="submit" id="btn-submit-cliente" class="btn-action">Salvar no Prontuário</button>
-                <button type="button" id="btn-cancelar-edicao" class="btn-secondary" style="display: none;" onclick="cancelarEdicao()">Cancelar Edição</button>
+                <button type="button" id="btn-cancelar-edicao" class="btn-secondary" style="display: none; margin-left: 8px;" onclick="cancelarEdicao()">Cancelar Edição</button>
               </div>
             </form>
           </div>
@@ -818,7 +819,7 @@
     </div>
   </div>
 
-  <!-- MODAL: POP-UP DE ALERTA DE PRAZOS URGENTES (1 DIA / HOJE / VENCIDOS) -->
+  <!-- MODAL: POP-UP DE ALERTA DE PRAZOS URGENTES -->
   <div id="modal-alerta-urgente" class="modal-overlay">
     <div class="modal-box" style="max-width: 650px;">
       <div class="modal-header" style="background: #fff5f5; border-bottom: 1px solid #fed7aa;">
@@ -835,11 +836,8 @@
         <!-- Renderizado dinamicamente -->
       </div>
 
-      <div style="padding: 16px 24px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-        <button class="btn-action" style="background: var(--info); font-size: 13px;" onclick="enviarAlertaPorEmail()">
-          📧 Notificar por E-mail
-        </button>
-        <button class="btn-secondary" onclick="fecharModalAlerta()">
+      <div style="padding: 16px 24px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: flex-end;">
+        <button class="btn-action" style="background: var(--primary);" onclick="fecharModalAlerta()">
           Ciente / Fechar
         </button>
       </div>
@@ -1238,7 +1236,7 @@
       document.getElementById('stat-prazos-urgentes').innerText = urgentes;
     }
 
-    // 5. SISTEMA DE ALERTA NO LOGIN & E-MAIL
+    // 5. SISTEMA DE ALERTA NO LOGIN
     function verificarPrazosUrgentes(acionamentoManual) {
       const hoje = new Date();
       hoje.setHours(0,0,0,0);
@@ -1248,7 +1246,6 @@
         const dataFim = new Date(p.dataFatalISO + 'T00:00:00');
         const diffDias = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
         
-        // Prazos vencidos, que vencem hoje (0) ou amanhã (1 dia)
         if (diffDias <= 1) {
           prazosCriticosGlobais.push({
             ...p,
@@ -1300,27 +1297,6 @@
 
     function fecharModalAlerta() {
       document.getElementById('modal-alerta-urgente').style.display = 'none';
-    }
-
-    function enviarAlertaPorEmail() {
-      if (prazosCriticosGlobais.length === 0) return;
-
-      const destinatario = "advocacia@barrosecavalcante.adv.br";
-      const assunto = encodeURIComponent("🚨 ALERTA: Prazos Fatais Iminentes - Barros e Cavalcante Advocacia");
-      
-      let corpoEmail = "Prezada Dra.,\n\nIdentificamos prazos processuais com vencimento iminente (1 dia, hoje ou vencidos):\n\n";
-
-      prazosCriticosGlobais.forEach((p, idx) => {
-        let statusTexto = p.diffDias < 0 ? "[VENCIDO]" : (p.diffDias === 0 ? "[VENCE HOJE!]" : "[VENCE AMANHÃ - 1 DIA]");
-        corpoEmail += `${idx + 1}. ${statusTexto} ${p.descricao}\n`;
-        corpoEmail += `   - Cliente: ${p.cliente}\n`;
-        corpoEmail += `   - Data Fatal: ${p.dataFatalFormatada} (${p.lei})\n\n`;
-      });
-
-      corpoEmail += "Acesse o painel do escritório para protocolar ou atualizar os andamentos.\n\nBarros e Cavalcante Advocacia";
-
-      const mailtoLink = `mailto:${destinatario}?subject=${assunto}&body=${encodeURIComponent(corpoEmail)}`;
-      window.location.href = mailtoLink;
     }
 
     // 6. FINANCEIRO
