@@ -91,6 +91,15 @@
     table th.sortable { cursor: pointer; user-select: none; }
     table th.sortable:hover { background: #e2e8f0; color: var(--primary); }
     table td { padding: 12px; border-bottom: 1px solid var(--border); }
+    
+    /* Classe para truncar textos longos nas tabelas */
+    .td-resumo { 
+      max-width: 250px; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      white-space: nowrap; 
+    }
+
     .sort-icon { font-size: 10px; margin-left: 4px; color: #94a3b8; }
     .actions-btns { display: flex; gap: 6px; }
     .btn-table { padding: 6px 12px; font-size: 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 4px; }
@@ -151,7 +160,7 @@
 
   <div id="toast-container"></div>
 
-  <!-- 1. TELA DE LOGIN BLINDADA COM RECUPERAÇÃO DE SENHA -->
+  <!-- TELA DE LOGIN BLINDADA COM RECUPERAÇÃO DE SENHA -->
   <section id="tela-login">
     <div class="login-box">
       <div class="brand-logo-container">
@@ -200,11 +209,10 @@
           <span class="toggle-form" onclick="window.alternarTelaAuth('login')" style="margin-top: 0;">Voltar para o Login</span>
         </div>
       </form>
-
     </div>
   </section>
 
-  <!-- 2. SISTEMA INTERNO -->
+  <!-- SISTEMA INTERNO -->
   <div id="tela-sistema">
     <div class="mobile-header">
       <div style="display: flex; align-items: center; gap: 10px;">
@@ -242,7 +250,7 @@
 
       <main class="content-area">
 
-        <!-- DASHBOARD (VISÃO GERAL) -->
+        <!-- DASHBOARD -->
         <section id="modulo-dashboard" class="tab-view active">
           <div class="header-view">
             <div>
@@ -267,7 +275,7 @@
           </div>
         </section>
         
-        <!-- CALCULADORA DE PRAZOS -->
+        <!-- CALCULADORA DE PRAZOS COM INTEGRAÇÃO DE AGENDA -->
         <section id="modulo-prazos" class="tab-view">
           <div class="header-view">
             <div>
@@ -296,14 +304,21 @@
                 <div class="input-wrap"><label>Quantidade de Dias:</label><input type="number" id="prazo-qtd-dias" placeholder="Ex: 15" min="1" required></div>
               </div>
               <div class="input-wrap" style="margin-bottom: 16px;"><label>Ato / Descrição do Prazo:</label><input type="text" id="prazo-descricao" placeholder="Ex: Apelação, Contestação"></div>
+              
               <button type="button" class="btn-action" style="width: 100%;" onclick="window.calcularDataFatal()">Calcular Prazo Fatal</button>
+              
               <div id="box-resultado-prazo" class="alert-res alert-success" style="display: none;"></div>
+              
               <button id="btn-salvar-prazo-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: var(--primary); display: none;" onclick="window.salvarPrazoNoHistorico(this)">
-                <span>Salvar na Agenda</span><div class="spinner"></div>
+                <span>Salvar no Sistema</span><div class="spinner"></div>
+              </button>
+              <button id="btn-google-agenda" type="button" class="btn-action" style="width: 100%; margin-top: 10px; background: #0284c7; display: none;" onclick="window.adicionarAoGoogleAgenda()">
+                <span>📅 Criar Alerta no Celular (Google Agenda)</span>
               </button>
             </div>
+            
             <div class="card" style="margin-bottom: 0;">
-              <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos</h3>
+              <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--primary);">Agenda de Prazos do Sistema</h3>
               <div class="table-container">
                 <table>
                   <thead>
@@ -638,7 +653,7 @@
       if (window.innerWidth <= 768) window.toggleMobileMenu();
     };
 
-    // CADASTRO DE EQUIPE (Instância Secundária)
+    // CADASTRO DE EQUIPE
     window.cadastrarMembroEquipe = async function(e, btnElement) {
       e.preventDefault(); window.toggleLoading(btnElement, true);
       const nome = document.getElementById('novo-membro-nome').value.trim(); 
@@ -657,7 +672,7 @@
       }
     };
 
-    // PRONTUÁRIO
+    // PRONTUÁRIO E ARQUIVOS
     let listaClientes = []; let clienteSelecionadoIndex = null;
     const pastasConfig = [ { id: '01_Dados', icon: '🗂️', nome: '01. Dados Cadastrais', desc: 'Fichas' }, { id: '02_Contratos', icon: '⚖️', nome: '02. Contratos & Procura.', desc: 'Mandatos' }, { id: '03_Peticoes', icon: '📄', nome: '03. Petições', desc: 'Peças' }, { id: '04_Provas', icon: '🔍', nome: '04. Provas', desc: 'Evidências' } ];
     function inicializarPastas() { const p = {}; pastasConfig.forEach(i => p[i.id] = []); return p; }
@@ -691,7 +706,22 @@
     window.renderizarClientes = function() {
       const corpo = document.getElementById('tabela-clientes-corpo'); corpo.innerHTML = '';
       if (listaClientes.length === 0) return corpo.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum cliente cadastrado.</td></tr>';
-      listaClientes.forEach((c, index) => { corpo.innerHTML += `<tr><td><strong>${c.nome}</strong></td><td>${c.doc}</td><td>${c.responsavel}</td><td>${c.resumo}</td><td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td><td><div class="actions-btns"><button class="btn-table btn-folder" onclick="window.abrirModalPastas(${index})">📁 Pastas</button><button class="btn-table btn-edit" onclick="window.prepararEdicao(${index})">✏️</button><button class="btn-table btn-del" onclick="window.excluirCliente(${index})">🗑️</button></div></td></tr>`; });
+      listaClientes.forEach((c, index) => { 
+        corpo.innerHTML += `<tr>
+          <td><strong>${c.nome}</strong></td>
+          <td>${c.doc}</td>
+          <td>${c.responsavel}</td>
+          <td class="td-resumo" title="${c.resumo}">${c.resumo}</td>
+          <td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td>
+          <td>
+            <div class="actions-btns">
+              <button class="btn-table btn-folder" onclick="window.abrirModalPastas(${index})">📁 Pastas</button>
+              <button class="btn-table btn-edit" onclick="window.prepararEdicao(${index})">✏️</button>
+              <button class="btn-table btn-del" onclick="window.excluirCliente(${index})">🗑️</button>
+            </div>
+          </td>
+        </tr>`; 
+      });
     };
 
     window.abrirModalPastas = function(index) { clienteSelecionadoIndex = index; if (!listaClientes[index].pastas) listaClientes[index].pastas = inicializarPastas(); document.getElementById('modal-cliente-nome').innerText = `Prontuário: ${listaClientes[index].nome}`; window.renderizarConteudoModalPastas(); document.getElementById('modal-pastas').style.display = 'flex'; };
@@ -706,36 +736,16 @@
       });
     };
 
-    // ==========================================
-    // COMPRESSOR DE IMAGENS NO NAVEGADOR E UPLOAD
-    // ==========================================
     function comprimirImagem(file) {
       return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+        const reader = new FileReader(); reader.readAsDataURL(file);
         reader.onload = event => {
-          const img = new Image();
-          img.src = event.target.result;
+          const img = new Image(); img.src = event.target.result;
           img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            const MAX_WIDTH = 1200; 
-
-            if (width > MAX_WIDTH) {
-              height = Math.round((height * MAX_WIDTH) / width);
-              width = MAX_WIDTH;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            
-            canvas.toBlob((blob) => {
-              const novoArquivo = new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() });
-              resolve(novoArquivo);
-            }, 'image/jpeg', 0.7);
+            const canvas = document.createElement('canvas'); let width = img.width; let height = img.height; const MAX_WIDTH = 1200; 
+            if (width > MAX_WIDTH) { height = Math.round((height * MAX_WIDTH) / width); width = MAX_WIDTH; }
+            canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob((blob) => { const novoArquivo = new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() }); resolve(novoArquivo); }, 'image/jpeg', 0.7);
           };
           img.onerror = err => reject(err);
         };
@@ -743,57 +753,28 @@
     }
 
     window.anexarArquivoSupabase = async function(evento, pastaId) {
-      const fileOriginal = evento.target.files[0]; 
-      if (!fileOriginal) return;
-
+      const fileOriginal = evento.target.files[0]; if (!fileOriginal) return;
       const limiteMB = 5;
-      if (fileOriginal.size > limiteMB * 1024 * 1024) {
-        window.showToast(`Arquivo muito grande! O limite é de ${limiteMB}MB por vez.`, 'error');
-        evento.target.value = ''; 
-        return;
-      }
-
-      const labelEl = document.getElementById(`label-anexar-${pastaId}`); 
-      labelEl.innerText = "⏳";
-
-      let arquivoParaUpload = fileOriginal;
-      const extensaoOriginal = fileOriginal.name.split('.').pop().toLowerCase();
-      let extensaoFinal = extensaoOriginal;
-
+      if (fileOriginal.size > limiteMB * 1024 * 1024) { window.showToast(`Arquivo muito grande! O limite é de ${limiteMB}MB.`, 'error'); evento.target.value = ''; return; }
+      const labelEl = document.getElementById(`label-anexar-${pastaId}`); labelEl.innerText = "⏳";
+      let arquivoParaUpload = fileOriginal; const extensaoOriginal = fileOriginal.name.split('.').pop().toLowerCase(); let extensaoFinal = extensaoOriginal;
       if (fileOriginal.type.startsWith('image/')) {
-        try {
-          arquivoParaUpload = await comprimirImagem(fileOriginal);
-          extensaoFinal = 'jpg'; 
-        } catch (e) {
-          console.warn("Erro ao comprimir imagem, enviando original.", e);
-        }
+        try { arquivoParaUpload = await comprimirImagem(fileOriginal); extensaoFinal = 'jpg'; } catch (e) { console.warn("Erro ao comprimir", e); }
       }
-
       const nomeSeguro = `${Date.now()}_${Math.random().toString(36).substring(2, 12)}.${extensaoFinal}`; 
-      
       const { error } = await supabase.storage.from('prontuarios').upload(nomeSeguro, arquivoParaUpload);
-      
-      if (error) { 
-        window.showToast("Erro upload: " + error.message, 'error'); 
-        labelEl.innerText = "+ Anexar"; 
-        return; 
-      }
-      
+      if (error) { window.showToast("Erro upload: " + error.message, 'error'); labelEl.innerText = "+ Anexar"; return; }
       const { data: publicUrlData } = supabase.storage.from('prontuarios').getPublicUrl(nomeSeguro);
-      
-      const c = listaClientes[clienteSelecionadoIndex]; 
-      if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
+      const c = listaClientes[clienteSelecionadoIndex]; if (!c.pastas[pastaId]) c.pastas[pastaId] = [];
       c.pastas[pastaId].push({ nomeVisual: fileOriginal.name, url: publicUrlData.publicUrl });
-      
-      await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); 
-      window.showToast("Arquivo anexado com sucesso!", 'success'); 
-      labelEl.innerText = "+ Anexar"; 
-      window.renderizarConteudoModalPastas();
+      await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Arquivo anexado com sucesso!", 'success'); labelEl.innerText = "+ Anexar"; window.renderizarConteudoModalPastas();
     };
 
     window.removerArquivo = async function(pastaId, arqIdx) { if (confirm('Excluir documento?')) { const c = listaClientes[clienteSelecionadoIndex]; c.pastas[pastaId].splice(arqIdx, 1); await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Documento removido.", 'info'); window.renderizarConteudoModalPastas(); } };
 
-    // PRAZOS E FINANCEIRO
+    // ==========================================
+    // PRAZOS COM INTEGRAÇÃO DE AGENDA
+    // ==========================================
     let listaPrazosSalvos = []; let ultimoCalculoTemp = null;
     window.atualizarSelectClientesPrazos = function() { const select = document.getElementById('prazo-cliente-vinculo'); select.innerHTML = '<option value="">-- Selecione --</option>'; listaClientes.forEach(c => select.innerHTML += `<option value="${c.nome}">${c.nome}</option>`); };
 
@@ -803,14 +784,40 @@
       let data = new Date(dataInput + 'T00:00:00'); let diasContados = 0; const contaApenasUteis = (lei !== 'cpp');
       while (diasContados < qtdDias) { data.setDate(data.getDate() + 1); const diaSemana = data.getDay(); const isoData = data.toISOString().split('T')[0]; if (contaApenasUteis) { if (diaSemana !== 0 && diaSemana !== 6 && !feriadosNacionais.includes(isoData)) diasContados++; } else diasContados++; }
       if (!contaApenasUteis) { while (data.getDay() === 0 || data.getDay() === 6 || feriadosNacionais.includes(data.toISOString().split('T')[0])) data.setDate(data.getDate() + 1); }
-      const formatada = data.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); ultimoCalculoTemp = { lei: lei.toUpperCase(), dataFatalFormatada: formatada, dataFatalISO: data.toISOString().split('T')[0] };
-      document.getElementById('box-resultado-prazo').style.display = 'block'; document.getElementById('box-resultado-prazo').innerHTML = `Vencimento (${lei.toUpperCase()}): <strong>${formatada}</strong>`; document.getElementById('btn-salvar-prazo-agenda').style.display = 'flex';
+      const formatada = data.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); 
+      ultimoCalculoTemp = { lei: lei.toUpperCase(), dataFatalFormatada: formatada, dataFatalISO: data.toISOString().split('T')[0] };
+      
+      document.getElementById('box-resultado-prazo').style.display = 'block'; 
+      document.getElementById('box-resultado-prazo').innerHTML = `Vencimento (${lei.toUpperCase()}): <strong>${formatada}</strong>`; 
+      
+      document.getElementById('btn-salvar-prazo-agenda').style.display = 'flex';
+      document.getElementById('btn-google-agenda').style.display = 'flex';
+    };
+
+    window.adicionarAoGoogleAgenda = function() {
+      if (!ultimoCalculoTemp) return;
+      const descricao = document.getElementById('prazo-descricao').value || 'Prazo Processual';
+      const cliente = document.getElementById('prazo-cliente-vinculo').value || 'Avulso';
+      const lei = ultimoCalculoTemp.lei;
+      const dataIso = ultimoCalculoTemp.dataFatalISO.replace(/-/g, '');
+      const dataFim = new Date(ultimoCalculoTemp.dataFatalISO + 'T00:00:00');
+      dataFim.setDate(dataFim.getDate() + 1);
+      const dataFimIso = dataFim.toISOString().split('T')[0].replace(/-/g, '');
+      
+      const titulo = encodeURIComponent(`🚨 PRAZO FATAL: ${descricao} - ${cliente}`);
+      const detalhes = encodeURIComponent(`Cliente: ${cliente}\nAto: ${descricao}\nRegra de Contagem: ${lei}\n\n*Lembre-se de protocolar a peça e atualizar o andamento processual!*`);
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${detalhes}&dates=${dataIso}/${dataFimIso}`;
+      window.open(url, '_blank');
+      window.showToast('Redirecionando para a sua Agenda...', 'info');
     };
 
     window.salvarPrazoNoHistorico = async function(btnElement) {
       if (!ultimoCalculoTemp) return; window.toggleLoading(btnElement, true);
       const prazoObj = { descricao: document.getElementById('prazo-descricao').value || 'Prazo', cliente: document.getElementById('prazo-cliente-vinculo').value || 'Avulso', ...ultimoCalculoTemp };
-      await addDoc(collection(db, "prazos"), prazoObj); document.getElementById('btn-salvar-prazo-agenda').style.display = 'none'; window.showToast('Prazo salvo na agenda!', 'success'); await window.carregarDadosNuvem(); window.toggleLoading(btnElement, false);
+      await addDoc(collection(db, "prazos"), prazoObj); 
+      document.getElementById('btn-salvar-prazo-agenda').style.display = 'none'; 
+      window.showToast('Prazo salvo na agenda do sistema!', 'success'); 
+      await window.carregarDadosNuvem(); window.toggleLoading(btnElement, false);
     };
 
     window.excluirPrazoSalvo = async function(index) { await deleteDoc(doc(db, "prazos", listaPrazosSalvos[index].id)); window.showToast('Prazo removido.', 'info'); window.carregarDadosNuvem(); };
@@ -837,6 +844,7 @@
     };
     window.fecharModalAlerta = () => document.getElementById('modal-alerta-urgente').style.display = 'none';
 
+    // FINANCEIRO
     let listaFin = [];
     window.salvarLancamento = async function(e, btnElement) {
       e.preventDefault(); window.toggleLoading(btnElement, true);
