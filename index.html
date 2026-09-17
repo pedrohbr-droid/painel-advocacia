@@ -273,9 +273,30 @@
               <div style="position: relative; height: 260px; width: 100%;"><canvas id="chart-prazos"></canvas></div>
             </div>
           </div>
+
+          <!-- NOVA TABELA DE PRAZOS NO DASHBOARD -->
+          <div class="card" style="margin-top: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h3 style="font-size: 16px; color: var(--primary);">Próximos Prazos (Top 5)</h3>
+              <button class="btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="window.trocarModulo('prazos', document.querySelectorAll('.menu-btn')[2])">Ver Todos</button>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ato/Processo</th>
+                    <th>Cliente</th>
+                    <th>Data Fatal</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-dash-prazos"></tbody>
+              </table>
+            </div>
+          </div>
         </section>
         
-        <!-- CALCULADORA DE PRAZOS -->
+        <!-- CALCULADORA DE PRAZOS COM INTEGRAÇÃO DE AGENDA -->
         <section id="modulo-prazos" class="tab-view">
           <div class="header-view">
             <div>
@@ -586,6 +607,32 @@
       listaPrazosSalvos.forEach(p => { const diff = Math.ceil((new Date(p.dataFatalISO + 'T00:00:00') - hoje) / (1000 * 60 * 60 * 24)); if(diff <= 1) urgentes++; else noPrazo++; });
       const ctxPrazos = document.getElementById('chart-prazos'); if (chartPrazos) chartPrazos.destroy();
       chartPrazos = new Chart(ctxPrazos, { type: 'bar', data: { labels: ['Críticos (Hoje/Vencidos)', 'No Prazo (Seguros)'], datasets: [{ label: 'Quantidade de Prazos', data: [urgentes, noPrazo], backgroundColor: ['#b91c1c', '#0284c7'], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+
+      // TABELA DE TOP 5 PRAZOS NO DASHBOARD
+      const corpoDashPrazos = document.getElementById('tabela-dash-prazos');
+      corpoDashPrazos.innerHTML = '';
+      let prazosOrdenados = [...listaPrazosSalvos].sort((a, b) => new Date(a.dataFatalISO) - new Date(b.dataFatalISO));
+      let proximosPrazos = prazosOrdenados.slice(0, 5);
+
+      if(proximosPrazos.length === 0) {
+        corpoDashPrazos.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum prazo pendente.</td></tr>';
+      } else {
+        proximosPrazos.forEach(p => {
+          const diffDias = Math.ceil((new Date(p.dataFatalISO + 'T00:00:00') - hoje) / (1000 * 60 * 60 * 24)); 
+          let badge = '<span class="badge-ok">Em Prazo</span>';
+          if (diffDias <= 1) { 
+            badge = diffDias < 0 ? '<span class="badge-urgente">Vencido</span>' : (diffDias === 0 ? '<span class="badge-urgente">Vence HOJE</span>' : '<span class="badge-alerta">Vence AMANHÃ</span>'); 
+          } else if (diffDias <= 7) { 
+            badge = `<span class="badge-alerta">${diffDias} dias restantes</span>`; 
+          }
+          corpoDashPrazos.innerHTML += `<tr>
+            <td><strong>${p.descricao}</strong></td>
+            <td>${p.cliente}</td>
+            <td>${p.dataFatalFormatada}</td>
+            <td>${badge}</td>
+          </tr>`;
+        });
+      }
     };
 
     // FERIADOS DA API
