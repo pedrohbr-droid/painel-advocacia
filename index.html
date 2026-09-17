@@ -275,7 +275,7 @@
           </div>
         </section>
         
-        <!-- CALCULADORA DE PRAZOS COM INTEGRAÇÃO DE AGENDA -->
+        <!-- CALCULADORA DE PRAZOS -->
         <section id="modulo-prazos" class="tab-view">
           <div class="header-view">
             <div>
@@ -706,13 +706,16 @@
     window.renderizarClientes = function() {
       const corpo = document.getElementById('tabela-clientes-corpo'); corpo.innerHTML = '';
       if (listaClientes.length === 0) return corpo.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum cliente cadastrado.</td></tr>';
+      
       listaClientes.forEach((c, index) => { 
         corpo.innerHTML += `<tr>
           <td><strong>${c.nome}</strong></td>
           <td>${c.doc}</td>
           <td>${c.responsavel}</td>
           <td class="td-resumo" title="${c.resumo}">${c.resumo}</td>
-          <td><span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span></td>
+          <td class="td-resumo" title="${c.pendencias}">
+            <span style="color: ${c.pendencias !== 'Nenhuma' ? 'var(--danger)' : 'inherit'}; font-weight: 600;">${c.pendencias}</span>
+          </td>
           <td>
             <div class="actions-btns">
               <button class="btn-table btn-folder" onclick="window.abrirModalPastas(${index})">📁 Pastas</button>
