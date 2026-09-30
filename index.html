@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
   
+  <!-- Gráficos e ZIP -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
     :root {
@@ -80,9 +82,10 @@
     .btn-action { background: var(--accent); color: #fff; font-weight: 600; padding: 12px 22px; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; }
     .btn-action:hover { background: var(--accent-hover); }
     .btn-action:disabled { opacity: 0.7; cursor: not-allowed; }
-    .btn-secondary { background: #e2e8f0; color: #334155; font-weight: 600; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; margin-left: 8px; }
+    .btn-secondary { background: #e2e8f0; color: #334155; font-weight: 600; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; margin-left: 8px; transition: 0.2s; }
+    .btn-secondary:hover { background: #cbd5e1; }
     .spinner { display: none; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
-    .btn-action.loading .spinner { display: block; }
+    .btn-action.loading .spinner, .btn-secondary.loading .spinner { display: block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .table-container { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
@@ -257,7 +260,14 @@
               <h1>Visão Geral do Escritório</h1>
               <p>Resumo em tempo real de clientes, andamento processual e fluxo de caixa.</p>
             </div>
+            
+            <!-- BOTÃO DE BACKUP DO BANCO DE DADOS (JSON) -->
+            <button class="btn-secondary" style="background: #f1f5f9; color: #0f172a; display: flex; align-items: center; gap: 8px;" onclick="window.exportarBackupJSON(this)">
+              <span>📥 Gerar Backup Local</span>
+              <div class="spinner" style="border-top-color: var(--primary);"></div>
+            </button>
           </div>
+          
           <div class="stats-prazos-row">
             <div class="stat-mini-card"><label>Clientes Ativos</label><span id="dash-clientes">0</span></div>
             <div class="stat-mini-card"><label>Total de Prazos Pendentes</label><span id="dash-prazos">0</span></div>
@@ -274,7 +284,7 @@
             </div>
           </div>
 
-          <!-- NOVA TABELA DE PRAZOS NO DASHBOARD -->
+          <!-- TABELA DE PRAZOS NO DASHBOARD -->
           <div class="card" style="margin-top: 24px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
               <h3 style="font-size: 16px; color: var(--primary);">Próximos Prazos (Top 5)</h3>
@@ -303,7 +313,6 @@
               <h1>Calculadora de Prazos Processuais</h1>
               <p>Integração com Brasil API para descontar automaticamente Sábados, Domingos e Feriados Nacionais.</p>
             </div>
-            <button class="btn-action" style="background: var(--primary);" onclick="window.verificarPrazosUrgentes(true)">🔔 Alertas de Prazos</button>
           </div>
           <div class="stats-prazos-row">
             <div class="stat-mini-card"><label>Prazos Calculados / Salvos</label><span id="stat-total-prazos">0</span></div>
@@ -778,7 +787,25 @@
     window.fecharModalPastas = function() { document.getElementById('modal-pastas').style.display = 'none'; };
 
     window.renderizarConteudoModalPastas = function() {
-      const corpo = document.getElementById('modal-pastas-corpo'); const c = listaClientes[clienteSelecionadoIndex]; corpo.innerHTML = '';
+      const corpo = document.getElementById('modal-pastas-corpo'); 
+      const c = listaClientes[clienteSelecionadoIndex]; 
+      corpo.innerHTML = '';
+      
+      // Conta o total de arquivos do cliente
+      let totalArquivos = 0;
+      pastasConfig.forEach(p => totalArquivos += (c.pastas[p.id] || []).length);
+      
+      // Injeta o novo botão de ZIP no topo se houver arquivos
+      if (totalArquivos > 0) {
+        corpo.innerHTML += `
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+            <button class="btn-action" style="background: var(--info); font-size: 13px; padding: 10px 16px;" onclick="window.baixarZipCliente(this)">
+              <span>📥 Baixar Todos os Anexos (ZIP)</span><div class="spinner"></div>
+            </button>
+          </div>
+        `;
+      }
+      
       pastasConfig.forEach(pasta => {
         const arquivos = c.pastas[pasta.id] || []; let arquivosHtml = arquivos.length === 0 ? '<p class="empty-files-msg">Nenhum documento anexado.</p>' : '<ul class="file-list">';
         arquivos.forEach((arq, arqIdx) => { if (arquivos.length > 0) arquivosHtml += `<li class="file-item"><a href="${arq.url}" target="_blank" class="file-link">📄 ${arq.nomeVisual}</a><button class="file-remove-btn" onclick="window.removerArquivo('${pasta.id}', ${arqIdx})">&times;</button></li>`; }); if (arquivos.length > 0) arquivosHtml += '</ul>';
@@ -821,6 +848,100 @@
     };
 
     window.removerArquivo = async function(pastaId, arqIdx) { if (confirm('Excluir documento?')) { const c = listaClientes[clienteSelecionadoIndex]; c.pastas[pastaId].splice(arqIdx, 1); await updateDoc(doc(db, "clientes", c.id), { pastas: c.pastas }); window.showToast("Documento removido.", 'info'); window.renderizarConteudoModalPastas(); } };
+
+    // ==========================================
+    // DOWNLOAD EM MASSA (ZIP) DE TODOS OS ARQUIVOS DO CLIENTE
+    // ==========================================
+    window.baixarZipCliente = async function(btnElement) {
+      window.toggleLoading(btnElement, true);
+      try {
+        const zip = new JSZip();
+        const c = listaClientes[clienteSelecionadoIndex];
+        let promises = [];
+        
+        // Varre as 4 pastas do cliente buscando os arquivos
+        pastasConfig.forEach(pasta => {
+          const arquivos = c.pastas[pasta.id] || [];
+          if (arquivos.length > 0) {
+            // Cria a pastinha correspondente dentro do arquivo ZIP
+            const pastaZip = zip.folder(pasta.nome);
+            
+            arquivos.forEach(arq => {
+              // Faz o download da imagem/pdf lá do Supabase em formato Binário (Blob)
+              const fetchPromise = fetch(arq.url)
+                .then(response => response.blob())
+                .then(blob => {
+                  // Adiciona o arquivo dentro da pasta no ZIP
+                  pastaZip.file(arq.nomeVisual, blob);
+                });
+              promises.push(fetchPromise);
+            });
+          }
+        });
+        
+        // Espera todos os downloads do Supabase terminarem
+        await Promise.all(promises);
+        
+        // Gera o arquivo ZIP final e faz o download
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        const url = URL.createObjectURL(zipBlob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        const nomeClienteLimpo = c.nome.replace(/\s+/g, '_');
+        a.download = `Anexos_${nomeClienteLimpo}.zip`;
+        document.body.appendChild(a);
+        a.click();
+        
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        window.showToast("Download do ZIP concluído!", "success");
+      } catch (error) {
+        window.showToast("Erro ao gerar ZIP: " + error.message, "error");
+      } finally {
+        window.toggleLoading(btnElement, false);
+      }
+    };
+
+    // ==========================================
+    // BACKUP LOCAL DO SISTEMA (.JSON)
+    // ==========================================
+    window.exportarBackupJSON = async function(btnElement) {
+      window.toggleLoading(btnElement, true);
+      try {
+        const [sClientes, sPrazos, sFin] = await Promise.all([
+          getDocs(collection(db, "clientes")), 
+          getDocs(collection(db, "prazos")), 
+          getDocs(collection(db, "financeiro"))
+        ]);
+        
+        const backupData = {
+          dataGeracao: new Date().toISOString(),
+          total_clientes: sClientes.docs.length,
+          clientes: sClientes.docs.map(d => ({ id: d.id, ...d.data() })),
+          prazos: sPrazos.docs.map(d => ({ id: d.id, ...d.data() })),
+          financeiro: sFin.docs.map(d => ({ id: d.id, ...d.data() }))
+        };
+
+        const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const dataHoje = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
+        a.download = `backup_barros_advocacia_${dataHoje}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        window.showToast("Backup gerado e baixado com sucesso!", "success");
+      } catch (error) {
+        window.showToast("Erro ao gerar backup: " + error.message, "error");
+      } finally {
+        window.toggleLoading(btnElement, false);
+      }
+    };
 
     // ==========================================
     // PRAZOS COM INTEGRAÇÃO DE AGENDA
